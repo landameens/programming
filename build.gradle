@@ -1,0 +1,29 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group 'ANC'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile group: 'org.apache.commons', name: 'commons-configuration2', version: '2.6'
+    compile project(":logger_manager")
+}
+
+application {
+    mainClassName = "app.App"
+    compileJava.options.encoding = "UTF-8"
+    compileTestJava.options.encoding = "UTF-8"
+    run.standardInput = System.in
+    jar {
+        manifest.attributes('Main-Class': 'app.App')
+    }
+}
