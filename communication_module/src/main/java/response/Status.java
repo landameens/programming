@@ -1,4 +1,4 @@
-package controller.response;
+package response;
 
 /**
  * All response codes of the executed command.

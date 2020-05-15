@@ -11,6 +11,8 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/client" />
+            <option value="$PROJECT_DIR$/communication_module" />
             <option value="$PROJECT_DIR$/logger_manager" />
           </set>
         </option>

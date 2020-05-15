@@ -1,6 +1,6 @@
 package controller.commands.studyGroupRep;
 
-import controller.response.Response;
+import response.Response;
 import domain.exception.StudyGroupRepositoryException;
 import domain.studyGroup.StudyGroup;
 import domain.studyGroupRepository.IStudyGroupRepository;

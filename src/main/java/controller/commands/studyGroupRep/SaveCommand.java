@@ -1,6 +1,6 @@
 package controller.commands.studyGroupRep;
 
-import controller.response.Response;
+import response.Response;
 import domain.studyGroupRepository.IStudyGroupRepository;
 import manager.LogManager;
 import storage.exception.DAOException;

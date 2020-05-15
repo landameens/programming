@@ -3,7 +3,7 @@ package app.query.queryBuilder;
 import app.query.CommandName;
 import app.Interpretator;
 import app.Validator;
-import app.query.Query;
+import query.Query;
 
 import java.util.HashMap;
 import java.util.List;

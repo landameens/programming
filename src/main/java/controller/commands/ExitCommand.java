@@ -1,6 +1,6 @@
 package controller.commands;
 
-import controller.response.Response;
+import response.Response;
 import manager.LogManager;
 
 import java.util.Map;

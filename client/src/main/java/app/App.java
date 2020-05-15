@@ -42,6 +42,7 @@ public final class App {
 
         Console console = null;
         try {
+            //todo перенести на сервер
             IdProducer idProducer = new IdProducer(pathForAppFiles);
             LOG_MANAGER.debug("IdProducer был проинициирован УСПЕШНО.");
             StudyGroupFactory studyGroupFactory = new StudyGroupFactory(idProducer);

@@ -6,7 +6,7 @@ import app.Viewer;
 import controller.commands.Command;
 import controller.commands.Interpretator;
 import controller.commands.factory.ICommandFactory;
-import controller.response.Response;
+import response.Response;
 import domain.commandsRepository.ICommandsRepository;
 import domain.commandsRepository.Record;
 import domain.exception.CreationException;

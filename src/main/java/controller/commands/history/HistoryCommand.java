@@ -1,7 +1,7 @@
 package controller.commands.history;
 
 import controller.commands.Command;
-import controller.response.Response;
+import response.Response;
 import domain.commandsRepository.ICommandsRepository;
 import domain.commandsRepository.Record;
 import manager.LogManager;

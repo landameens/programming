@@ -1,12 +1,11 @@
 package controller;
 
-import app.Console;
-import app.query.Query;
+import query.Query;
 import controller.commands.Command;
 import controller.commands.factory.ICommandFactory;
 import controller.commands.scripts.ExecuteScriptCommand;
 import controller.commands.scripts.RecursionChecker;
-import controller.response.Response;
+import response.Response;
 import domain.commandsRepository.ICommandsRepository;
 import domain.commandsRepository.Record;
 import domain.exception.CreationException;

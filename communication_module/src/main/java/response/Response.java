@@ -1,4 +1,4 @@
-package controller.response;
+package response;
 
 /**
  * This class represents the response to the executable command.

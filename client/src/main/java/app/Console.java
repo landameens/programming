@@ -1,14 +1,13 @@
 package app;
 
 import app.Exceptions.InputException;
-import app.Exceptions.InternalException;
 import app.query.CommandName;
 import app.query.CommandType;
-import app.query.Query;
+import query.Query;
 import app.query.queryBuilder.QueryBuilder;
 import app.query.queryBuilder.QueryBuilderFactory;
 import controller.Controller;
-import controller.response.Response;
+import response.Response;
 import domain.exception.CreationException;
 import manager.LogManager;
 

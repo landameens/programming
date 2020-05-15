@@ -1,7 +1,6 @@
 package controller.commands.studyGroupRep;
 
-import app.Console;
-import controller.response.Response;
+import response.Response;
 import domain.exception.StudyGroupRepositoryException;
 import domain.studyGroup.StudyGroupDTO;
 import domain.studyGroup.coordinates.CoordinatesDTO;
