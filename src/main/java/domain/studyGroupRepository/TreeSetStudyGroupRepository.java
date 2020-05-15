@@ -6,6 +6,7 @@ import domain.studyGroup.StudyGroup;
 import domain.studyGroup.StudyGroupDTO;
 import domain.studyGroupFactory.StudyGroupFactory;
 import domain.studyGroupRepository.concreteSet.ConcreteSet;
+import manager.LogManager;
 import storage.collectionInfoDAO.CollectionInfoDAO;
 import storage.exception.DAOException;
 import storage.studyGroupDAO.IStudyGroupDAO;
@@ -42,12 +43,14 @@ public class TreeSetStudyGroupRepository implements IStudyGroupRepository, Savea
     //todo костыль для ScriptDAO
     private String directoryForAppFiles;
 
+    private static final LogManager LOG_MANAGER = LogManager.createDefault(TreeSetStudyGroupRepository.class);
 
     public TreeSetStudyGroupRepository(StudyGroupFactory studyGroupFactory, String pathForAppFiles) throws DAOException, VerifyException {
         this.studyGroupFactory = studyGroupFactory;
         this.directoryForAppFiles = pathForAppFiles;
 
         if (pathForAppFiles == null) {
+            LOG_MANAGER.debug("Используется путь по умолчанию.");
             ClassLoader classLoader = TreeSetStudyGroupRepository.class.getClassLoader();
             URL groupsUrl = classLoader.getResource("studyGroups");
             directoryForStoringStudyGroups = groupsUrl.getFile();
@@ -55,8 +58,9 @@ public class TreeSetStudyGroupRepository implements IStudyGroupRepository, Savea
             URL infoUrl = classLoader.getResource("info");
             directoryForStoringCollectionInfo = infoUrl.getFile();
         } else {
-            directoryForStoringStudyGroups = pathForAppFiles + "/studyGroups";
-            directoryForStoringCollectionInfo = pathForAppFiles + "/info";
+            LOG_MANAGER.debug("Используется полученный путь.");
+            directoryForStoringStudyGroups = pathForAppFiles + "\\studyGroups";
+            directoryForStoringCollectionInfo = pathForAppFiles + "\\info";
         }
 
         studyGroupDAO = new StudyGroupDAO(directoryForStoringStudyGroups);

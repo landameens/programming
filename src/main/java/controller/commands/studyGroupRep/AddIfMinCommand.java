@@ -10,6 +10,7 @@ import domain.studyGroupRepository.IStudyGroupRepository;
 import domain.studyGroupRepository.concreteSet.ConcreteSet;
 import domain.studyGroupRepository.concreteSet.ConcreteSetWithSpecialField;
 import domain.studyGroupRepository.concreteSet.MinSet;
+import manager.LogManager;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
@@ -18,6 +19,8 @@ import java.util.Map;
 import java.util.Set;
 
 public class AddIfMinCommand extends StudyGroupRepositoryCommand {
+    private static final LogManager LOG_MANAGER = LogManager.createDefault(AddIfMinCommand.class);
+
     public AddIfMinCommand(String type,
                              Map<String, String> args,
                              IStudyGroupRepository studyGroupRepository) {
@@ -26,6 +29,7 @@ public class AddIfMinCommand extends StudyGroupRepositoryCommand {
 
     @Override
     public Response execute() {
+        LOG_MANAGER.info("Выполнение команды add_if_min...");
         CoordinatesDTO coordinatesDTO = new CoordinatesDTO();
         coordinatesDTO.x = Integer.parseInt(args.get("xCoordinate"));
         coordinatesDTO.y = Integer.parseInt(args.get("yCoordinate"));
@@ -50,6 +54,7 @@ public class AddIfMinCommand extends StudyGroupRepositoryCommand {
 
         try {
             studyGroupRepository.add(studyGroupDTO);
+            LOG_MANAGER.info("Группа добавлена УСПЕШНО.");
 
             ConcreteSet minSet = new MinSet();
 
@@ -68,11 +73,13 @@ public class AddIfMinCommand extends StudyGroupRepositoryCommand {
 
                 Iterator<StudyGroup> iterator = studyGroupSet.iterator();
                 studyGroupRepository.remove(iterator.next());
+                LOG_MANAGER.info("Группа оказалась не наименьшей и была удалена.");
             }
 
             return getPreconditionFailedResponseDTO("Значение добавляемой группы не является наименьшим.");
 
         } catch (StudyGroupRepositoryException e) {
+            LOG_MANAGER.error("Ошибка при добавлении.");
             return getBadRequestResponseDTO(e.getMessage());
         }
     }

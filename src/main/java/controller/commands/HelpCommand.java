@@ -1,10 +1,13 @@
 package controller.commands;
 
+import controller.commands.studyGroupRep.FilterLessThanShouldBeExpelledCommand;
 import controller.response.Response;
+import manager.LogManager;
 
 import java.util.Map;
 
 public class HelpCommand extends Command {
+    private static final LogManager LOG_MANAGER = LogManager.createDefault(HelpCommand.class);
     public HelpCommand(String type,
                        Map<String, String> args) {
         super(type, args);
@@ -12,6 +15,7 @@ public class HelpCommand extends Command {
 
     @Override
     public Response execute() {
+        LOG_MANAGER.info("Выполнение команды help.");
         return getSuccessfullyResponseDTO(getMessage());
     }
 

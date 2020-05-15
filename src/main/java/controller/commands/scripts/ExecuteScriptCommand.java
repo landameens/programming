@@ -53,7 +53,7 @@ public class ExecuteScriptCommand extends Command {
      */
     @Override
     public Response execute() {
-        IScriptDAO scriptDAO = new ScriptDAO(directoryForStoringFiles + "/" + args.get("file_name"));
+        IScriptDAO scriptDAO = new ScriptDAO(directoryForStoringFiles + "\\" + args.get("file_name"));
         try {
             Script script = new Script();
             script.setTextScript(scriptDAO.getScript());

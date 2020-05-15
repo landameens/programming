@@ -4,6 +4,7 @@ import controller.commands.Command;
 import controller.response.Response;
 import domain.commandsRepository.ICommandsRepository;
 import domain.commandsRepository.Record;
+import manager.LogManager;
 
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,7 @@ import java.util.Map;
 public class HistoryCommand extends Command {
     private ICommandsRepository commandsRepository;
 
+    private static final LogManager LOG_MANAGER = LogManager.createDefault(HistoryCommand.class);
     public HistoryCommand(String name,
                           Map<String, String> args,
                           ICommandsRepository commandsRepository) {
@@ -20,9 +22,9 @@ public class HistoryCommand extends Command {
 
     @Override
     public Response execute() {
+        LOG_MANAGER.info("Выполнение команды history...");
         List<Record> historyList = commandsRepository.getRecords(15);
         String answer = getAnswer(historyList);
-
         return getSuccessfullyResponseDTO(answer);
     }
 

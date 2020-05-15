@@ -1,7 +1,6 @@
 package app;
 
 import app.Exceptions.InputException;
-import app.Exceptions.InternalException;
 import controller.Controller;
 import controller.Interpretator;
 import domain.commandsRepository.HistoryRepository;
@@ -16,10 +15,10 @@ import storage.exception.DAOException;
 
 import java.io.File;
 
+
 public final class App {
     private static final String ARGUMENTS_ERROR = "Введено слишком много аргументов, повторите ввод директории," +
             " куда будет сохраняться коллекция и сопутсвующие файлы";
-
     private static final LogManager LOG_MANAGER = LogManager.createDefault(App.class);
 
     public static void main(String[] args) {

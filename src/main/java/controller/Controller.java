@@ -1,5 +1,6 @@
 package controller;
 
+import app.Console;
 import app.query.Query;
 import controller.commands.Command;
 import controller.commands.factory.ICommandFactory;
@@ -9,6 +10,7 @@ import controller.response.Response;
 import domain.commandsRepository.ICommandsRepository;
 import domain.commandsRepository.Record;
 import domain.exception.CreationException;
+import manager.LogManager;
 
 /**
  * Class for processing user requests
@@ -16,6 +18,9 @@ import domain.exception.CreationException;
 public final class Controller {
     private final Interpretator interpretator;
     private final ICommandsRepository commandsRepository;
+
+    private static final LogManager LOG_MANAGER = LogManager.createDefault(Controller.class);
+
 
     public Controller(Interpretator interpretator,
                       ICommandsRepository commandsRepository) {
@@ -35,7 +40,9 @@ public final class Controller {
         Command command = commandFactory.createCommand(query.getCommandName(), query.getArguments());
 
         addRecordToHistory(query);
+        LOG_MANAGER.debug("Команда добавлена в историю.");
 
+        LOG_MANAGER.debug("Выполнение команды...");
         Response response = command.execute();
 
         if (command.getClass().equals(ExecuteScriptCommand.class)) {

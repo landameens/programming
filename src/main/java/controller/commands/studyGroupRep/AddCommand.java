@@ -1,16 +1,22 @@
 package controller.commands.studyGroupRep;
 
+import app.Console;
 import controller.response.Response;
 import domain.exception.StudyGroupRepositoryException;
 import domain.studyGroup.StudyGroupDTO;
 import domain.studyGroup.coordinates.CoordinatesDTO;
 import domain.studyGroup.person.PersonDTO;
 import domain.studyGroupRepository.IStudyGroupRepository;
+import manager.LogManager;
 
 import java.time.LocalDateTime;
 import java.util.Map;
 
 public class AddCommand extends StudyGroupRepositoryCommand {
+
+    private static final LogManager LOG_MANAGER = LogManager.createDefault(AddCommand.class);
+
+
     public AddCommand(String type,
                       Map<String, String> args,
                       IStudyGroupRepository studyGroupRepository) {
@@ -19,7 +25,7 @@ public class AddCommand extends StudyGroupRepositoryCommand {
 
     @Override
     public Response execute() {
-
+        LOG_MANAGER.info("Выполнение команды add...");
         CoordinatesDTO coordinatesDTO = new CoordinatesDTO();
         coordinatesDTO.x = Integer.parseInt(args.get("xCoordinate"));
         coordinatesDTO.y = Integer.parseInt(args.get("yCoordinate"));
@@ -44,10 +50,11 @@ public class AddCommand extends StudyGroupRepositoryCommand {
 
         try {
             studyGroupRepository.add(studyGroupDTO);
+            LOG_MANAGER.info("Группа добавлена УСПЕШНО.");
 
             return getSuccessfullyResponseDTO("Группа добавлена" + System.lineSeparator());
         } catch (StudyGroupRepositoryException e) {
-
+            LOG_MANAGER.error("Ошибка при добавлении.");
             return getBadRequestResponseDTO(e.getMessage());
         }
 

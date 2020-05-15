@@ -193,7 +193,7 @@ public final class Console {
                 try {
                     String userInput = readLine();
                     if (userInput != null) userInput = userInput.trim();
-                    LOG_MANAGER.info("Введено значение полля.");
+                    LOG_MANAGER.info("Введено значение поля.");
                     validator.validateElementFields(field, userInput);
                     if (userInput == null) {
                         LOG_MANAGER.warn("Поле со значением null.");

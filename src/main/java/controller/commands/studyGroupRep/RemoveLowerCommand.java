@@ -10,12 +10,14 @@ import domain.studyGroup.person.PersonDTO;
 import domain.studyGroupRepository.IStudyGroupRepository;
 import domain.studyGroupRepository.concreteSet.ConcreteSet;
 import domain.studyGroupRepository.concreteSet.ConcreteSetWhichLessThanThatStudyGroup;
+import manager.LogManager;
 
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Set;
 
 public class RemoveLowerCommand extends StudyGroupRepositoryCommand {
+    private static final LogManager LOG_MANAGER = LogManager.createDefault(RemoveLowerCommand.class);
     public RemoveLowerCommand(String type,
                               Map<String, String> args,
                               IStudyGroupRepository studyGroupRepository) {
@@ -24,6 +26,7 @@ public class RemoveLowerCommand extends StudyGroupRepositoryCommand {
 
     @Override
     public Response execute() {
+        LOG_MANAGER.info("Выполнение команды remove_lower...");
         CoordinatesDTO coordinatesDTO = new CoordinatesDTO();
         coordinatesDTO.x = Integer.parseInt(args.get("xCoordinate"));
         coordinatesDTO.y = Integer.parseInt(args.get("yCoordinate"));
@@ -53,16 +56,19 @@ public class RemoveLowerCommand extends StudyGroupRepositoryCommand {
 
             Set<StudyGroup> removableStudyGroup = studyGroupRepository.getConcreteSetOfStudyGroups(lowerStudyGroupSet);
 
-            if (!removableStudyGroup.isEmpty()) {
-                for (StudyGroup studyGroup : removableStudyGroup) {
-                    studyGroupRepository.remove(studyGroup);
-                }
-
-                return getSuccessfullyResponseDTO("Группы, меньшие, чем заданная, удалены." + System.lineSeparator());
+            if (removableStudyGroup.isEmpty()) {
+                LOG_MANAGER.debug("Групп меньше, чем заданная нет.");
+                return getPreconditionFailedResponseDTO("В коллекци нет групп, меньших, чем заданная." + System.lineSeparator());
             }
 
-            return getPreconditionFailedResponseDTO("В коллекци нет групп, меньших, чем заданная." + System.lineSeparator());
+            for (StudyGroup studyGroup : removableStudyGroup) {
+                studyGroupRepository.remove(studyGroup);
+            }
+
+            LOG_MANAGER.debug("Группа удалена.");
+            return getSuccessfullyResponseDTO("Группы, меньшие, чем заданная, удалены." + System.lineSeparator());
         } catch (VerifyException | StudyGroupRepositoryException e) {
+            LOG_MANAGER.error("Произошла ошибка при обращении к коллекции.");
             return getBadRequestResponseDTO(e.getMessage());
         }
     }

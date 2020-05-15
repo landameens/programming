@@ -8,11 +8,13 @@ import domain.studyGroup.StudyGroupDTO;
 import domain.studyGroup.coordinates.CoordinatesDTO;
 import domain.studyGroup.person.PersonDTO;
 import domain.studyGroupRepository.IStudyGroupRepository;
+import manager.LogManager;
 
 import java.time.LocalDateTime;
 import java.util.Map;
 
 public class UpdateCommad extends StudyGroupRepositoryCommand {
+    private static final LogManager LOG_MANAGER = LogManager.createDefault(UpdateCommad.class);
     public UpdateCommad(String type,
                         Map<String, String> args,
                         IStudyGroupRepository studyGroupRepository) {
@@ -21,7 +23,7 @@ public class UpdateCommad extends StudyGroupRepositoryCommand {
 
     @Override
     public Response execute() {
-
+        LOG_MANAGER.info("Выполнение команды update...");
         Long id = Long.parseLong(args.get("id"));
         CoordinatesDTO coordinatesDTO = new CoordinatesDTO();
         coordinatesDTO.x = Integer.parseInt(args.get("xCoordinate"));
@@ -50,8 +52,10 @@ public class UpdateCommad extends StudyGroupRepositoryCommand {
             StudyGroup studyGroupNew = StudyGroup.getStudyGroup(studyGroupDTO);
             studyGroupRepository.update(studyGroupNew);
 
+            LOG_MANAGER.info("Обновление информации о группе...");
             return getSuccessfullyResponseDTO("Группа обновлена." + System.lineSeparator());
         } catch (StudyGroupRepositoryException | VerifyException e) {
+            LOG_MANAGER.error("Произошла ошибка при обращении к коллекции.");
             return getBadRequestResponseDTO(e.getMessage());
         }
     }
