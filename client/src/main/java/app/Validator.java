@@ -26,7 +26,7 @@ public final class Validator {
     private final static String NOT_ENUM_CONSTANT = "Ошибка: Аргумент не является константой Enum. ";
     private final static String EMPTY_STRING = "Ошибка: Строка не может быть пустой. ";
 
-    private List<String> allCommands = new ArrayList<String>(){
+    private final List<String> allCommands = new ArrayList<String>(){
         {
             add("help");
             add("info");
@@ -137,16 +137,18 @@ public final class Validator {
      */
     public void validateSimpleArgumentsOfCompoundCommand(CommandName name,
                                                          List<String> commandList) throws InputException {
-        switch (name){
-            case UPDATE:
-                if (commandList.get(1) == null) { throw new InputException(NULL_ARGUMENT); }
-                try {
-                    int id = Integer.parseInt(commandList.get(1));
-                    if (id <= 0) {throw new InputException(NEGATIVE_ARGUMENT); }
-                } catch (NumberFormatException e){
-                    throw new InputException(NOT_INTEGER_ARGUMENT);
+        if (name == UPDATE) {
+            if (commandList.get(1) == null) {
+                throw new InputException(NULL_ARGUMENT);
+            }
+            try {
+                int id = Integer.parseInt(commandList.get(1));
+                if (id <= 0) {
+                    throw new InputException(NEGATIVE_ARGUMENT);
                 }
-                break;
+            } catch (NumberFormatException e) {
+                throw new InputException(NOT_INTEGER_ARGUMENT);
+            }
         }
     }
 
@@ -196,31 +198,31 @@ public final class Validator {
     }
 
     public void checkStudyGroupName(String name) throws InputException {
-        if (name == null) { throw new InputException(NULL_ARGUMENT); }
+        checkNullValue(name);
     }
 
     public void checkXCoordinate (String xCoordinate) throws InputException {
+        checkNullValue(xCoordinate);
         try {
-            if (xCoordinate == null) { throw new InputException(NULL_ARGUMENT);}
             float x = Float.parseFloat(xCoordinate);
-            if (x>28) { throw new InputException(MORE_THEN_28); }
+            if (x > 28) { throw new InputException(MORE_THEN_28); }
         } catch (NumberFormatException e){
             throw new InputException(NOT_FLOAT_ARGUMENT);
         }
     }
 
     public void checkYCoordinate (String yCoordinate) throws InputException {
-        if (yCoordinate == null) {throw new InputException(NULL_ARGUMENT);}
+        checkNullValue(yCoordinate);
 
         try{
-            long y = Long.parseLong(yCoordinate);
+            Long y = Long.parseLong(yCoordinate);
         } catch (NumberFormatException e){
             throw new InputException(NOT_LONG_ARGUMENT);
         }
     }
 
     public void checkStudentCount (String studentCount) throws InputException {
-        if (studentCount == null) {throw new InputException(NULL_ARGUMENT);}
+        checkNullValue(studentCount);
 
         try {
             int students = Integer.parseInt(studentCount);
@@ -231,7 +233,7 @@ public final class Validator {
     }
 
     public void checkShouldBeExpelled (String shouldBeExp) throws InputException {
-        if (shouldBeExp == null) {throw new InputException(NULL_ARGUMENT);}
+        checkNullValue(shouldBeExp);
 
         try {
             int shouldBeExpelled = Integer.parseInt(shouldBeExp);
@@ -249,7 +251,7 @@ public final class Validator {
     }
 
     public void checkSemesterEnum (String value) throws InputException {
-        if (value == null) {throw new InputException(NULL_ARGUMENT);}
+        checkNullValue(value);
         if ( !(value.equals("FIRST") || value.equals("SECOND") || value.equals("FOURTH") || value.equals("EIGHTH") ) ){
             throw new InputException(NOT_ENUM_CONSTANT);
         }
@@ -257,28 +259,40 @@ public final class Validator {
 
     public void checkGroupAdminName (String name) throws InputException {
         if (name == null) return;
-        if (name.equals("")) {throw new InputException(EMPTY_STRING); }
+        if (name.equals("")) {
+            throw new InputException(EMPTY_STRING);
+        }
     }
 
     public void checkGroupAdminHeight(String value) throws InputException {
-        if (value == null) {throw new InputException(NULL_ARGUMENT);}
+        if (value == null) {
+            throw new InputException(NULL_ARGUMENT);
+        }
         try{
             long height = Long.parseLong(value);
-            if (height<=0) {throw new InputException(NEGATIVE_ARGUMENT);}
+            if (height <= 0) {throw new InputException(NEGATIVE_ARGUMENT);}
         } catch (NumberFormatException e){
             throw new InputException(NOT_LONG_ARGUMENT);
         }
     }
 
     public void checkGroupAdminPassportID (String value) throws InputException {
-        if (value == null) {throw new InputException(NULL_ARGUMENT);}
-        if (value.equals("")) {throw new InputException(EMPTY_STRING); }
+        checkNullValue(value);
+        if (value.equals("")) {
+            throw new InputException(EMPTY_STRING);
+        }
     }
 
     public void checkGroupAdminNationality  (String value) throws InputException {
         if (value == null) return;
         if ( !(value.equals("UNITED_KINGDOM") || value.equals("GERMANY") || value.equals("VATICAN") || value.equals("SOUTH_KOREA") || value.equals("JAPAN") ) ){
             throw new InputException(NOT_ENUM_CONSTANT);
+        }
+    }
+
+    private void checkNullValue(String value) throws InputException {
+        if (value == null) {
+            throw new InputException(NULL_ARGUMENT);
         }
     }
 }

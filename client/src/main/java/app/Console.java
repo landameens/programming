@@ -3,12 +3,8 @@ package app;
 import app.Exceptions.InputException;
 import app.query.CommandName;
 import app.query.CommandType;
-import query.Query;
 import app.query.queryBuilder.QueryBuilder;
 import app.query.queryBuilder.QueryBuilderFactory;
-import controller.Controller;
-import response.Response;
-import domain.exception.CreationException;
 import manager.LogManager;
 
 import java.io.*;
@@ -31,19 +27,14 @@ public final class Console {
     private final Interpretator interpretator;
     private final Validator validator;
     private final Viewer viewer;
-    private final Controller controller;
     private final QueryBuilderFactory queryBuilderFactory;
 
     private static final LogManager LOG_MANAGER = LogManager.createDefault(Console.class);
 
     public Console(InputStream input,
-                   OutputStream output,
-                   Controller controller) {
+                   OutputStream output) {
         this.reader = new BufferedReader(new InputStreamReader(input));
         this.writer = new BufferedOutputStream(output);
-
-        this.controller = controller;
-
         this.interpretator = new Interpretator();
         this.validator = new Validator();
         this.viewer = new Viewer();
@@ -94,9 +85,8 @@ public final class Console {
             }
 
             QueryBuilder queryBuilder = queryBuilderFactory.getQueryBuilder(commandType);
-            Query query = null;
             try {
-                query = queryBuilder.buildQuery(commandName,
+                Query query = queryBuilder.buildQuery(commandName,
                         commandList,
                         arguments);
             } catch (InputException e) {
@@ -105,6 +95,8 @@ public final class Console {
             }
 
             try {
+
+                //todo
                 Response response = controller.handleQuery(query);
                 writeLine(response.getAnswer() + System.lineSeparator());
 
@@ -131,10 +123,6 @@ public final class Console {
         String output = string + System.lineSeparator();
 
         write(output);
-    }
-
-    public void writeLine() throws InputException {
-        write(System.lineSeparator());
     }
 
     /**
