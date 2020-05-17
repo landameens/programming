@@ -3,9 +3,19 @@ package app;
 import app.Exceptions.InputException;
 import app.query.CommandName;
 import app.query.CommandType;
-import app.query.queryBuilder.QueryBuilder;
 import app.query.queryBuilder.QueryBuilderFactory;
+import connection.Connection;
+import connection.SocketConnection;
+import connection.exception.ConnectionException;
+import connectionWorker.ConnectionWorker;
 import manager.LogManager;
+import message.EntityType;
+import message.Message;
+import message.exception.WrongTypeException;
+import query.QueryDTO;
+import response.Response;
+import serializer.exception.DeserializationException;
+import serializer.exception.SerializationException;
 
 import java.io.*;
 import java.util.Arrays;
@@ -84,26 +94,39 @@ public final class Console {
                 arguments = getArgumentsOfCompoundCommands(commandName);
             }
 
-            QueryBuilder queryBuilder = queryBuilderFactory.getQueryBuilder(commandType);
-            try {
-                Query query = queryBuilder.buildQuery(commandName,
-                        commandList,
-                        arguments);
-            } catch (InputException e) {
-                writeLine(e.getMessage());
-                continue;
-            }
+//            QueryBuilder queryBuilder = queryBuilderFactory.getQueryBuilder(commandType);
+//            try {
+//                Query query = queryBuilder.buildQuery(commandName,
+//                        commandList,
+//                        arguments);
+//            } catch (InputException e) {
+//                writeLine(e.getMessage());
+//                continue;
+//            }
 
             try {
+                Connection connection = new SocketConnection("localhost", 8010, 128);
+                ConnectionWorker connectionWorker = ConnectionWorker.createDefault(connection);
 
+                connectionWorker.connect();
+
+                QueryDTO queryDTO = new QueryDTO();
+                queryDTO.commandName = commandName.getName();
+                queryDTO.arguments = arguments;
+
+                Message query = new Message(EntityType.COMMAND_QUERY, queryDTO);
+                connectionWorker.send(query);
+
+                Message receivedMessage = connectionWorker.read();
+                Response response = receivedMessage.getResponse();
                 //todo
-                Response response = controller.handleQuery(query);
-                writeLine(response.getAnswer() + System.lineSeparator());
+
 
                 if (response.getStatus().getCode().equals("601")) {
                     System.exit(0);
                 }
-            } catch (CreationException e) {
+
+            } catch (ConnectionException | SerializationException | DeserializationException | WrongTypeException e) {
                 throw new InputException(e.getMessage());
             }
         }
