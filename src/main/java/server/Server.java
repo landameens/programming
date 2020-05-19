@@ -1,5 +1,7 @@
 package server;
 
+import app.Console;
+import app.Exceptions.InputException;
 import connection.exception.ConnectionException;
 import connectionWorker.ConnectionWorker;
 import controller.Controller;
@@ -33,6 +35,18 @@ public class Server {
     }
 
     public void start() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Console console = new Console(System.in, System.out);
+                try {
+                    console.start();
+                } catch (InputException e) {
+                    LOG_MANAGER.fatalThrowable("Внутрення ошибка", e);
+                    System.exit(1);
+                }
+            }
+        }).start();
         try {
             ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
             serverSocketChannel.bind(new InetSocketAddress(port));
@@ -67,7 +81,7 @@ public class Server {
 
             }
         } catch (IOException e) {
-            //todo !?
+            //todo Тупо систем.екзит(1)
             e.printStackTrace();
         }
 
