@@ -9,3 +9,6 @@ sonarlint/
 /logger_manager/build/
 /logger_manager/build/classes/java/main/
 /out/
+communication_module/build/
+
+client/build/

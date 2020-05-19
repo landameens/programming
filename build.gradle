@@ -17,6 +17,7 @@ dependencies {
     compile group: 'org.apache.commons', name: 'commons-configuration2', version: '2.6'
     compile project(":logger_manager")
     compile project(":communication_module")
+    compile project(":client")
 }
 
 jar {

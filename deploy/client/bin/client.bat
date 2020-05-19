@@ -1,7 +1,23 @@
+@rem
+@rem Copyright 2015 the original author or authors.
+@rem
+@rem Licensed under the Apache License, Version 2.0 (the "License");
+@rem you may not use this file except in compliance with the License.
+@rem You may obtain a copy of the License at
+@rem
+@rem      https://www.apache.org/licenses/LICENSE-2.0
+@rem
+@rem Unless required by applicable law or agreed to in writing, software
+@rem distributed under the License is distributed on an "AS IS" BASIS,
+@rem WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+@rem See the License for the specific language governing permissions and
+@rem limitations under the License.
+@rem
+
 @if "%DEBUG%" == "" @echo off
 @rem ##########################################################################
 @rem
-@rem  prog_lab5 startup script for Windows
+@rem  client startup script for Windows
 @rem
 @rem ##########################################################################
 
@@ -13,7 +29,10 @@ if "%DIRNAME%" == "" set DIRNAME=.
 set APP_BASE_NAME=%~n0
 set APP_HOME=%DIRNAME%..
 
-@rem Add default JVM options here. You can also use JAVA_OPTS and PROG_LAB5_OPTS to pass JVM options to this script.
+@rem Resolve any "." and ".." in APP_HOME to make it shorter.
+for %%i in ("%APP_HOME%") do set APP_HOME=%%~fi
+
+@rem Add default JVM options here. You can also use JAVA_OPTS and CLIENT_OPTS to pass JVM options to this script.
 set DEFAULT_JVM_OPTS=
 
 @rem Find java.exe
@@ -63,19 +82,19 @@ set CMD_LINE_ARGS=%*
 :execute
 @rem Setup the command line
 
-set CLASSPATH=%APP_HOME%\lib\prog_lab5-1.0-SNAPSHOT;%APP_HOME%\lib\prog_lab5-1.0-SNAPSHOT.jar
+set CLASSPATH=%APP_HOME%\lib\client-1.0-SNAPSHOT;%APP_HOME%\lib\client-1.0-SNAPSHOT.jar;%APP_HOME%\lib\*
 
-@rem Execute prog_lab5
-"%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %PROG_LAB5_OPTS%  -classpath "%CLASSPATH%" app.App %CMD_LINE_ARGS%
+@rem Execute client
+"%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %CLIENT_OPTS%  -classpath "%CLASSPATH%" app.App %CMD_LINE_ARGS%
 
 :end
 @rem End local scope for the variables with windows NT shell
 if "%ERRORLEVEL%"=="0" goto mainEnd
 
 :fail
-rem Set variable PROG_LAB5_EXIT_CONSOLE if you need the _script_ return code instead of
+rem Set variable CLIENT_EXIT_CONSOLE if you need the _script_ return code instead of
 rem the _cmd.exe /c_ return code!
-if  not "" == "%PROG_LAB5_EXIT_CONSOLE%" exit 1
+if  not "" == "%CLIENT_EXIT_CONSOLE%" exit 1
 exit /b 1
 
 :mainEnd
