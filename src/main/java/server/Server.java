@@ -35,16 +35,15 @@ public class Server {
     }
 
     public void start() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Console console = new Console(System.in, System.out);
-                try {
-                    console.start();
-                } catch (InputException e) {
-                    LOG_MANAGER.fatalThrowable("Внутрення ошибка", e);
-                    System.exit(1);
-                }
+        new Thread(() -> {
+            Console console = new Console(System.in, System.out);
+            LOG_MANAGER.debug("Console was created SUCCESSFUL.");
+            try {
+                LOG_MANAGER.info("Console is starting...");
+                console.start();
+            } catch (InputException e) {
+                LOG_MANAGER.fatalThrowable("Internal error", e);
+                System.exit(1);
             }
         }).start();
         try {
@@ -60,10 +59,13 @@ public class Server {
                 try {
                     Message receivedMessage = connectionWorker.read();
                     Query query = receivedMessage.getCommandQuery();
+                    LOG_MANAGER.info("The request is received " + query.toString());
 
+                    LOG_MANAGER.info("Query execution...");
                     Response response = controller.handleQuery(query);
 
                     Message messageToSend = new Message(EntityType.RESPONSE, Response.getResponseDTO(response));
+                    LOG_MANAGER.info("Response sent " + messageToSend.getResponse().toString());
                     try {
                         connectionWorker.send(messageToSend);
                     } catch (SerializationException e) {
@@ -81,8 +83,8 @@ public class Server {
 
             }
         } catch (IOException e) {
-            //todo Тупо систем.екзит(1)
-            e.printStackTrace();
+            System.exit(1);
+            LOG_MANAGER.fatalThrowable("What the happend?", e);
         }
 
     }

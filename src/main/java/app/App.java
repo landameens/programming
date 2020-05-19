@@ -61,7 +61,10 @@ public class App {
         Controller controller = new Controller(interpretator, commandsRepository);
         LOG_MANAGER.debug("Controller was created SUCCESSFUL.");
 
-        Server server = new Server(8010, 128, controller);
+        Server server = new Server(128, 8010, controller);
+        LOG_MANAGER.debug("Server was created SUCCESSFUL.");
+
+        LOG_MANAGER.info("Server is starting...");
         server.start();
     }
 

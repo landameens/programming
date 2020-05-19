@@ -33,11 +33,9 @@ public class RemoveLowerCommand extends StudyGroupRepositoryCommand {
 
         PersonDTO personDTO = new PersonDTO();
         personDTO.name = args.get("groupAdminName");
-        if (personDTO.name != null) {
-            personDTO.passportID = args.get("groupAdminPassportID");
-            personDTO.nationality = args.get("groupAdminNationality");
-            personDTO.height = Integer.parseInt(args.get("groupAdminHeight"));
-        } else personDTO = null;
+        personDTO.passportID = args.get("groupAdminPassportID");
+        personDTO.nationality = args.get("groupAdminNationality");
+        personDTO.height = Integer.parseInt(args.get("groupAdminHeight"));
 
         StudyGroupDTO studyGroupDTO = new StudyGroupDTO();
         studyGroupDTO.name =  args.get("StudyGroupName");

@@ -21,7 +21,7 @@ public final class Viewer {
             put("shouldBeExpelled","Введите количество студентов, которых скоро отчислят: " + System.lineSeparator());
             put("formOfEducation","Введите форму образования: {DISTANCE_EDUCATION; FULL_TIME_EDUCATION; EVENING_CLASSES;} " + System.lineSeparator());
             put("semesterEnum","Введите номер семестра: {FIRST; SECOND; FOURTH; EIGHTH;} " + System.lineSeparator());
-            put("groupAdminName","Введите имя администратора группы, если Вы не хотите добавлять админа, введите null: " + System.lineSeparator());
+            put("groupAdminName","Введите имя администратора группы: " + System.lineSeparator());
             put("groupAdminHeight","Введите рост администратора группы: " + System.lineSeparator());
             put("groupAdminPassportID","Введите паспортные данные администратора группы: " + System.lineSeparator());
             put("groupAdminNationality","Введите национальность администратора группы: {UNITED_KINGDOM; GERMANY; VATICAN; SOUTH_KOREA; JAPAN;} " + System.lineSeparator());

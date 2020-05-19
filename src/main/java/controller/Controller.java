@@ -36,13 +36,15 @@ public final class Controller {
      */
     public Response handleQuery(Query query) throws CreationException {
         ICommandFactory commandFactory = interpretator.getFactoryInstance(query.getCommandName());
+        LOG_MANAGER.debug("CommandFactory " + commandFactory.getClass().getSimpleName() + " was created SUCCESFUL");
         Command command = commandFactory.createCommand(query.getCommandName(), query.getArguments());
+        LOG_MANAGER.debug("Command " + command.getClass().getSimpleName() + " was created SUCCESSFUL");
 
         addRecordToHistory(query);
-        LOG_MANAGER.debug("Команда добавлена в историю.");
+        LOG_MANAGER.debug("The command is added to the history.");
 
-        LOG_MANAGER.debug("Выполнение команды...");
         Response response = command.execute();
+        LOG_MANAGER.debug("Received responce: " + response.toString());
 
         if (command.getClass().equals(ExecuteScriptCommand.class)) {
             RecursionChecker.cleanRecursionChecker();

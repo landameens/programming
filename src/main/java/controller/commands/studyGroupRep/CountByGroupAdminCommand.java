@@ -38,10 +38,6 @@ public class CountByGroupAdminCommand extends StudyGroupRepositoryCommand {
 
             int count = 0;
             for (StudyGroup studyGroup : allStudyGroupSet) {
-                if (studyGroup.getGroupAdmin().getName() == null) {
-                    continue;
-                }
-
                 if(studyGroup.getGroupAdmin().getName().equals(name) &&
                         studyGroup.getGroupAdmin().getHeight() == height &&
                         studyGroup.getGroupAdmin().getNationality().equals(nationality) &&

@@ -57,28 +57,28 @@ public final class Console {
         while (true) {
             writeLine(viewer.showInvitationCommandMessage());
 
-            LOG_MANAGER.info("Ввод команды...");
+            LOG_MANAGER.info("Input of commands...");
             String command = readLine();
 
             if (command == null) {
-                LOG_MANAGER.warn("Была введена пустая строка.");
+                LOG_MANAGER.warn("An empty string was entered.");
                 writeLine(viewer.showEnteredNullMessage());
                 continue;
             }
 
-            LOG_MANAGER.info("Команда введена.");
             String[] commandArray = command.split("[\\s]+");
 
             try {
                 validator.validateCommandName(commandArray[0]);
             } catch (InputException e) {
-                LOG_MANAGER.error("Произошла ошибка ввода команды...");
+                LOG_MANAGER.error("An error occurred entering the command...");
                 writeLine(e.getMessage());
                 continue;
             }
 
             CommandName commandName = CommandName.getCommandNameEnum(commandArray[0]);
             CommandType commandType = interpretator.interpretateCommandType(commandName);
+            LOG_MANAGER.info("Entered the command " + commandName);
 
             List<String> commandList = Arrays.asList(commandArray);
             try {
@@ -88,11 +88,12 @@ public final class Console {
                 continue;
             }
 
-            LOG_MANAGER.debug("HashMap для аргументов была создана.");
             Map<String, String> arguments = new HashMap<>();
             if (commandType.equals(CommandType.COMPOUND_COMMAND)) {
                 arguments = getArgumentsOfCompoundCommands(commandName);
             }
+
+            LOG_MANAGER.info("With arguments " + arguments);
 
 //            QueryBuilder queryBuilder = queryBuilderFactory.getQueryBuilder(commandType);
 //            try {
@@ -109,6 +110,7 @@ public final class Console {
                 ConnectionWorker connectionWorker = ConnectionWorker.createDefault(connection);
 
                 connectionWorker.connect();
+                LOG_MANAGER.debug("The connection was SUCCESSFUL.");
 
                 QueryDTO queryDTO = new QueryDTO();
                 queryDTO.commandName = commandName.getName();
@@ -116,17 +118,19 @@ public final class Console {
 
                 Message query = new Message(EntityType.COMMAND_QUERY, queryDTO);
                 connectionWorker.send(query);
+                LOG_MANAGER.info("The message is sent: " + queryDTO.toString()  );
 
                 Message receivedMessage = connectionWorker.read();
                 Response response = receivedMessage.getResponse();
-                //todo
-
+                LOG_MANAGER.info("The responce is received: " + response.toString());
+                write(response.getAnswer());
 
                 if (response.getStatus().getCode().equals("601")) {
                     System.exit(0);
+                    LOG_MANAGER.info("Client left the server. ");
                 }
-
             } catch (ConnectionException | SerializationException | DeserializationException | WrongTypeException e) {
+                LOG_MANAGER.errorThrowable("Communication error ", e);
                 throw new InputException(e.getMessage());
             }
         }
@@ -218,8 +222,6 @@ public final class Console {
                 }
             }
             mapOfArguments.put(field, correctValue);
-            if (field.equals("groupAdminName")) break;
-
         }
         return mapOfArguments;
     }

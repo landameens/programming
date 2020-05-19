@@ -233,7 +233,7 @@ public final class Validator {
     }
 
     public void checkShouldBeExpelled (String shouldBeExp) throws InputException {
-        checkNullValue(shouldBeExp);
+        if (shouldBeExp == null) return;
 
         try {
             int shouldBeExpelled = Integer.parseInt(shouldBeExp);
@@ -251,14 +251,15 @@ public final class Validator {
     }
 
     public void checkSemesterEnum (String value) throws InputException {
-        checkNullValue(value);
+        if (value == null) return;
+
         if ( !(value.equals("FIRST") || value.equals("SECOND") || value.equals("FOURTH") || value.equals("EIGHTH") ) ){
             throw new InputException(NOT_ENUM_CONSTANT);
         }
     }
 
     public void checkGroupAdminName (String name) throws InputException {
-        if (name == null) return;
+        checkNullValue(name);
         if (name.equals("")) {
             throw new InputException(EMPTY_STRING);
         }

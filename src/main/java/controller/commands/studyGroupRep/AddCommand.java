@@ -24,18 +24,16 @@ public class AddCommand extends StudyGroupRepositoryCommand {
 
     @Override
     public Response execute() {
-        LOG_MANAGER.info("Выполнение команды add...");
+        LOG_MANAGER.info("Executing the add command...");
         CoordinatesDTO coordinatesDTO = new CoordinatesDTO();
         coordinatesDTO.x = Integer.parseInt(args.get("xCoordinate"));
         coordinatesDTO.y = Integer.parseInt(args.get("yCoordinate"));
 
         PersonDTO personDTO = new PersonDTO();
         personDTO.name = args.get("groupAdminName");
-        if (personDTO.name != null) {
-            personDTO.passportID = args.get("groupAdminPassportID");
-            personDTO.nationality = args.get("groupAdminNationality");
-            personDTO.height = Integer.parseInt(args.get("groupAdminHeight"));
-        } else personDTO = null;
+        personDTO.passportID = args.get("groupAdminPassportID");
+        personDTO.nationality = args.get("groupAdminNationality");
+        personDTO.height = Integer.parseInt(args.get("groupAdminHeight"));
 
         StudyGroupDTO studyGroupDTO = new StudyGroupDTO();
         studyGroupDTO.name =  args.get("StudyGroupName");

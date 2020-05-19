@@ -111,7 +111,9 @@ public class TreeSetStudyGroupRepository implements IStudyGroupRepository, Savea
         StudyGroup studyGroup;
         try {
             studyGroup = studyGroupFactory.createNewStudyGroup(studyGroupDTO);
+            LOG_MANAGER.debug("New study group was created SUCCESSFUL.");
         } catch (VerifyException e) {
+            LOG_MANAGER.errorThrowable("");
             throw new StudyGroupRepositoryException(INTERNAL_ERROR_MESSAGE);
         }
 
