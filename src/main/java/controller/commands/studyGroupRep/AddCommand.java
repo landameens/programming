@@ -39,7 +39,11 @@ public class AddCommand extends StudyGroupRepositoryCommand {
         studyGroupDTO.name =  args.get("StudyGroupName");
         studyGroupDTO.coordinates = coordinatesDTO;
         studyGroupDTO.studentsCount = Integer.parseInt(args.get("studentsCount"));
-        studyGroupDTO.shouldBeExpelled = Long.parseLong(args.get("shouldBeExpelled"));
+        if (args.get("shouldBeExpelled") != null) {
+            studyGroupDTO.shouldBeExpelled = Long.parseLong(args.get("shouldBeExpelled"));
+        } else {
+            studyGroupDTO.shouldBeExpelled = null;
+        }
         studyGroupDTO.formOfEducation = args.get("formOfEducation")  ;
         studyGroupDTO.semesterEnum = args.get("semesterEnum");
         studyGroupDTO.groupAdmin = personDTO;
@@ -47,7 +51,7 @@ public class AddCommand extends StudyGroupRepositoryCommand {
 
         try {
             studyGroupRepository.add(studyGroupDTO);
-            LOG_MANAGER.info("Группа добавлена УСПЕШНО.");
+            LOG_MANAGER.info("Group was added SUCCESSFULLY");
 
             return getSuccessfullyResponseDTO("Группа добавлена" + System.lineSeparator());
         } catch (StudyGroupRepositoryException e) {
