@@ -35,7 +35,7 @@ public class FilterByShouldBeExpelledCommand extends StudyGroupRepositoryCommand
 
             StringBuilder message = new StringBuilder();
             for(StudyGroup studyGroup : studyGroupSet){
-                message.append(studyGroup.toString()).append(System.lineSeparator());
+                message.append(studyGroup.toString()).append(System.lineSeparator()).append(System.lineSeparator());
             }
 
             LOG_MANAGER.debug("Группы с таким значением поля shouldBeExpelled выведены.");

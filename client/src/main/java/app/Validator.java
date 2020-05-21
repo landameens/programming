@@ -48,6 +48,16 @@ public final class Validator {
 
     };
 
+    public Validator(boolean isTheServer) {
+        if(isTheServer){
+            allCommands.clear();
+            allCommands.add("exit");
+            allCommands.add("save");
+        } else {
+            allCommands.remove("save");
+        }
+    }
+
     /**
      * Validates if user's command exist.
      * @param commandName

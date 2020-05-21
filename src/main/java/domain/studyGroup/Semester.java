@@ -18,6 +18,10 @@ public enum Semester {
     public static Semester getSemesterEnum(String name){
         Semester[] semesters = Semester.values();
 
+        if (name == null){
+            return null;
+        }
+
         for (Semester semester : semesters){
             if (name.equals(semester.getName())){
                 return semester;

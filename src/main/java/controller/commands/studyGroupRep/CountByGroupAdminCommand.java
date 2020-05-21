@@ -27,7 +27,7 @@ public class CountByGroupAdminCommand extends StudyGroupRepositoryCommand {
         LOG_MANAGER.debug("Поле passportId заполнено.");
         String name = args.get("groupAdminName");
         LOG_MANAGER.debug("Поле name заполнено.");
-        Country nationality = Country.getCountry(args.get("groupAdminNationality").toLowerCase());
+        Country nationality = Country.getCountry(args.get("groupAdminNationality") == null ? null : args.get("groupAdminNationality").toLowerCase());
         LOG_MANAGER.debug("Поле nationality заполнено.");
         int height = Integer.parseInt(args.get("groupAdminHeight"));
         LOG_MANAGER.debug("Поле height заполнено.");
@@ -37,12 +37,23 @@ public class CountByGroupAdminCommand extends StudyGroupRepositoryCommand {
             Set<StudyGroup> allStudyGroupSet = studyGroupRepository.getConcreteSetOfStudyGroups(allSet);
 
             int count = 0;
-            for (StudyGroup studyGroup : allStudyGroupSet) {
-                if(studyGroup.getGroupAdmin().getName().equals(name) &&
-                        studyGroup.getGroupAdmin().getHeight() == height &&
-                        studyGroup.getGroupAdmin().getNationality().equals(nationality) &&
-                        studyGroup.getGroupAdmin().getPassportID().equals(passportID)){
-                    count += 1;
+            if(nationality == null){
+                for (StudyGroup studyGroup : allStudyGroupSet) {
+                    if (studyGroup.getGroupAdmin().getName().equals(name) &&
+                            studyGroup.getGroupAdmin().getHeight() == height &&
+                            studyGroup.getGroupAdmin().getNationality() == null &&
+                            studyGroup.getGroupAdmin().getPassportID().equals(passportID)) {
+                        count += 1;
+                    }
+                }
+            } else {
+                for (StudyGroup studyGroup : allStudyGroupSet) {
+                    if (studyGroup.getGroupAdmin().getName().equals(name) &&
+                            studyGroup.getGroupAdmin().getHeight() == height &&
+                            studyGroup.getGroupAdmin().getNationality().equals(nationality) &&
+                            studyGroup.getGroupAdmin().getPassportID().equals(passportID)) {
+                        count += 1;
+                    }
                 }
             }
 

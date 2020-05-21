@@ -36,7 +36,7 @@ public class Server {
 
     public void start() {
         new Thread(() -> {
-            Console console = new Console(System.in, System.out);
+            Console console = new Console(System.in, System.out, true);
             LOG_MANAGER.debug("Console was created SUCCESSFUL.");
             try {
                 LOG_MANAGER.info("Console is starting...");

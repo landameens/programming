@@ -7,7 +7,7 @@ public final class App {
     private static final LogManager LOG_MANAGER = LogManager.createDefault(App.class);
 
     public static void main(String[] args) {
-        Console console = new Console(System.in, System.out);
+        Console console = new Console(System.in, System.out, false);
         LOG_MANAGER.debug("Console was created SUCCESSFUL");
 
         try {

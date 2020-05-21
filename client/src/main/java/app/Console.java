@@ -3,6 +3,7 @@ package app;
 import app.Exceptions.InputException;
 import app.query.CommandName;
 import app.query.CommandType;
+import app.query.queryBuilder.QueryBuilder;
 import app.query.queryBuilder.QueryBuilderFactory;
 import connection.Connection;
 import connection.SocketConnection;
@@ -12,6 +13,7 @@ import manager.LogManager;
 import message.EntityType;
 import message.Message;
 import message.exception.WrongTypeException;
+import query.Query;
 import query.QueryDTO;
 import response.Response;
 import serializer.exception.DeserializationException;
@@ -42,11 +44,12 @@ public final class Console {
     private static final LogManager LOG_MANAGER = LogManager.createDefault(Console.class);
 
     public Console(InputStream input,
-                   OutputStream output) {
+                   OutputStream output,
+                   boolean isTheServer) {
         this.reader = new BufferedReader(new InputStreamReader(input));
         this.writer = new BufferedOutputStream(output);
         this.interpretator = new Interpretator();
-        this.validator = new Validator();
+        this.validator = new Validator(isTheServer);
         this.viewer = new Viewer();
         this.queryBuilderFactory = new QueryBuilderFactory(validator, interpretator);
     }
@@ -95,15 +98,7 @@ public final class Console {
 
             LOG_MANAGER.info("With arguments " + arguments);
 
-//            QueryBuilder queryBuilder = queryBuilderFactory.getQueryBuilder(commandType);
-//            try {
-//                Query query = queryBuilder.buildQuery(commandName,
-//                        commandList,
-//                        arguments);
-//            } catch (InputException e) {
-//                writeLine(e.getMessage());
-//                continue;
-//            }
+
 
             try {
                 Connection connection = new SocketConnection("localhost", 8010, 128);
@@ -112,13 +107,20 @@ public final class Console {
                 connectionWorker.connect();
                 LOG_MANAGER.debug("The connection was SUCCESSFUL.");
 
-                QueryDTO queryDTO = new QueryDTO();
-                queryDTO.commandName = commandName.getName();
-                queryDTO.arguments = arguments;
+                QueryBuilder queryBuilder = queryBuilderFactory.getQueryBuilder(commandType);
+                Query query;
+                try {
+                    query = queryBuilder.buildQuery(commandName,
+                            commandList,
+                            arguments);
+                } catch (InputException e) {
+                    writeLine(e.getMessage());
+                    continue;
+                }
 
-                Message query = new Message(EntityType.COMMAND_QUERY, queryDTO);
-                connectionWorker.send(query);
-                LOG_MANAGER.info("The message is sent: " + queryDTO.toString()  );
+                Message MessageQuery = new Message(EntityType.COMMAND_QUERY, Query.getQueryDTO(query));
+                connectionWorker.send(MessageQuery);
+                LOG_MANAGER.info("The message is sent: " + MessageQuery.getCommandQuery().toString()  );
 
                 Message receivedMessage = connectionWorker.read();
                 Response response = receivedMessage.getResponse();
@@ -129,9 +131,12 @@ public final class Console {
                     System.exit(0);
                     LOG_MANAGER.info("Client left the server. ");
                 }
-            } catch (ConnectionException | SerializationException | DeserializationException | WrongTypeException e) {
+            } catch (SerializationException | DeserializationException | WrongTypeException e) {
                 LOG_MANAGER.errorThrowable("Communication error ", e);
                 throw new InputException(e.getMessage());
+            } catch (ConnectionException e) {
+                LOG_MANAGER.errorThrowable("Server is not available.", e);
+                throw new InputException("Сервер недоступен.");
             }
         }
     }

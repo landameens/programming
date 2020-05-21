@@ -7,6 +7,7 @@ import java.lang.reflect.Field;
 import java.util.Comparator;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 /**
  * Implementation ConcreteSet to get a set of Study Groups which have equals field.
@@ -38,15 +39,23 @@ public final class ConcreteSetWithSpecialField extends ConcreteSet {
             throw new StudyGroupRepositoryException(e);
         }
 
-        for (StudyGroup studyGroup : studyGroups){
+//        for (StudyGroup studyGroup : studyGroups){
+//            try {
+//                if(clazzField.get(studyGroup).equals(value)) {
+//                    finalStudyGroup.add(studyGroup.clone());
+//                }
+//            } catch (IllegalAccessException e) {
+//                throw new StudyGroupRepositoryException(e);
+//            }
+//        }
+
+        finalStudyGroup = studyGroups.stream().filter(studyGroup -> {
             try {
-                if(clazzField.get(studyGroup).equals(value)) {
-                    finalStudyGroup.add(studyGroup.clone());
-                }
+                return clazzField.get(studyGroup).equals(value);
             } catch (IllegalAccessException e) {
-                throw new StudyGroupRepositoryException(e);
+                throw new RuntimeException(e);
             }
-        }
+        }).map(StudyGroup::clone).collect(Collectors.toSet());
 
         clazzField.setAccessible(false);
 
