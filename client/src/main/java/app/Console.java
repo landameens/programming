@@ -41,6 +41,8 @@ public final class Console {
     private final Viewer viewer;
     private final QueryBuilderFactory queryBuilderFactory;
 
+    private boolean isTheServer;
+
     private static final LogManager LOG_MANAGER = LogManager.createDefault(Console.class);
 
     public Console(InputStream input,
@@ -49,6 +51,7 @@ public final class Console {
         this.reader = new BufferedReader(new InputStreamReader(input));
         this.writer = new BufferedOutputStream(output);
         this.interpretator = new Interpretator();
+        this.isTheServer = isTheServer;
         this.validator = new Validator(isTheServer);
         this.viewer = new Viewer();
         this.queryBuilderFactory = new QueryBuilderFactory(validator, interpretator);
@@ -83,6 +86,11 @@ public final class Console {
             CommandType commandType = interpretator.interpretateCommandType(commandName);
             LOG_MANAGER.info("Entered the command " + commandName);
 
+            if (commandName.equals(CommandName.EXIT) && !isTheServer) {
+                writeLine(viewer.showExitingMessage());
+                System.exit(0);
+            }
+
             List<String> commandList = Arrays.asList(commandArray);
             try {
                 validator.validateNumberOfArguments(commandName, commandList);
@@ -99,14 +107,18 @@ public final class Console {
             LOG_MANAGER.info("With arguments " + arguments);
 
 
-
+            ConnectionWorker connectionWorker = null;
             try {
                 Connection connection = new SocketConnection("localhost", 8010, 128);
-                ConnectionWorker connectionWorker = ConnectionWorker.createDefault(connection);
-
+                connectionWorker = ConnectionWorker.createDefault(connection);
                 connectionWorker.connect();
                 LOG_MANAGER.debug("The connection was SUCCESSFUL.");
+            } catch (ConnectionException e) {
+                writeLine(viewer.showNonWorkingServerException());
+                continue;
+            }
 
+            try {
                 QueryBuilder queryBuilder = queryBuilderFactory.getQueryBuilder(commandType);
                 Query query;
                 try {
@@ -118,9 +130,10 @@ public final class Console {
                     continue;
                 }
 
-                Message MessageQuery = new Message(EntityType.COMMAND_QUERY, Query.getQueryDTO(query));
-                connectionWorker.send(MessageQuery);
-                LOG_MANAGER.info("The message is sent: " + MessageQuery.getCommandQuery().toString()  );
+
+                Message messageQuery = new Message(EntityType.COMMAND_QUERY, Query.getQueryDTO(query));
+                connectionWorker.send(messageQuery);
+                LOG_MANAGER.info("The message is sent: " + messageQuery.getCommandQuery().toString()  );
 
                 Message receivedMessage = connectionWorker.read();
                 Response response = receivedMessage.getResponse();
@@ -129,7 +142,7 @@ public final class Console {
 
                 if (response.getStatus().getCode().equals("601")) {
                     System.exit(0);
-                    LOG_MANAGER.info("Client left the server. ");
+                    //LOG_MANAGER.info("Client left the server. ");
                 }
             } catch (SerializationException | DeserializationException | WrongTypeException e) {
                 LOG_MANAGER.errorThrowable("Communication error ", e);

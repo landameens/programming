@@ -59,4 +59,12 @@ public final class Viewer {
     public String showEnteredNullMessage() {
         return "Вы ввели null вместо команды, повторите ввод.";
     }
+
+    public String showExitingMessage() {
+        return "Осуществлен выход. \nЯ буду скучать :(";
+    }
+
+    public String showNonWorkingServerException() {
+        return "Невозможно создать соединение с сервером, попробуйте повторить попытку позже";
+    }
 }

@@ -16,6 +16,14 @@ dependencies {
     compile project(":communication_module")
 }
 
+jar {
+    manifest.attributes('Main-Class': 'app.App')
+
+    /*from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }*/
+}
+
 application {
     mainClassName = "app.App"
     compileJava.options.encoding = "UTF-8"

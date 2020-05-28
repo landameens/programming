@@ -51,7 +51,6 @@ public class App {
         } catch (DAOException | VerifyException e) {
             System.err.println(e.getMessage());
             System.exit(1);
-            ;
         }
 
         ICommandsRepository commandsRepository = new HistoryRepository();

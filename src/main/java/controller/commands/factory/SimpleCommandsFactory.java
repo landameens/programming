@@ -18,7 +18,6 @@ public class SimpleCommandsFactory implements ICommandFactory {
     private Map<String, Class<? extends Command>> classMap = new HashMap<String, Class<? extends Command>>() {
         {
             put("help", HelpCommand.class);
-            put("exit", ExitCommand.class);
         }
     };
 

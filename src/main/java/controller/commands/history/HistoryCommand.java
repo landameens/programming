@@ -12,6 +12,9 @@ import java.util.Map;
 public class HistoryCommand extends Command {
     private ICommandsRepository commandsRepository;
 
+    private static final String BEGINNING = "===============> HISTORY <===============";
+    private static final String SEPARATOR = "=========================================";
+
     private static final LogManager LOG_MANAGER = LogManager.createDefault(HistoryCommand.class);
     public HistoryCommand(String name,
                           Map<String, String> args,
@@ -30,9 +33,10 @@ public class HistoryCommand extends Command {
 
     private String getAnswer(List<Record> historyList) {
         StringBuilder answer = new StringBuilder();
-        for (Record record : historyList){
-            answer.append(record.toString());
-        }
+        answer.append(BEGINNING).append(System.lineSeparator());
+        historyList.stream()
+                .forEachOrdered(record -> answer.append(record).append(System.lineSeparator())
+                        .append(SEPARATOR).append(System.lineSeparator()));
 
         return answer.toString();
     }
