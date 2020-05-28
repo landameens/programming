@@ -53,6 +53,11 @@ public class App {
             System.exit(1);
         }
 
+        File directoryForStoringScripts = new File(pathForAppFiles + "/script");
+        if (!directoryForStoringScripts.exists()){
+            directoryForStoringScripts.mkdir();
+        }
+
         ICommandsRepository commandsRepository = new HistoryRepository();
         LOG_MANAGER.debug("HstoryRepository was created SUCCESSFUL.");
         Interpretator interpretator = new Interpretator(studyGroupRepository, commandsRepository);

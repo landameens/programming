@@ -11,6 +11,7 @@ import manager.LogManager;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class CountByGroupAdminCommand extends StudyGroupRepositoryCommand {
     private static final LogManager LOG_MANAGER = LogManager.createDefault(CountByGroupAdminCommand.class);
@@ -35,27 +36,44 @@ public class CountByGroupAdminCommand extends StudyGroupRepositoryCommand {
         try {
             ConcreteSet allSet = new AllSet();
             Set<StudyGroup> allStudyGroupSet = studyGroupRepository.getConcreteSetOfStudyGroups(allSet);
-
-            int count = 0;
-            if(nationality == null){
-                for (StudyGroup studyGroup : allStudyGroupSet) {
+//            int count = 0;
+//            if(nationality == null){
+//                for (StudyGroup studyGroup : allStudyGroupSet) {
+//                    if (studyGroup.getGroupAdmin().getName().equals(name) &&
+//                            studyGroup.getGroupAdmin().getHeight() == height &&
+//                            studyGroup.getGroupAdmin().getNationality() == null &&
+//                            studyGroup.getGroupAdmin().getPassportID().equals(passportID)) {
+//                        count += 1;
+//                    }
+//                }
+//            } else {
+//                for (StudyGroup studyGroup : allStudyGroupSet) {
+//                    if (studyGroup.getGroupAdmin().getName().equals(name) &&
+//                            studyGroup.getGroupAdmin().getHeight() == height &&
+//                            studyGroup.getGroupAdmin().getNationality().equals(nationality) &&
+//                            studyGroup.getGroupAdmin().getPassportID().equals(passportID)) {
+//                        count += 1;
+//                    }
+//                }
+//            }
+            Long count = allStudyGroupSet.stream().filter(studyGroup -> {
+                if (nationality == null) {
                     if (studyGroup.getGroupAdmin().getName().equals(name) &&
                             studyGroup.getGroupAdmin().getHeight() == height &&
                             studyGroup.getGroupAdmin().getNationality() == null &&
                             studyGroup.getGroupAdmin().getPassportID().equals(passportID)) {
-                        count += 1;
+                        return true;
                     }
-                }
-            } else {
-                for (StudyGroup studyGroup : allStudyGroupSet) {
+                } else {
                     if (studyGroup.getGroupAdmin().getName().equals(name) &&
                             studyGroup.getGroupAdmin().getHeight() == height &&
                             studyGroup.getGroupAdmin().getNationality().equals(nationality) &&
                             studyGroup.getGroupAdmin().getPassportID().equals(passportID)) {
-                        count += 1;
+                        return true;
                     }
                 }
-            }
+                return false;
+            }).count();
 
             if(count == 0){
                 return getPreconditionFailedResponseDTO("Групп с равным значением groupAdmin в коллекции нет." + System.lineSeparator());

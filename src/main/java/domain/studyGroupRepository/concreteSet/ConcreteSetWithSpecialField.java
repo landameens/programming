@@ -51,10 +51,16 @@ public final class ConcreteSetWithSpecialField extends ConcreteSet {
 
         finalStudyGroup = studyGroups.stream().filter(studyGroup -> {
             try {
-                return clazzField.get(studyGroup).equals(value);
+                Object newvalue = clazzField.get(studyGroup);
+                if (newvalue != null){
+                    if (newvalue.equals(value)){
+                        return true;
+                    }
+                }
             } catch (IllegalAccessException e) {
                 throw new RuntimeException(e);
             }
+            return false;
         }).map(StudyGroup::clone).collect(Collectors.toSet());
 
         clazzField.setAccessible(false);

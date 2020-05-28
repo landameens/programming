@@ -40,7 +40,6 @@ public class TreeSetStudyGroupRepository implements IStudyGroupRepository, Savea
     private String directoryForStoringStudyGroups;
     private String directoryForStoringCollectionInfo;
 
-    //todo костыль для ScriptDAO
     private String directoryForAppFiles;
 
     private static final LogManager LOG_MANAGER = LogManager.createDefault(TreeSetStudyGroupRepository.class);
@@ -72,7 +71,6 @@ public class TreeSetStudyGroupRepository implements IStudyGroupRepository, Savea
         collectionInfo = getInfos(directoryForStoringCollectionInfo);
     }
 
-    //todo посмотреть про первую инициализацию
     private CollectionInfo getInfos(String path) throws DAOException {
         collectionInfoDAO = new CollectionInfoDAO(path);
         return collectionInfoDAO.getInfos();

@@ -31,6 +31,9 @@ public class FilterLessThanShouldBeExpelledCommand extends StudyGroupRepositoryC
 
             StringBuilder message = new StringBuilder();
             for (StudyGroup studyGroup : allStudyGroupSet) {
+                if (studyGroup.getShouldBeExpelled() == null){
+                    continue;
+                }
                 if(studyGroup.getShouldBeExpelled() - shouldBeExpelled < 0 ){
                     message.append(studyGroup.toString()).append(System.lineSeparator()).append(System.lineSeparator());
                 }
