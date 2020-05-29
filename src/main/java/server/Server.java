@@ -3,6 +3,7 @@ package server;
 import app.Console;
 import app.Exceptions.InputException;
 import connection.exception.ConnectionException;
+import connection.tcp.SocketChannelConnection;
 import connectionWorker.ConnectionWorker;
 import controller.Controller;
 import domain.exception.CreationException;
@@ -53,7 +54,7 @@ public class Server {
             while (true){
                 SocketChannel socketChannel = serverSocketChannel.accept();
                 LOG_MANAGER.info("Connection to the server was SUCCESSFUL");
-                connection.SocketChannelConnection socketChannelConnection = new connection.SocketChannelConnection(socketChannel, connectionBufferSize);
+                SocketChannelConnection socketChannelConnection = new SocketChannelConnection(socketChannel, connectionBufferSize);
                 connectionWorker.ConnectionWorker connectionWorker = ConnectionWorker.createDefault(socketChannelConnection);
 
                 try {

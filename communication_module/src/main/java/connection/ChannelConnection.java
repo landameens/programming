@@ -1,5 +1,6 @@
 package connection;
 
+import connection.Connection;
 import connection.exception.ConnectionException;
 
 import java.io.IOException;

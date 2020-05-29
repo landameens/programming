@@ -1,43 +1,44 @@
-package connection;
+package connection.tcp;
 
+import connection.Connection;
 import connection.exception.ConnectionException;
 import connection.exception.ReadingException;
 import connection.exception.WritingException;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.nio.ByteBuffer;
-import java.nio.channels.NonReadableChannelException;
-import java.nio.channels.NonWritableChannelException;
-import java.nio.channels.NotYetConnectedException;
-import java.nio.channels.SocketChannel;
 
-public final class SocketChannelConnection extends ChannelConnection {
-    /**
-     * Specify address to connect and bufferSize to bytes to be read by read method.
-     */
-    public SocketChannelConnection(String address, int port, int bufferSize) throws ConnectionException {
+public final class SocketConnection extends Connection {
+    private Socket socket;
+
+
+    public SocketConnection(String address,
+                            int port,
+                            int bufferSize) throws ConnectionException {
         super(address, port, bufferSize);
-        try {
-            channel = SocketChannel.open();
-        } catch (IOException e) {
-            throw new ConnectionException(e);
-        }
+
+        socket = new Socket();
     }
 
-    public SocketChannelConnection(SocketChannel socketChannel, int bufferSize) {
-        super(socketChannel, bufferSize);
+    public SocketConnection(Socket socket,
+                            int bufferSize) {
+        super(bufferSize);
+        this.socket = socket;
     }
-
 
     @Override
     public void connect() throws ConnectionException {
         try {
-            ((SocketChannel) channel).connect(new InetSocketAddress(address, port));
+            socket.connect(new InetSocketAddress(address, port));
+            socket.setSoTimeout(5000);
         } catch (IOException e) {
+            socket = new Socket();
             try {
-                channel = SocketChannel.open();
-                ((SocketChannel) channel).connect(new InetSocketAddress(address, port));
+                socket.connect(new InetSocketAddress(address, port));
             } catch (IOException ex) {
                 throw new ConnectionException(ex);
             }
@@ -46,12 +47,12 @@ public final class SocketChannelConnection extends ChannelConnection {
 
     @Override
     public void write(byte[] bytes) throws WritingException {
-        SocketChannel socketChannel = (SocketChannel) channel;
         try {
-            socketChannel.write(ByteBuffer.wrap(bytes));
-        } catch (IOException | NotYetConnectedException | NonWritableChannelException e) {
+            OutputStream outputStream = socket.getOutputStream();
+            outputStream.write(bytes);
+        } catch (IOException e) {
             try {
-                channel.close();
+                socket.close();
             } catch (IOException ex) {
                 ex.printStackTrace();
                 System.exit(1);
@@ -62,13 +63,14 @@ public final class SocketChannelConnection extends ChannelConnection {
 
     @Override
     public byte[] read() throws ReadingException {
-        SocketChannel socketChannel = (SocketChannel) channel;
         int quantityOfReadBytes;
         try {
-            quantityOfReadBytes = socketChannel.read(outBuffer);
-        } catch (IOException | NotYetConnectedException | NonReadableChannelException e) {
+            InputStream inputStream = socket.getInputStream();
+            quantityOfReadBytes = inputStream.read(outBuffer.array());
+            //socket.setSoTimeout(5000);
+        } catch (IOException e) {
             try {
-                channel.close();
+                socket.close();
                 outBuffer = ByteBuffer.allocate(bufferSize);
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -79,13 +81,13 @@ public final class SocketChannelConnection extends ChannelConnection {
 
         if (quantityOfReadBytes == -1) {
             try {
-                channel.close();
+                socket.close();
                 outBuffer = ByteBuffer.allocate(bufferSize);
             } catch (IOException e) {
                 e.printStackTrace();
                 System.exit(1);
             }
-            throw new ReadingException("Reached end-of-stream of channel: ");
+            throw new ReadingException("Reached an end of inputStream: ");
         }
 
         byte[] bytes = new byte[bufferSize];
@@ -97,7 +99,21 @@ public final class SocketChannelConnection extends ChannelConnection {
     }
 
     @Override
+    public void close() throws ConnectionException {
+        try {
+            socket.close();
+        } catch (IOException e) {
+            throw new ConnectionException(e);
+        }
+    }
+
+    @Override
     public boolean isConnected() {
-        return ((SocketChannel) channel).isConnected();
+        return isOpen() && socket.isConnected();
+    }
+
+    @Override
+    public boolean isOpen() {
+        return !socket.isClosed();
     }
 }
