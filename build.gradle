@@ -21,11 +21,11 @@ dependencies {
 }
 
 jar {
-    manifest.attributes('Main-Class': 'app.App')
+    manifest.attributes('Main-Class': 'app.server.App')
 
-    /*from {
+    from {
         configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-    }*/
+    }
 }
 
 application {

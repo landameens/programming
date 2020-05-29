@@ -1,4 +1,4 @@
-package app;
+package app.server;
 
 import controller.Controller;
 import controller.Interpretator;
@@ -65,7 +65,7 @@ public class App {
         Controller controller = new Controller(interpretator, commandsRepository);
         LOG_MANAGER.debug("Controller was created SUCCESSFUL.");
 
-        Server server = new Server(128, 8010, controller);
+        Server server = new Server(128, 45789, controller);
         LOG_MANAGER.debug("Server was created SUCCESSFUL.");
 
         LOG_MANAGER.info("Server is starting...");

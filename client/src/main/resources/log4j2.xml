@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="DEBUG">
+<Configuration status="INFO">
 
     <Appenders>
         <RollingFile name="logfile"
@@ -14,7 +14,7 @@
     </Appenders>
 
     <Loggers>
-        <Root level="DEBUG">
+        <Root level="INFO">
             <AppenderRef ref="logfile"/>
         </Root>
     </Loggers>

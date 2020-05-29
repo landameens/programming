@@ -109,7 +109,7 @@ public final class Console {
 
             ConnectionWorker connectionWorker = null;
             try {
-                Connection connection = new SocketConnection("localhost", 8010, 128);
+                Connection connection = new SocketConnection("localhost", 45789, 128);
                 connectionWorker = ConnectionWorker.createDefault(connection);
                 connectionWorker.connect();
                 LOG_MANAGER.debug("The connection was SUCCESSFUL.");
