@@ -8,6 +8,7 @@ import app.query.queryBuilder.QueryBuilderFactory;
 import connection.Connection;
 import connection.tcp.SocketConnection;
 import connection.exception.ConnectionException;
+import connection.udp.DatagramConnection;
 import connectionWorker.ConnectionWorker;
 import manager.LogManager;
 import message.EntityType;
@@ -108,7 +109,7 @@ public final class Console {
 
             ConnectionWorker connectionWorker = null;
             try {
-                Connection connection = new SocketConnection("localhost", 45789, 128);
+                Connection connection = new DatagramConnection("localhost", 45789, 128);
                 connectionWorker = ConnectionWorker.createDefault(connection);
                 connectionWorker.connect();
                 LOG_MANAGER.debug("The connection was SUCCESSFUL.");

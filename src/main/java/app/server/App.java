@@ -62,7 +62,7 @@ public class App {
         LOG_MANAGER.debug("HstoryRepository was created SUCCESSFUL.");
         Interpretator interpretator = new Interpretator(studyGroupRepository, commandsRepository);
         LOG_MANAGER.debug("Interpretator was created SUCCESFULL.");
-        Controller controller = new Controller(interpretator, commandsRepository);
+        Controller controller = new Controller(interpre tator, commandsRepository);
         LOG_MANAGER.debug("Controller was created SUCCESSFUL.");
 
         Server server = new Server(128, 45789, controller);

@@ -4,6 +4,7 @@ import app.Console;
 import app.Exceptions.InputException;
 import connection.exception.ConnectionException;
 import connection.tcp.SocketChannelConnection;
+import connection.udp.DatagramChannelConnection;
 import connectionWorker.ConnectionWorker;
 import controller.Controller;
 import domain.exception.CreationException;
@@ -19,6 +20,7 @@ import serializer.exception.SerializationException;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.nio.channels.DatagramChannel;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 
@@ -48,13 +50,11 @@ public class Server {
             }
         }).start();
         try {
-            ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
-            serverSocketChannel.bind(new InetSocketAddress(port));
+            DatagramChannel datagramChannel = DatagramChannel.open();
+            datagramChannel.bind(new InetSocketAddress(port));
             
             while (true){
-                SocketChannel socketChannel = serverSocketChannel.accept();
-                LOG_MANAGER.info("Connection to the server was SUCCESSFUL");
-                SocketChannelConnection socketChannelConnection = new SocketChannelConnection(socketChannel, connectionBufferSize);
+                DatagramChannelConnection socketChannelConnection = new DatagramChannelConnection(datagramChannel, connectionBufferSize);
                 connectionWorker.ConnectionWorker connectionWorker = ConnectionWorker.createDefault(socketChannelConnection);
 
                 try {

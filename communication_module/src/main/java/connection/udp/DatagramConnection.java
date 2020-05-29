@@ -12,13 +12,13 @@ import java.io.OutputStream;
 import java.net.*;
 import java.nio.ByteBuffer;
 
-public class SocketConnection extends Connection {
+public class DatagramConnection extends Connection {
     private DatagramSocket datagramSocket;
 
 
-    public SocketConnection(String address,
-                            int port,
-                            int bufferSize) throws ConnectionException {
+    public DatagramConnection(String address,
+                              int port,
+                              int bufferSize) throws ConnectionException {
         super(address, port, bufferSize);
 
         try {
@@ -28,8 +28,8 @@ public class SocketConnection extends Connection {
         }
     }
 
-    public SocketConnection(DatagramSocket datagramSocket,
-                            int bufferSize) {
+    public DatagramConnection(DatagramSocket datagramSocket,
+                              int bufferSize) {
         super(bufferSize);
         this.datagramSocket = datagramSocket;
     }
