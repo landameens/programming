@@ -51,9 +51,9 @@ public class ExecuteScriptCommand extends Command {
      */
     @Override
     public Response execute() {
-        IScriptDAO scriptDAO = new ScriptDAO(directoryForStoringFiles + "\\" + args.get("file_name"));
+        IScriptDAO scriptDAO = new ScriptDAO(directoryForStoringFiles + "/" + args.get("file_name"));
         try {
-            File scriptFile = new File(directoryForStoringFiles + "\\" + args.get("file_name"));
+            File scriptFile = new File(directoryForStoringFiles + "/" + args.get("file_name"));
             if (!scriptFile.exists()){
                 return getPreconditionFailedResponseDTO("Такого файла не существует. Перепроверьте имя файла и его наличие в папке и повторите попытку." + System.lineSeparator());
             }

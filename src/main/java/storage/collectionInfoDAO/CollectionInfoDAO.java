@@ -73,9 +73,9 @@ public class CollectionInfoDAO implements ICollectionInfoDAO {
      */
     @Override
     public void saveInfo(CollectionInfo collectionInfo) throws DAOException {
-        File file = new File(pathToInfo.concat("\\info.xml"));
+        File file = new File(pathToInfo.concat("/info.xml"));
         file.delete();
-        File file1 = new File(pathToInfo.concat("\\info.xml"));
+        File file1 = new File(pathToInfo.concat("/info.xml"));
         serialize(file1, collectionInfo);
     }
 

@@ -57,7 +57,7 @@ public class IdProducerDAO implements IIdProducerDAO {
     public void saveIdProducerDTO(IdProducerDTO dto) throws DAOException {
         cleanDirectory();
 
-        File sourceFile = new File(directoryForStoringFiles + "\\idProducer.txt");
+        File sourceFile = new File(directoryForStoringFiles + "/idProducer.txt");
         try(ObjectOutput objectOutput = new ObjectOutputStream((new FileOutputStream(sourceFile)))) {
             objectOutput.writeObject(dto);
         } catch (IOException e) {
