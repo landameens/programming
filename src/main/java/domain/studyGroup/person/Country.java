@@ -19,6 +19,10 @@ public enum Country {
     public static Country getCountry(String name){
         Country[] allCountries = Country.values();
 
+        if (name == null){
+            return null;
+        }
+
         for (Country country : allCountries){
             if (name.equals(country.getName())){
                 return country;

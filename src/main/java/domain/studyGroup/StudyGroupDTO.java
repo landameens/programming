@@ -19,7 +19,7 @@ public final class StudyGroupDTO {
     public CoordinatesDTO coordinates;
     @XmlJavaTypeAdapter(LocalDateTimeAdapter.class)
     public java.time.LocalDateTime creationDate;
-    public int studentsCount;
+    public Integer studentsCount;
     public Long shouldBeExpelled;
     public String formOfEducation;
     public String semesterEnum;

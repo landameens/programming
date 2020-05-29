@@ -1,17 +1,18 @@
 package controller.commands.studyGroupRep;
 
-import controller.response.Response;
+import response.Response;
 import domain.exception.StudyGroupRepositoryException;
 import domain.studyGroup.StudyGroup;
 import domain.studyGroupRepository.IStudyGroupRepository;
 import domain.studyGroupRepository.concreteSet.AllSet;
 import domain.studyGroupRepository.concreteSet.ConcreteSet;
+import manager.LogManager;
 
 import java.util.Map;
 import java.util.Set;
 
 public class ShowCommand extends StudyGroupRepositoryCommand {
-
+    private static final LogManager LOG_MANAGER = LogManager.createDefault(ShowCommand.class);
     public ShowCommand(String type,
                        Map<String, String> args,
                        IStudyGroupRepository studyGroupRepository) {
@@ -20,12 +21,15 @@ public class ShowCommand extends StudyGroupRepositoryCommand {
 
     @Override
     public Response execute() {
+        LOG_MANAGER.info("Выполнение команды show...");
         try {
             ConcreteSet allSet = new AllSet();
             Set<StudyGroup> studyGroupSet = studyGroupRepository.getConcreteSetOfStudyGroups(allSet);
 
+            LOG_MANAGER.info("Вывод информации о коллекции.");
             return getSuccessfullyResponseDTO(getMessage(studyGroupSet));
         } catch (StudyGroupRepositoryException e) {
+            LOG_MANAGER.error("Произошла ошибка при обращении к коллекции...");
             return getBadRequestResponseDTO(e.getMessage());
         }
     }

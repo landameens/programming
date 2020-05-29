@@ -1,8 +1,8 @@
 package controller.commands;
 
-import controller.response.Response;
-import controller.response.ResponseDTO;
-import controller.response.Status;
+import response.Response;
+import response.ResponseDTO;
+import response.Status;
 
 import java.util.Map;
 

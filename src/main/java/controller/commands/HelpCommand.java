@@ -1,10 +1,12 @@
 package controller.commands;
 
-import controller.response.Response;
+import response.Response;
+import manager.LogManager;
 
 import java.util.Map;
 
 public class HelpCommand extends Command {
+    private static final LogManager LOG_MANAGER = LogManager.createDefault(HelpCommand.class);
     public HelpCommand(String type,
                        Map<String, String> args) {
         super(type, args);
@@ -12,6 +14,7 @@ public class HelpCommand extends Command {
 
     @Override
     public Response execute() {
+        LOG_MANAGER.info("Выполнение команды help.");
         return getSuccessfullyResponseDTO(getMessage());
     }
 
@@ -24,9 +27,8 @@ public class HelpCommand extends Command {
         stringBuilder.append("update id {element} : обновить значение элемента коллекции, id которого равен заданному").append(System.lineSeparator());
         stringBuilder.append("remove_by_id id : удалить элемент из коллекции по его id").append(System.lineSeparator());
         stringBuilder.append("clear : очистить коллекцию").append(System.lineSeparator());
-        stringBuilder.append("save : сохранить коллекцию в файл").append(System.lineSeparator());
         stringBuilder.append("execute_script file_name : считать и исполнить скрипт из указанного файла. В скрипте содержатся команды в таком же виде, в котором их вводит пользователь в интерактивном режиме.").append(System.lineSeparator());
-        stringBuilder.append("exit : завершить программу (без сохранения в файл)").append(System.lineSeparator());
+        stringBuilder.append("exit : завершить программу").append(System.lineSeparator());
         stringBuilder.append("add_if_min {element} : добавить новый элемент в коллекцию, если его значение меньше, чем у наименьшего элемента этой коллекции").append(System.lineSeparator());
         stringBuilder.append("remove_lower {element} : удалить из коллекции все элементы, меньшие, чем заданный").append(System.lineSeparator());
         stringBuilder.append("history : вывести последние 15 команд (без их аргументов)").append(System.lineSeparator());

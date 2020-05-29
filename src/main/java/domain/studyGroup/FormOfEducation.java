@@ -17,6 +17,10 @@ public enum FormOfEducation {
     public static FormOfEducation getFormOfEducation(String name){
         FormOfEducation[] formOfEducations = FormOfEducation.values();
 
+        if (name == null){
+            return null;
+        }
+
         for (FormOfEducation formOfEducation : formOfEducations){
             if (name.equals(formOfEducation.getName())) {
                 return formOfEducation;

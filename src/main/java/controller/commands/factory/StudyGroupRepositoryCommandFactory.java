@@ -1,6 +1,7 @@
 package controller.commands.factory;
 
 import controller.commands.Command;
+import controller.commands.ExitCommand;
 import controller.commands.studyGroupRep.*;
 import domain.exception.CreationException;
 import domain.studyGroupRepository.IStudyGroupRepository;
@@ -35,6 +36,7 @@ public class StudyGroupRepositoryCommandFactory implements ICommandFactory {
             put("filter_less_than_should_be_expelled", FilterLessThanShouldBeExpelledCommand.class);
             put("count_by_group_admin", CountByGroupAdminCommand.class);
             put("info", InfoCommand.class);
+            put("exit", ExitCommand.class);
         }
     };
 

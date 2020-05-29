@@ -16,6 +16,16 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     compile group: 'org.apache.commons', name: 'commons-configuration2', version: '2.6'
     compile project(":logger_manager")
+    compile project(":communication_module")
+    compile project(":client")
+}
+
+jar {
+    manifest.attributes('Main-Class': 'app.server.App')
+
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
 }
 
 application {
@@ -23,7 +33,5 @@ application {
     compileJava.options.encoding = "UTF-8"
     compileTestJava.options.encoding = "UTF-8"
     run.standardInput = System.in
-    jar {
-        manifest.attributes('Main-Class': 'app.App')
-    }
+
 }

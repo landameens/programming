@@ -5,6 +5,7 @@ import domain.studyGroup.StudyGroup;
 import java.util.Comparator;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 /**
  *  * Implementation ConcreteSet to get the smallest Study Group.
@@ -14,13 +15,14 @@ public final class MinSet extends ConcreteSet {
     public Set<StudyGroup> execute(Set<StudyGroup> studyGroups) {
         Comparator<StudyGroup> studyGroupComparator = new StudyGroup.StudyGroupComparator();
 
-        StudyGroup minStudyGroup = findMin(studyGroupComparator, studyGroups);
+//        StudyGroup minStudyGroup = findMin(studyGroupComparator, studyGroups);
 
-        return new TreeSet<StudyGroup>(studyGroupComparator) {
-            {
-                add(minStudyGroup.clone());
-            }
-        };
+        return studyGroups.stream().map(studyGroup -> findMin(studyGroupComparator, studyGroups).clone()).collect(Collectors.toSet());
+//        return new TreeSet<StudyGroup>(studyGroupComparator) {
+//            {
+//                add(minStudyGroup.clone());
+//            }
+//        };
     }
 
     private StudyGroup findMin(Comparator<StudyGroup> studyGroupComparator, Set<StudyGroup> studyGroups){

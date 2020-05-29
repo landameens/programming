@@ -86,7 +86,7 @@ public class StudyGroupDAO implements IStudyGroupDAO {
 
         List<String> names = new LinkedList<>();
         for (StudyGroupDTO studyGroupDTO : studyGroupDTOs){
-            names.add(path + "//StudyGroup" + studyGroupDTO.id + ".xml");
+            names.add(path + "/StudyGroup" + studyGroupDTO.id + ".xml");
         }
         return names;
     }

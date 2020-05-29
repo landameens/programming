@@ -45,7 +45,7 @@ public class StudyGroup implements Cloneable{
         this.shouldBeExpelled = shouldBeExpelled;
         this.formOfEducation = formOfEducation;
         this.semesterEnum = semesterEnum;
-        //checkGroupAdmin(groupAdmin);
+        checkGroupAdmin(groupAdmin);
         this.groupAdmin = groupAdmin;
     }
 
@@ -76,6 +76,7 @@ public class StudyGroup implements Cloneable{
     }
 
     private void checkShouldBeExpelled(Long shouldBeExpelled) throws VerifyException{
+        if (shouldBeExpelled == null) return;
         if (shouldBeExpelled <= 0){
             throw new VerifyException(SHOULD_BE_POSITIVE);
         }
@@ -94,7 +95,7 @@ public class StudyGroup implements Cloneable{
     }
 
     private void checkGroupAdmin(Person groupAdmin) throws VerifyException{
-        if (groupAdmin == null || groupAdmin != null) {
+        if (groupAdmin == null) {
             throw new VerifyException(EMPTY_EXCEPTION);
         }
     }
@@ -253,8 +254,8 @@ public class StudyGroup implements Cloneable{
                 studyGroupDTO.creationDate,
                 studyGroupDTO.studentsCount,
                 studyGroupDTO.shouldBeExpelled,
-                FormOfEducation.getFormOfEducation(studyGroupDTO.formOfEducation.toLowerCase()),
-                Semester.getSemesterEnum(studyGroupDTO.semesterEnum.toLowerCase()),
+                FormOfEducation.getFormOfEducation(studyGroupDTO.formOfEducation == null ? null : studyGroupDTO.formOfEducation.toLowerCase()),
+                Semester.getSemesterEnum(studyGroupDTO.semesterEnum == null ? null : studyGroupDTO.semesterEnum.toLowerCase()),
                 Person.getPerson(studyGroupDTO.groupAdmin));
     }
 
@@ -272,8 +273,8 @@ public class StudyGroup implements Cloneable{
         studyGroupDTO.creationDate = studyGroup.getCreationDate();
         studyGroupDTO.studentsCount = studyGroup.getStudentsCount();
         studyGroupDTO.shouldBeExpelled = studyGroup.getShouldBeExpelled();
-        studyGroupDTO.formOfEducation = studyGroup.getFormOfEducation().getName();
-        studyGroupDTO.semesterEnum = studyGroup.getSemesterEnum().getName();
+        studyGroupDTO.formOfEducation = studyGroup.getFormOfEducation() == null ? null : studyGroup.getFormOfEducation().getName();
+        studyGroupDTO.semesterEnum = studyGroup.getSemesterEnum() == null ? null : studyGroup.semesterEnum.getName();
         studyGroupDTO.groupAdmin = Person.getPersonDTO(studyGroup.getGroupAdmin());
 
         return studyGroupDTO;

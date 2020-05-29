@@ -5,13 +5,10 @@
 sonarlint/
 .idea/sonarlint/issuestore/
 
-.idea/inspectionProfiles/Project_Default.xml
-
-.idea/gradle.xml
-
-settings.gradle
-
 # Project exclude paths
 /logger_manager/build/
 /logger_manager/build/classes/java/main/
 /out/
+communication_module/build/
+
+client/build/

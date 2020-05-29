@@ -5,6 +5,7 @@ import domain.studyGroup.StudyGroup;
 import java.util.Comparator;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 /**
  * Implementation ConcreteSet to get a set of Study Groups which less than that Study Group.
@@ -23,11 +24,13 @@ public final class ConcreteSetWhichLessThanThatStudyGroup extends ConcreteSet {
         Comparator<StudyGroup> studyGroupComparator = new StudyGroup.StudyGroupComparator();
         Set<StudyGroup> finalStudyGroupSet = new TreeSet<>(studyGroupComparator);
 
-        for(StudyGroup studyGroup : studyGroups) {
-            if (studyGroupComparator.compare(studyGroup, studyGroupForComparing) < 0) {
-                finalStudyGroupSet.add(studyGroup.clone());
-            }
-        }
+//        for(StudyGroup studyGroup : studyGroups) {
+//            if (studyGroupComparator.compare(studyGroup, studyGroupForComparing) < 0) {
+//                finalStudyGroupSet.add(studyGroup.clone());
+//            }
+//        }
+
+        finalStudyGroupSet = studyGroups.stream().map(StudyGroup::clone).filter(studyGroup -> studyGroupComparator.compare(studyGroup, studyGroupForComparing) < 0).collect(Collectors.toSet());
 
         return finalStudyGroupSet;
     }

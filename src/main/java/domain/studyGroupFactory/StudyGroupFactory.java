@@ -48,7 +48,10 @@ public class StudyGroupFactory implements IStudyGroupFactory {
         if (studyGroupDTO.formOfEducation != null) {
             formOfEducation = FormOfEducation.getFormOfEducation(studyGroupDTO.formOfEducation.toLowerCase());
         } else formOfEducation = null;
-        Semester semesterEnum = Semester.getSemesterEnum(studyGroupDTO.semesterEnum.toLowerCase());
+        Semester semesterEnum;
+        if (studyGroupDTO.semesterEnum != null) {
+            semesterEnum = Semester.getSemesterEnum(studyGroupDTO.semesterEnum.toLowerCase());
+        }else semesterEnum = null;
         Person groupAdmin = Person.createPerson(studyGroupDTO.groupAdmin);
 
 

@@ -1,0 +1,5 @@
+rootProject.name = 'prog_lab5'
+include 'logger_manager'
+include 'communication_module'
+include 'client'
+

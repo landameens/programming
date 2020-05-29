@@ -6,7 +6,7 @@ import app.Viewer;
 import controller.commands.Command;
 import controller.commands.Interpretator;
 import controller.commands.factory.ICommandFactory;
-import controller.response.Response;
+import response.Response;
 import domain.commandsRepository.ICommandsRepository;
 import domain.commandsRepository.Record;
 import domain.exception.CreationException;
@@ -27,7 +27,6 @@ public class ExecuteScriptCommand extends Command {
     private final ICommandsRepository history;
     private final RecursionChecker recursionChecker;
 
-    //todo костыль
     private String directoryForStoringFiles;
 
 
@@ -39,7 +38,6 @@ public class ExecuteScriptCommand extends Command {
         super(type, args);
         this.history = commandsRepository;
         this.recursionChecker = recursionChecker;
-        //todo перенести интерпретатор на сервер
         interpretator = new Interpretator(studyGroupRepository, commandsRepository, recursionChecker);
         viewer = new Viewer();
 
@@ -55,6 +53,13 @@ public class ExecuteScriptCommand extends Command {
     public Response execute() {
         IScriptDAO scriptDAO = new ScriptDAO(directoryForStoringFiles + "/" + args.get("file_name"));
         try {
+            File scriptFile = new File(directoryForStoringFiles + "/" + args.get("file_name"));
+            if (!scriptFile.exists()){
+                return getPreconditionFailedResponseDTO("Такого файла не существует. Перепроверьте имя файла и его наличие в папке и повторите попытку." + System.lineSeparator());
+            }
+            if (!scriptFile.canRead()){
+                return getPreconditionFailedResponseDTO("Недостаточно прав доступа для выполнения. Пожалуйста, предоставьте нужные права доступа и повторите попытку." + System.lineSeparator());
+            }
             Script script = new Script();
             script.setTextScript(scriptDAO.getScript());
             if (recursionChecker.check(script.hashCode())){
