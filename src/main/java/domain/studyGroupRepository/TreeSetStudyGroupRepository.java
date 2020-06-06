@@ -71,12 +71,12 @@ public class TreeSetStudyGroupRepository implements IStudyGroupRepository, Savea
         collectionInfo = getInfos(directoryForStoringCollectionInfo);
     }
 
-    private CollectionInfo getInfos(String path) throws DAOException {
+    private synchronized CollectionInfo getInfos(String path) throws DAOException {
         collectionInfoDAO = new CollectionInfoDAO(path);
         return collectionInfoDAO.getInfos();
     }
 
-    private Set<StudyGroup> getInitialFiles(File directory,
+    private synchronized Set<StudyGroup> getInitialFiles(File directory,
                                             Comparator<StudyGroup> studyGroupComparator) throws DAOException, VerifyException {
         if (directory.listFiles().length != 0) {
             Set<StudyGroupDTO> studyGroupDTOSet;
@@ -104,7 +104,7 @@ public class TreeSetStudyGroupRepository implements IStudyGroupRepository, Savea
      * @throws StudyGroupRepositoryException
      */
     @Override
-    public void add(StudyGroupDTO studyGroupDTO) throws StudyGroupRepositoryException {
+    public synchronized void add(StudyGroupDTO studyGroupDTO) throws StudyGroupRepositoryException {
 
         StudyGroup studyGroup;
         try {
@@ -131,7 +131,7 @@ public class TreeSetStudyGroupRepository implements IStudyGroupRepository, Savea
      * @throws StudyGroupRepositoryException
      */
     @Override
-    public void remove(StudyGroup studyGroup) throws StudyGroupRepositoryException {
+    public synchronized void remove(StudyGroup studyGroup) throws StudyGroupRepositoryException {
         try {
             studyGroupFactory.getIdProducer().clear();
         } catch (DAOException e) {
@@ -179,7 +179,7 @@ public class TreeSetStudyGroupRepository implements IStudyGroupRepository, Savea
      * @throws StudyGroupRepositoryException
      */
     @Override
-    public Set<StudyGroup> getConcreteSetOfStudyGroups(ConcreteSet concreteSet) throws StudyGroupRepositoryException{
+    public synchronized Set<StudyGroup> getConcreteSetOfStudyGroups(ConcreteSet concreteSet) throws StudyGroupRepositoryException{
         if (studyGroups.isEmpty()){
             return new TreeSet<>();
         }
@@ -188,14 +188,14 @@ public class TreeSetStudyGroupRepository implements IStudyGroupRepository, Savea
     }
 
     @Override
-    public CollectionInfo getInfo() {
+    public synchronized CollectionInfo getInfo() {
         collectionInfo.size = studyGroups.size();
         return collectionInfo;
     }
 
 
     @Override
-    public void save() throws DAOException {
+    public synchronized void save() throws DAOException {
         Set<StudyGroupDTO> studyGroupDTOSet = new LinkedHashSet<>();
 
         for (StudyGroup studyGroup : studyGroups) {

@@ -13,6 +13,7 @@ public class StudyGroup implements Cloneable{
     private static final String EMPTY_EXCEPTION = "Значение не должно быть пустым";
 
     private Long id; //Поле не может быть null, Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
+    private int userId;
     private String name; //Поле не может быть null, Строка не может быть пустой
     private Coordinates coordinates; //Поле не может быть null
     private java.time.LocalDateTime creationDate; //Поле не может быть null, Значение этого поля должно генерироваться автоматически
@@ -48,6 +49,37 @@ public class StudyGroup implements Cloneable{
         checkGroupAdmin(groupAdmin);
         this.groupAdmin = groupAdmin;
     }
+
+    public StudyGroup( Long id,
+                       int userId,
+                       String name,
+                       Coordinates coordinates,
+                       LocalDateTime creationDate,
+                       int studentsCount,
+                       Long shouldBeExpelled,
+                       FormOfEducation formOfEducation,
+                       Semester semesterEnum,
+                       Person groupAdmin) throws VerifyException{
+        checkId(id);
+        this.id = id;
+        this.userId = userId;
+        checkName(name);
+        this.name = name;
+        checkCoordinates(coordinates);
+        this.coordinates = coordinates;
+        checkCreationDate(creationDate);
+        this.creationDate = creationDate;
+        checkStudentsCount(studentsCount);
+        this.studentsCount = studentsCount;
+        checkShouldBeExpelled(shouldBeExpelled);
+        this.shouldBeExpelled = shouldBeExpelled;
+        this.formOfEducation = formOfEducation;
+        this.semesterEnum = semesterEnum;
+        checkGroupAdmin(groupAdmin);
+        this.groupAdmin = groupAdmin;
+    }
+
+
 
     private void checkId(Long id) throws VerifyException {
         if (id == null){
@@ -175,6 +207,14 @@ public class StudyGroup implements Cloneable{
         this.groupAdmin = groupAdmin;
     }
 
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o){
@@ -249,6 +289,7 @@ public class StudyGroup implements Cloneable{
      */
     public static StudyGroup getStudyGroup(StudyGroupDTO studyGroupDTO) throws VerifyException {
         return new StudyGroup(studyGroupDTO.id,
+                studyGroupDTO.userId,
                 studyGroupDTO.name,
                 Coordinates.getCoordinates(studyGroupDTO.coordinates),
                 studyGroupDTO.creationDate,
@@ -268,6 +309,7 @@ public class StudyGroup implements Cloneable{
         StudyGroupDTO studyGroupDTO = new StudyGroupDTO();
 
         studyGroupDTO.id = studyGroup.getId();
+        studyGroupDTO.userId = studyGroup.getUserId();
         studyGroupDTO.name = studyGroup.getName();
         studyGroupDTO.coordinates = Coordinates.getCoordinatesDTO(studyGroup.getCoordinates());
         studyGroupDTO.creationDate = studyGroup.getCreationDate();
