@@ -1,4 +1,4 @@
-package connectionWorker;
+package connectionService;
 
 import connection.Connection;
 import connection.exception.ConnectionException;
@@ -9,10 +9,10 @@ import serializer.ISerializer;
 import serializer.JavaSerializer;
 import serializer.exception.DeserializationException;
 import serializer.exception.SerializationException;
+import serializer.jsonSerializaer.JSONSerializer;
 import сhunker.Chunker;
 import сhunker.IChunker;
 
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -46,7 +46,13 @@ public final class ConnectionWorker {
     }
 
     public static ConnectionWorker createDefault(Connection connection) {
-        return createBasedOnJavaObjectStream(connection);
+        return createBasedOnJSON(connection);
+    }
+
+    public static ConnectionWorker createBasedOnJSON(Connection connection) {
+        return new ConnectionWorker(connection,
+                                    new JSONSerializer(),
+                                    new Chunker(connection.getBufferSize()));
     }
 
     public static ConnectionWorker createBasedOnJavaObjectStream(Connection connection) {
@@ -62,18 +68,13 @@ public final class ConnectionWorker {
         }
 
         byte[] bytes = serializer.toByteArray(message);
-        logManager.debug("Got bytes from Serializer, size: " + bytes.length);
-        logManager.debug("Got bytes from Serializer: " + Arrays.toString(bytes));
-
         List<byte[]> chunks = chunker.split(bytes);
-        logManager.debug("Got chunks form Chunker, list size: " + chunks.size());
 
         for (byte[] chunk : chunks) {
-            logManager.debug("Chunk: " + Arrays.toString(chunk));
             connection.write(chunk);
         }
 
-        logManager.info("SUCCESSFULLY sent message.");
+        logManager.debug("SUCCESSFULLY sent message: " + message);
     }
 
     public Message read() throws ConnectionException, DeserializationException {
@@ -86,22 +87,23 @@ public final class ConnectionWorker {
         byte[] chunk = connection.read();
 
         while (!Arrays.equals(chunk, chunker.getKeyWord())) {
-            logManager.info((new String(chunk, StandardCharsets.UTF_8)).trim());
-            logManager.debug("Chunk: " + Arrays.toString(chunk));
             chunks.add(chunk);
             chunk = connection.read();
         }
 
-        logManager.debug("Got chunks from client, size: " + chunks.size());
-        logManager.debug("First chuck: " + Arrays.toString(chunks.get(0)));
-
         byte[] bytes = chunker.join(chunks);
-        logManager.debug((new String(bytes, StandardCharsets.UTF_8)).trim());
-        logManager.debug("Join chunks, bytes size: " + bytes.length);
 
         Message message = serializer.fromByteArray(bytes, Message.class);
-        logManager.info("SUCCESSFULLY read message.");
+        logManager.debug("SUCCESSFULLY read message: " + message);
 
         return message;
+    }
+
+    public void close() throws ConnectionException {
+        connection.close();
+    }
+
+    public boolean isOpen() {
+        return connection.isOpen();
     }
 }

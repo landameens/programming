@@ -7,13 +7,15 @@
         <option name="disableWrapperSourceDistributionNotification" value="true" />
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleHome" value="$PROJECT_DIR$/../../../../../Program Files/Gradle/gradle-5.6.3-all/gradle-5.6.3" />
+        <option name="gradleHome" value="D:/../../Program Files/Gradle/gradle-5.6.3-all/gradle-5.6.3" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/client" />
             <option value="$PROJECT_DIR$/communication_module" />
+            <option value="$PROJECT_DIR$/controller" />
             <option value="$PROJECT_DIR$/logger_manager" />
+            <option value="$PROJECT_DIR$/path_finder" />
           </set>
         </option>
         <option name="useQualifiedModuleNames" value="true" />

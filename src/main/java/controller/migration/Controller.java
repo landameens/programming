@@ -1,10 +1,10 @@
-package controller;
+package controller.migration;
 
 import query.Query;
-import controller.commands.Command;
-import controller.commands.factory.ICommandFactory;
-import controller.commands.scripts.ExecuteScriptCommand;
-import controller.commands.scripts.RecursionChecker;
+import controller.migration.commands.Command;
+import controller.migration.commands.factory.ICommandFactory;
+import controller.migration.commands.scripts.ExecuteScriptCommand;
+import controller.migration.commands.scripts.RecursionChecker;
 import response.Response;
 import domain.commandsRepository.ICommandsRepository;
 import domain.commandsRepository.Record;

@@ -1,7 +1,7 @@
-package controller;
+package controller.migration;
 
-import controller.commands.factory.*;
-import controller.commands.scripts.RecursionChecker;
+import controller.migration.commands.factory.*;
+import controller.migration.commands.scripts.RecursionChecker;
 import domain.commandsRepository.ICommandsRepository;
 import domain.studyGroupRepository.IStudyGroupRepository;
 

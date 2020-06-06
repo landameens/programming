@@ -1,14 +1,51 @@
 package response;
 
-/**
- * This class represents the response to the executable command.
- * It has a response to the executed command, and a response code.
- */
-public final class Response {
-    private final Status status;
-    private final String answer;
 
-    public Response(Status status, String answer) {
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+
+@Embeddable
+public class Response {
+    @Column(name = "status", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
+    @Column(name = "answer", nullable = true, length = 5000)
+    private String answer;
+
+    public Response() {
+    }
+
+    public static Response createInternalError() {
+        return new Response(Status.INTERNAL_ERROR, "");
+    }
+
+    public static Response createTeapot() {
+        return new Response(Status.I_AM_TEAPOT, "");
+    }
+
+    public static Response createSuccessfully() {
+        return new Response(Status.SUCCESSFULLY, "");
+    }
+
+    public static Response createResponse(ResponseDTO responseDTO) {
+        Status status = Status.getInstance(Integer.parseInt(responseDTO.status));
+        return new Response(status,
+                            responseDTO.answer);
+    }
+
+    public static ResponseDTO dtoOf(Response response) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.status = response.getStatus().getResult() + "";
+        responseDTO.answer = response.getAnswer();
+        return responseDTO;
+    }
+
+
+    public Response(Status status,
+                    String answer) {
         this.status = status;
         this.answer = answer;
     }
@@ -21,18 +58,20 @@ public final class Response {
         return answer;
     }
 
-    public static Response getResponse(ResponseDTO responseDTO){
-        Status returnedStatus = Status.getStatusEnum(String.valueOf(responseDTO.status));
 
-        return new Response(returnedStatus,
-                responseDTO.answer);
+    @Override
+    public String toString() {
+        return "Response{" +
+                "status=" + status +
+                ", answer='" + answer + '\'' +
+                '}';
     }
 
-    public static ResponseDTO getResponseDTO(Response response){
-        ResponseDTO responseDTO = new ResponseDTO();
-        responseDTO.answer = response.getAnswer();
-        responseDTO.status = response.getStatus().getCode();
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 
-        return responseDTO;
+    public void setAnswer(String answer) {
+        this.answer = answer;
     }
 }
