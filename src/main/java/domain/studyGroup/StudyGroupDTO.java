@@ -15,6 +15,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 @XmlAccessorType(XmlAccessType.FIELD)
 public final class StudyGroupDTO {
     public Long id;
+    public int userId;
     public String name;
     public CoordinatesDTO coordinates;
     @XmlJavaTypeAdapter(LocalDateTimeAdapter.class)
