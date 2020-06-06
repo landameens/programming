@@ -47,7 +47,7 @@ public final class DBStudyGroupRepository implements IStudyGroupRepository {
     @Override
     public synchronized void remove(StudyGroup studyGroup) throws StudyGroupRepositoryException {
         try {
-            studyGroupDAO.delete(studyGroup.getId());
+            studyGroupDAO.delete(studyGroup);
             LOG_MANAGER.debug("StudyGroup was deleted: " + studyGroup);
         } catch (DAOException e) {
             LOG_MANAGER.errorThrowable(e);

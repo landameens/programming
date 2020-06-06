@@ -4061,3 +4061,194 @@
 [WARN ] 2020-05-28 13:18:17.985 [main] Console - [33mAn empty string was entered.[0m
 [INFO ] 2020-05-28 13:18:17.985 [main] Console - [37mInput of commands...[0m
 [WARN ] 2020-05-28 13:18:17.985 [main] Console - [33mAn empty string was entered.[0m
+[INFO ] 2020-06-06 18:06:13.893 [main] Version - HHH000412: Hibernate ORM core version 5.4.14.Final
+[INFO ] 2020-06-06 18:06:14.432 [main] Version - HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+[WARN ] 2020-06-06 18:06:14.723 [main] pooling - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+[INFO ] 2020-06-06 18:06:14.731 [main] pooling - HHH10001005: using driver [org.postgresql.Driver] at URL [jdbc:postgresql://localhost:5432/study_project]
+[INFO ] 2020-06-06 18:06:14.731 [main] pooling - HHH10001001: Connection properties: {password=****, user=Yarik}
+[INFO ] 2020-06-06 18:06:14.731 [main] pooling - HHH10001003: Autocommit mode: false
+[INFO ] 2020-06-06 18:06:14.733 [main] DriverManagerConnectionProviderImpl - HHH000115: Hibernate connection pool size: 20 (min=1)
+[INFO ] 2020-06-06 18:06:14.845 [main] Dialect - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL9Dialect
+[ERROR] 2020-06-06 18:06:15.034 [main] HibernateSessionFactoryUtil - [35mGot a throwable. Simple message: An exception during configuring Hibernate..
+AnnotationException: @OneToOne or @ManyToOne on domain.studyGroup.StudyGroup.groupAdmin references an unknown entity: domain.studyGroup.person.Person
+org.hibernate.cfg.ToOneFkSecondPass.doSecondPass(ToOneFkSecondPass.java:97)
+	--- org.hibernate.boot.internal.InFlightMetadataCollectorImpl.processEndOfQueue(InFlightMetadataCollectorImpl.java:1823)
+	--- org.hibernate.boot.internal.InFlightMetadataCollectorImpl.processFkSecondPassesInOrder(InFlightMetadataCollectorImpl.java:1767)
+	--- org.hibernate.boot.internal.InFlightMetadataCollectorImpl.processSecondPasses(InFlightMetadataCollectorImpl.java:1655)
+	--- org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:286)
+	--- org.hibernate.boot.model.process.spi.MetadataBuildingProcess.build(MetadataBuildingProcess.java:83)
+	--- org.hibernate.boot.internal.MetadataBuilderImpl.build(MetadataBuilderImpl.java:473)
+	--- org.hibernate.boot.internal.MetadataBuilderImpl.build(MetadataBuilderImpl.java:84)
+	--- org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:689)
+	--- storage.postgresDAO.HibernateSessionFactoryUtil.getSessionFactory(HibernateSessionFactoryUtil.java:36)
+	--- storage.postgresDAO.PostgresDAO.create(PostgresDAO.java:51)
+	--- domain.studyGroup.coordinates.Test.main(Test.java:14)[0m
+[INFO ] 2020-06-06 18:07:32.179 [main] Version - HHH000412: Hibernate ORM core version 5.4.14.Final
+[INFO ] 2020-06-06 18:07:32.553 [main] Version - HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+[WARN ] 2020-06-06 18:07:32.802 [main] pooling - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+[INFO ] 2020-06-06 18:07:32.810 [main] pooling - HHH10001005: using driver [org.postgresql.Driver] at URL [jdbc:postgresql://localhost:5432/study_project]
+[INFO ] 2020-06-06 18:07:32.811 [main] pooling - HHH10001001: Connection properties: {password=****, user=Yarik}
+[INFO ] 2020-06-06 18:07:32.811 [main] pooling - HHH10001003: Autocommit mode: false
+[INFO ] 2020-06-06 18:07:32.813 [main] DriverManagerConnectionProviderImpl - HHH000115: Hibernate connection pool size: 20 (min=1)
+[INFO ] 2020-06-06 18:07:32.902 [main] Dialect - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL9Dialect
+[INFO ] 2020-06-06 18:07:33.115 [main] PojoInstantiator - HHH000182: No default (no-argument) constructor for class: domain.studyGroup.coordinates.Coordinates (class must be instantiated by Interceptor)
+[INFO ] 2020-06-06 18:07:33.209 [main] Version - HV000001: Hibernate Validator 5.4.1.Final
+[INFO ] 2020-06-06 18:07:33.245 [main] Version - HSEARCH000034: Hibernate Search 5.11.5.Final
+[INFO ] 2020-06-06 18:07:33.291 [main] PojoInstantiator - HHH000182: No default (no-argument) constructor for class: domain.studyGroup.person.Person (class must be instantiated by Interceptor)
+[INFO ] 2020-06-06 18:07:33.472 [main] PojoInstantiator - HHH000182: No default (no-argument) constructor for class: domain.studyGroup.StudyGroup (class must be instantiated by Interceptor)
+[INFO ] 2020-06-06 18:07:33.493 [main] PojoInstantiator - HHH000182: No default (no-argument) constructor for class: domain.user.User (class must be instantiated by Interceptor)
+[INFO ] 2020-06-06 18:07:33.568 [main] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@6a2d867d] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[WARN ] 2020-06-06 18:07:33.622 [main] ExceptionHandlerLoggedImpl - GenerationTarget encountered exception accepting command : Error executing DDL "alter table products add column group_admin_id int8 not null" via JDBC Statement
+org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "alter table products add column group_admin_id int8 not null" via JDBC Statement
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:67) ~[hibernate-core-5.4.14.Final.jar:5.4.14.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlString(AbstractSchemaMigrator.java:559) [hibernate-core-5.4.14.Final.jar:5.4.14.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlStrings(AbstractSchemaMigrator.java:580) [hibernate-core-5.4.14.Final.jar:5.4.14.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.migrateTable(AbstractSchemaMigrator.java:297) [hibernate-core-5.4.14.Final.jar:5.4.14.Final]
+	at org.hibernate.tool.schema.internal.GroupedSchemaMigratorImpl.performTablesMigration(GroupedSchemaMigratorImpl.java:75) [hibernate-core-5.4.14.Final.jar:5.4.14.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.performMigration(AbstractSchemaMigrator.java:207) [hibernate-core-5.4.14.Final.jar:5.4.14.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.doMigration(AbstractSchemaMigrator.java:114) [hibernate-core-5.4.14.Final.jar:5.4.14.Final]
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.performDatabaseAction(SchemaManagementToolCoordinator.java:184) [hibernate-core-5.4.14.Final.jar:5.4.14.Final]
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.process(SchemaManagementToolCoordinator.java:73) [hibernate-core-5.4.14.Final.jar:5.4.14.Final]
+	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:314) [hibernate-core-5.4.14.Final.jar:5.4.14.Final]
+	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:468) [hibernate-core-5.4.14.Final.jar:5.4.14.Final]
+	at org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:708) [hibernate-core-5.4.14.Final.jar:5.4.14.Final]
+	at storage.postgresDAO.HibernateSessionFactoryUtil.getSessionFactory(HibernateSessionFactoryUtil.java:40) [main/:?]
+	at storage.postgresDAO.PostgresDAO.create(PostgresDAO.java:51) [main/:?]
+	at domain.studyGroup.coordinates.Test.main(Test.java:14) [main/:?]
+Caused by: org.postgresql.util.PSQLException: ОШИБКА: столбец "group_admin_id" содержит значения NULL
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2533) ~[postgresql-42.2.12.jar:42.2.12]
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2268) ~[postgresql-42.2.12.jar:42.2.12]
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:313) ~[postgresql-42.2.12.jar:42.2.12]
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:448) ~[postgresql-42.2.12.jar:42.2.12]
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:369) ~[postgresql-42.2.12.jar:42.2.12]
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:310) ~[postgresql-42.2.12.jar:42.2.12]
+	at org.postgresql.jdbc.PgStatement.executeCachedSql(PgStatement.java:296) ~[postgresql-42.2.12.jar:42.2.12]
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:273) ~[postgresql-42.2.12.jar:42.2.12]
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:268) ~[postgresql-42.2.12.jar:42.2.12]
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:54) ~[hibernate-core-5.4.14.Final.jar:5.4.14.Final]
+	... 14 more
+[WARN ] 2020-06-06 18:07:33.836 [main] ExceptionHandlerLoggedImpl - GenerationTarget encountered exception accepting command : Error executing DDL "alter table products add constraint FK67q6laq1o9jrg6vs5ubdu7tjj foreign key (group_admin_id) references persons" via JDBC Statement
+org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "alter table products add constraint FK67q6laq1o9jrg6vs5ubdu7tjj foreign key (group_admin_id) references persons" via JDBC Statement
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:67) ~[hibernate-core-5.4.14.Final.jar:5.4.14.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlString(AbstractSchemaMigrator.java:559) [hibernate-core-5.4.14.Final.jar:5.4.14.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlStrings(AbstractSchemaMigrator.java:504) [hibernate-core-5.4.14.Final.jar:5.4.14.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applyForeignKeys(AbstractSchemaMigrator.java:433) [hibernate-core-5.4.14.Final.jar:5.4.14.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.performMigration(AbstractSchemaMigrator.java:249) [hibernate-core-5.4.14.Final.jar:5.4.14.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.doMigration(AbstractSchemaMigrator.java:114) [hibernate-core-5.4.14.Final.jar:5.4.14.Final]
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.performDatabaseAction(SchemaManagementToolCoordinator.java:184) [hibernate-core-5.4.14.Final.jar:5.4.14.Final]
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.process(SchemaManagementToolCoordinator.java:73) [hibernate-core-5.4.14.Final.jar:5.4.14.Final]
+	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:314) [hibernate-core-5.4.14.Final.jar:5.4.14.Final]
+	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:468) [hibernate-core-5.4.14.Final.jar:5.4.14.Final]
+	at org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:708) [hibernate-core-5.4.14.Final.jar:5.4.14.Final]
+	at storage.postgresDAO.HibernateSessionFactoryUtil.getSessionFactory(HibernateSessionFactoryUtil.java:40) [main/:?]
+	at storage.postgresDAO.PostgresDAO.create(PostgresDAO.java:51) [main/:?]
+	at domain.studyGroup.coordinates.Test.main(Test.java:14) [main/:?]
+Caused by: org.postgresql.util.PSQLException: ОШИБКА: столбец "group_admin_id", указанный в ограничении внешнего ключа, не существует
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2533) ~[postgresql-42.2.12.jar:42.2.12]
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2268) ~[postgresql-42.2.12.jar:42.2.12]
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:313) ~[postgresql-42.2.12.jar:42.2.12]
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:448) ~[postgresql-42.2.12.jar:42.2.12]
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:369) ~[postgresql-42.2.12.jar:42.2.12]
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:310) ~[postgresql-42.2.12.jar:42.2.12]
+	at org.postgresql.jdbc.PgStatement.executeCachedSql(PgStatement.java:296) ~[postgresql-42.2.12.jar:42.2.12]
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:273) ~[postgresql-42.2.12.jar:42.2.12]
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:268) ~[postgresql-42.2.12.jar:42.2.12]
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:54) ~[hibernate-core-5.4.14.Final.jar:5.4.14.Final]
+	... 13 more
+[INFO ] 2020-06-06 18:07:33.844 [main] JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[WARN ] 2020-06-06 18:07:34.002 [main] SqlExceptionHelper - SQL Error: 0, SQLState: 23502
+[ERROR] 2020-06-06 18:07:34.002 [main] SqlExceptionHelper - ОШИБКА: нулевое значение в столбце "permission" нарушает ограничение NOT NULL
+  Подробности: Ошибочная строка содержит (11, ssd, sdsd, null).
+[INFO ] 2020-06-06 18:09:34.681 [main] Version - HHH000412: Hibernate ORM core version 5.4.14.Final
+[INFO ] 2020-06-06 18:09:35.048 [main] Version - HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+[WARN ] 2020-06-06 18:09:35.296 [main] pooling - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+[INFO ] 2020-06-06 18:09:35.300 [main] pooling - HHH10001005: using driver [org.postgresql.Driver] at URL [jdbc:postgresql://localhost:5432/study_project]
+[INFO ] 2020-06-06 18:09:35.301 [main] pooling - HHH10001001: Connection properties: {password=****, user=Yarik}
+[INFO ] 2020-06-06 18:09:35.301 [main] pooling - HHH10001003: Autocommit mode: false
+[INFO ] 2020-06-06 18:09:35.302 [main] DriverManagerConnectionProviderImpl - HHH000115: Hibernate connection pool size: 20 (min=1)
+[INFO ] 2020-06-06 18:09:35.389 [main] Dialect - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL9Dialect
+[INFO ] 2020-06-06 18:09:35.594 [main] PojoInstantiator - HHH000182: No default (no-argument) constructor for class: domain.studyGroup.coordinates.Coordinates (class must be instantiated by Interceptor)
+[INFO ] 2020-06-06 18:09:35.678 [main] Version - HV000001: Hibernate Validator 5.4.1.Final
+[INFO ] 2020-06-06 18:09:35.703 [main] Version - HSEARCH000034: Hibernate Search 5.11.5.Final
+[INFO ] 2020-06-06 18:09:35.746 [main] PojoInstantiator - HHH000182: No default (no-argument) constructor for class: domain.studyGroup.person.Person (class must be instantiated by Interceptor)
+[INFO ] 2020-06-06 18:09:35.902 [main] PojoInstantiator - HHH000182: No default (no-argument) constructor for class: domain.studyGroup.StudyGroup (class must be instantiated by Interceptor)
+[INFO ] 2020-06-06 18:09:35.927 [main] PojoInstantiator - HHH000182: No default (no-argument) constructor for class: domain.user.User (class must be instantiated by Interceptor)
+[INFO ] 2020-06-06 18:09:35.995 [main] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@6d0290d8] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[WARN ] 2020-06-06 18:09:36.005 [main] SqlExceptionHelper - SQL Warning Code: 0, SQLState: 00000
+[WARN ] 2020-06-06 18:09:36.005 [main] SqlExceptionHelper - ограничение "fk67q6laq1o9jrg6vs5ubdu7tjj" в таблице "products" не существует, пропускается
+[INFO ] 2020-06-06 18:09:36.024 [main] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@14b275bd] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 2020-06-06 18:09:36.073 [main] JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[INFO ] 2020-06-06 18:11:05.310 [main] Version - HHH000412: Hibernate ORM core version 5.4.14.Final
+[INFO ] 2020-06-06 18:11:05.671 [main] Version - HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+[WARN ] 2020-06-06 18:11:05.929 [main] pooling - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+[INFO ] 2020-06-06 18:11:05.936 [main] pooling - HHH10001005: using driver [org.postgresql.Driver] at URL [jdbc:postgresql://localhost:5432/study_project]
+[INFO ] 2020-06-06 18:11:05.936 [main] pooling - HHH10001001: Connection properties: {password=****, user=Yarik}
+[INFO ] 2020-06-06 18:11:05.936 [main] pooling - HHH10001003: Autocommit mode: false
+[INFO ] 2020-06-06 18:11:05.938 [main] DriverManagerConnectionProviderImpl - HHH000115: Hibernate connection pool size: 20 (min=1)
+[INFO ] 2020-06-06 18:11:06.037 [main] Dialect - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL9Dialect
+[INFO ] 2020-06-06 18:11:06.255 [main] PojoInstantiator - HHH000182: No default (no-argument) constructor for class: domain.studyGroup.coordinates.Coordinates (class must be instantiated by Interceptor)
+[INFO ] 2020-06-06 18:11:06.352 [main] Version - HV000001: Hibernate Validator 5.4.1.Final
+[INFO ] 2020-06-06 18:11:06.384 [main] Version - HSEARCH000034: Hibernate Search 5.11.5.Final
+[INFO ] 2020-06-06 18:11:06.451 [main] PojoInstantiator - HHH000182: No default (no-argument) constructor for class: domain.studyGroup.person.Person (class must be instantiated by Interceptor)
+[INFO ] 2020-06-06 18:11:06.619 [main] PojoInstantiator - HHH000182: No default (no-argument) constructor for class: domain.studyGroup.StudyGroup (class must be instantiated by Interceptor)
+[INFO ] 2020-06-06 18:11:06.643 [main] PojoInstantiator - HHH000182: No default (no-argument) constructor for class: domain.user.User (class must be instantiated by Interceptor)
+[INFO ] 2020-06-06 18:11:06.712 [main] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@6d0290d8] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 2020-06-06 18:11:06.732 [main] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@4702e7a5] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 2020-06-06 18:11:06.783 [main] JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[INFO ] 2020-06-06 18:14:28.661 [main] Version - HHH000412: Hibernate ORM core version 5.4.14.Final
+[INFO ] 2020-06-06 18:14:29.036 [main] Version - HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+[WARN ] 2020-06-06 18:14:29.284 [main] pooling - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+[INFO ] 2020-06-06 18:14:29.289 [main] pooling - HHH10001005: using driver [org.postgresql.Driver] at URL [jdbc:postgresql://localhost:5432/nadya]
+[INFO ] 2020-06-06 18:14:29.289 [main] pooling - HHH10001001: Connection properties: {password=****, user=Yarik}
+[INFO ] 2020-06-06 18:14:29.289 [main] pooling - HHH10001003: Autocommit mode: false
+[INFO ] 2020-06-06 18:14:29.291 [main] DriverManagerConnectionProviderImpl - HHH000115: Hibernate connection pool size: 20 (min=1)
+[INFO ] 2020-06-06 18:14:29.375 [main] Dialect - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL9Dialect
+[INFO ] 2020-06-06 18:14:29.579 [main] PojoInstantiator - HHH000182: No default (no-argument) constructor for class: domain.studyGroup.coordinates.Coordinates (class must be instantiated by Interceptor)
+[INFO ] 2020-06-06 18:14:29.678 [main] Version - HV000001: Hibernate Validator 5.4.1.Final
+[INFO ] 2020-06-06 18:14:29.707 [main] Version - HSEARCH000034: Hibernate Search 5.11.5.Final
+[INFO ] 2020-06-06 18:14:29.752 [main] PojoInstantiator - HHH000182: No default (no-argument) constructor for class: domain.studyGroup.person.Person (class must be instantiated by Interceptor)
+[INFO ] 2020-06-06 18:14:29.905 [main] PojoInstantiator - HHH000182: No default (no-argument) constructor for class: domain.studyGroup.StudyGroup (class must be instantiated by Interceptor)
+[INFO ] 2020-06-06 18:14:29.925 [main] PojoInstantiator - HHH000182: No default (no-argument) constructor for class: domain.user.User (class must be instantiated by Interceptor)
+[INFO ] 2020-06-06 18:14:29.998 [main] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@1e30db85] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[WARN ] 2020-06-06 18:14:30.002 [main] ExceptionHandlerLoggedImpl - GenerationTarget encountered exception accepting command : Error executing DDL "alter table products drop constraint if exists FK67q6laq1o9jrg6vs5ubdu7tjj" via JDBC Statement
+org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "alter table products drop constraint if exists FK67q6laq1o9jrg6vs5ubdu7tjj" via JDBC Statement
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:67) ~[hibernate-core-5.4.14.Final.jar:5.4.14.Final]
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.applySqlString(SchemaDropperImpl.java:375) [hibernate-core-5.4.14.Final.jar:5.4.14.Final]
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.applySqlStrings(SchemaDropperImpl.java:359) [hibernate-core-5.4.14.Final.jar:5.4.14.Final]
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.applyConstraintDropping(SchemaDropperImpl.java:331) [hibernate-core-5.4.14.Final.jar:5.4.14.Final]
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.dropFromMetadata(SchemaDropperImpl.java:230) [hibernate-core-5.4.14.Final.jar:5.4.14.Final]
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.performDrop(SchemaDropperImpl.java:154) [hibernate-core-5.4.14.Final.jar:5.4.14.Final]
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.doDrop(SchemaDropperImpl.java:126) [hibernate-core-5.4.14.Final.jar:5.4.14.Final]
+	at org.hibernate.tool.schema.internal.SchemaDropperImpl.doDrop(SchemaDropperImpl.java:112) [hibernate-core-5.4.14.Final.jar:5.4.14.Final]
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.performDatabaseAction(SchemaManagementToolCoordinator.java:145) [hibernate-core-5.4.14.Final.jar:5.4.14.Final]
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.process(SchemaManagementToolCoordinator.java:73) [hibernate-core-5.4.14.Final.jar:5.4.14.Final]
+	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:314) [hibernate-core-5.4.14.Final.jar:5.4.14.Final]
+	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:468) [hibernate-core-5.4.14.Final.jar:5.4.14.Final]
+	at org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:708) [hibernate-core-5.4.14.Final.jar:5.4.14.Final]
+	at storage.postgresDAO.HibernateSessionFactoryUtil.getSessionFactory(HibernateSessionFactoryUtil.java:40) [main/:?]
+	at storage.postgresDAO.PostgresDAO.create(PostgresDAO.java:51) [main/:?]
+	at domain.studyGroup.coordinates.Test.main(Test.java:14) [main/:?]
+Caused by: org.postgresql.util.PSQLException: ОШИБКА: отношение "products" не существует
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2533) ~[postgresql-42.2.12.jar:42.2.12]
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2268) ~[postgresql-42.2.12.jar:42.2.12]
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:313) ~[postgresql-42.2.12.jar:42.2.12]
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:448) ~[postgresql-42.2.12.jar:42.2.12]
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:369) ~[postgresql-42.2.12.jar:42.2.12]
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:310) ~[postgresql-42.2.12.jar:42.2.12]
+	at org.postgresql.jdbc.PgStatement.executeCachedSql(PgStatement.java:296) ~[postgresql-42.2.12.jar:42.2.12]
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:273) ~[postgresql-42.2.12.jar:42.2.12]
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:268) ~[postgresql-42.2.12.jar:42.2.12]
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:54) ~[hibernate-core-5.4.14.Final.jar:5.4.14.Final]
+	... 15 more
+[WARN ] 2020-06-06 18:14:30.018 [main] SqlExceptionHelper - SQL Warning Code: 0, SQLState: 00000
+[WARN ] 2020-06-06 18:14:30.019 [main] SqlExceptionHelper - таблица "persons" не существует, пропускается
+[WARN ] 2020-06-06 18:14:30.019 [main] SqlExceptionHelper - SQL Warning Code: 0, SQLState: 00000
+[WARN ] 2020-06-06 18:14:30.019 [main] SqlExceptionHelper - таблица "products" не существует, пропускается
+[WARN ] 2020-06-06 18:14:30.020 [main] SqlExceptionHelper - SQL Warning Code: 0, SQLState: 00000
+[WARN ] 2020-06-06 18:14:30.020 [main] SqlExceptionHelper - таблица "users" не существует, пропускается
+[WARN ] 2020-06-06 18:14:30.022 [main] SqlExceptionHelper - SQL Warning Code: 0, SQLState: 00000
+[WARN ] 2020-06-06 18:14:30.022 [main] SqlExceptionHelper - последовательность "person_id_seq" не существует, пропускается
+[WARN ] 2020-06-06 18:14:30.022 [main] SqlExceptionHelper - SQL Warning Code: 0, SQLState: 00000
+[WARN ] 2020-06-06 18:14:30.022 [main] SqlExceptionHelper - последовательность "study_group_id_seq" не существует, пропускается
+[INFO ] 2020-06-06 18:14:30.028 [main] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@3b4086c1] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 2020-06-06 18:14:30.084 [main] JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]

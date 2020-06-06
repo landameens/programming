@@ -1,8 +1,8 @@
 package controller.commands.studyGroupRep;
 
 import controller.commands.Command;
-import response.Response;
 import domain.studyGroupRepository.IStudyGroupRepository;
+import response.Response;
 
 import java.util.Map;
 

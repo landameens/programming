@@ -2,7 +2,6 @@ package controller.commands.scripts;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.TreeSet;
 
 /**
  * Class for checking recursion in execute_script command.

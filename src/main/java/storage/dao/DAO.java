@@ -11,9 +11,9 @@ public interface DAO<T> {
 
     List<T> getAll() throws DAOException;
 
-    T get(long id) throws DAOException;
+    T get(Class<? extends T> clazz, long id) throws DAOException;
 
     void update(T entity) throws DAOException;
 
-    void delete(long id) throws DAOException;
+    void delete(T entity) throws DAOException;
 }

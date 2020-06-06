@@ -1,6 +1,5 @@
 package controller.commands.studyGroupRep;
 
-import response.Response;
 import domain.exception.StudyGroupRepositoryException;
 import domain.studyGroup.StudyGroup;
 import domain.studyGroup.StudyGroupDTO;
@@ -11,6 +10,7 @@ import domain.studyGroupRepository.concreteSet.ConcreteSet;
 import domain.studyGroupRepository.concreteSet.ConcreteSetWithSpecialField;
 import domain.studyGroupRepository.concreteSet.MinSet;
 import manager.LogManager;
+import response.Response;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;

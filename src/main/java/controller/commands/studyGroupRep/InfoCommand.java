@@ -1,8 +1,8 @@
 package controller.commands.studyGroupRep;
 
-import response.Response;
 import domain.studyGroupRepository.IStudyGroupRepository;
 import manager.LogManager;
+import response.Response;
 
 import java.util.Map;
 

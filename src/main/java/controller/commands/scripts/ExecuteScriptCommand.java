@@ -1,17 +1,17 @@
 package controller.commands.scripts;
 
+import app.Viewer;
 import app.query.CommandName;
 import app.query.CommandType;
-import app.Viewer;
 import controller.commands.Command;
 import controller.commands.Interpretator;
 import controller.commands.factory.ICommandFactory;
-import response.Response;
 import domain.commandsRepository.ICommandsRepository;
 import domain.commandsRepository.Record;
 import domain.exception.CreationException;
 import domain.studyGroupRepository.IStudyGroupRepository;
 import domain.studyGroupRepository.TreeSetStudyGroupRepository;
+import response.Response;
 import storage.exception.RecursionExeption;
 import storage.scriptDAO.IScriptDAO;
 import storage.scriptDAO.ScriptDAO;

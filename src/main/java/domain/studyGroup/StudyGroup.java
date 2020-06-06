@@ -4,24 +4,55 @@ import domain.exception.VerifyException;
 import domain.studyGroup.coordinates.Coordinates;
 import domain.studyGroup.person.Person;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 
+@Entity
+@Table(name = "products")
 public class StudyGroup implements Cloneable{
 
     private static final String SHOULD_BE_POSITIVE = "Значение должно быть положительным.";
     private static final String EMPTY_EXCEPTION = "Значение не должно быть пустым";
 
+    @Id
+    @Column(name = "id", nullable = false)
+    @SequenceGenerator(sequenceName = "study_group_id_seq", name = "study_group_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "study_group_id_seq")
     private Long id; //Поле не может быть null, Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
+
+    @Column(name = "user_id")
     private int userId;
+
+    @Column(name = "product_name")
     private String name; //Поле не может быть null, Строка не может быть пустой
+
+    @Embedded
     private Coordinates coordinates; //Поле не может быть null
+
+    @Column(name = "creation_date")
     private java.time.LocalDateTime creationDate; //Поле не может быть null, Значение этого поля должно генерироваться автоматически
+
+    @Column(name = "students_count")
     private int studentsCount; //Значение поля должно быть больше 0
+
+    @Column(name = "ahould_be_expelled")
     private Long shouldBeExpelled; //Значение поля должно быть больше 0, Поле может быть null
+
+    @Column(name = "form_of_education")
+    @Enumerated(EnumType.STRING)
     private FormOfEducation formOfEducation; //Поле может быть null
+
+    @Column(name = "semester")
+    @Enumerated(EnumType.STRING)
     private Semester semesterEnum; //Поле может быть null
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "group_admin_id", nullable = false)
     private Person groupAdmin; //Поле не может быть null
+
+    public StudyGroup() {
+    }
 
     public StudyGroup(Long id,
                       String name,

@@ -1,15 +1,15 @@
 package controller;
 
-import query.Query;
 import controller.commands.Command;
 import controller.commands.factory.ICommandFactory;
 import controller.commands.scripts.ExecuteScriptCommand;
 import controller.commands.scripts.RecursionChecker;
-import response.Response;
 import domain.commandsRepository.ICommandsRepository;
 import domain.commandsRepository.Record;
 import domain.exception.CreationException;
 import manager.LogManager;
+import query.Query;
+import response.Response;
 
 /**
  * Class for processing user requests

@@ -1,7 +1,6 @@
 package controller.commands.factory;
 
 import controller.commands.Command;
-import controller.commands.ExitCommand;
 import controller.commands.HelpCommand;
 import domain.exception.CreationException;
 

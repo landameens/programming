@@ -1,10 +1,10 @@
 package controller.commands.history;
 
 import controller.commands.Command;
-import response.Response;
 import domain.commandsRepository.ICommandsRepository;
 import domain.commandsRepository.Record;
 import manager.LogManager;
+import response.Response;
 
 import java.util.List;
 import java.util.Map;

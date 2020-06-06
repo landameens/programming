@@ -2,17 +2,27 @@ package domain.studyGroup.coordinates;
 
 import domain.exception.VerifyException;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+
+@Embeddable
 public class Coordinates implements Cloneable{
     private static final String EMPTY_VALUE = "Значение не должно быть пустым.";
     private static final String MAXIMUM_VALUE = "Превышено максимальное значение.";
 
+    @Column(name = "x_coordinate")
     private Integer x; //Максимальное значение поля: 28, Поле не может быть null
+
+    @Column(name = "y_coordinate")
     private int y;
 
     public Coordinates(Integer x, int y) throws VerifyException {
         checkX(x);
         this.x = x;
         this.y = y;
+    }
+
+    public Coordinates() {
     }
 
     private void checkX(Integer x) throws VerifyException{

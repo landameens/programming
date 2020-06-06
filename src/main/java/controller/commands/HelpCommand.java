@@ -1,7 +1,7 @@
 package controller.commands;
 
-import response.Response;
 import manager.LogManager;
+import response.Response;
 
 import java.util.Map;
 

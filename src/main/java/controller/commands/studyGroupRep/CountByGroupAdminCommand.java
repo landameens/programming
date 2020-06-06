@@ -1,6 +1,5 @@
 package controller.commands.studyGroupRep;
 
-import response.Response;
 import domain.exception.StudyGroupRepositoryException;
 import domain.studyGroup.StudyGroup;
 import domain.studyGroup.person.Country;
@@ -8,10 +7,10 @@ import domain.studyGroupRepository.IStudyGroupRepository;
 import domain.studyGroupRepository.concreteSet.AllSet;
 import domain.studyGroupRepository.concreteSet.ConcreteSet;
 import manager.LogManager;
+import response.Response;
 
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class CountByGroupAdminCommand extends StudyGroupRepositoryCommand {
     private static final LogManager LOG_MANAGER = LogManager.createDefault(CountByGroupAdminCommand.class);
