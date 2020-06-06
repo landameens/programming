@@ -1,4 +1,4 @@
-package controller.commands;
+package controller.migration.commands;
 
 import response.Response;
 import manager.LogManager;

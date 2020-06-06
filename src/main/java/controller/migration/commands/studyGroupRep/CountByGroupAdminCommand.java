@@ -1,4 +1,4 @@
-package controller.commands.studyGroupRep;
+package controller.migration.commands.studyGroupRep;
 
 import response.Response;
 import domain.exception.StudyGroupRepositoryException;
@@ -11,7 +11,6 @@ import manager.LogManager;
 
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class CountByGroupAdminCommand extends StudyGroupRepositoryCommand {
     private static final LogManager LOG_MANAGER = LogManager.createDefault(CountByGroupAdminCommand.class);

@@ -1,9 +1,9 @@
-package app.controller.commands.loginScreen;
+package app.controller.commands.enterScreen;
 
-import adapter.LoggerAdapter;
-import client.controller.services.connectionService.ConnectionService;
+import app.controller.services.connectionService.ConnectionService;
 import controller.command.Command;
 import controller.command.exception.CommandExecutionException;
+import manager.LogManager;
 import org.apache.commons.configuration2.Configuration;
 import query.Query;
 import response.Response;
@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class LoginCommand extends Command {
-    private static final LoggerAdapter LOGGER_ADAPTER = LoggerAdapter.createDefault(LoginCommand.class.getSimpleName());
+    private static final LogManager LOG_MANAGER = LogManager.createDefault(LoginCommand.class);
 
 
     private ConnectionService connectionService;

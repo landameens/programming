@@ -1,6 +1,6 @@
-package client.controller.commands;
+package app.controller.commands;
 
-import client.controller.services.exitingDirector.ExitingDirector;
+import app.controller.services.exitingDirector.ExitingDirector;
 import controller.command.Command;
 import org.apache.commons.configuration2.Configuration;
 import response.Response;

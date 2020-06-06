@@ -1,6 +1,6 @@
-package controller.commands.history;
+package controller.migration.commands.history;
 
-import controller.commands.Command;
+import controller.migration.commands.Command;
 import response.Response;
 import domain.commandsRepository.ICommandsRepository;
 import domain.commandsRepository.Record;

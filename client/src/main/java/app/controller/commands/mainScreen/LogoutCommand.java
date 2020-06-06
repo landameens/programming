@@ -1,4 +1,4 @@
-package client.controller.commands.mainScreen;
+package app.controller.commands.mainScreen;
 
 import controller.command.Command;
 import org.apache.commons.configuration2.Configuration;

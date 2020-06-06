@@ -1,11 +1,11 @@
-package client.controller.services.connectionService;
+package app.controller.services.connectionService;
 
-import adapter.LoggerAdapter;
 import connection.exception.ConnectionException;
 import connection.exception.NotYetConnectedException;
 import connectionService.ConnectionWorker;
 import controller.command.exception.CommandExecutionException;
 import controller.components.serviceMediator.Service;
+import manager.LogManager;
 import message.EntityType;
 import message.Message;
 import query.Query;
@@ -15,7 +15,7 @@ import serializer.exception.DeserializationException;
 import serializer.exception.SerializationException;
 
 public final class ConnectionService implements Service {
-    private static final LoggerAdapter LOGGER_ADAPTER = LoggerAdapter.createDefault(ConnectionService.class.getSimpleName());
+    private static final LogManager LOG_MANAGER = LogManager.createDefault(ConnectionService.class);
 
     private final ConnectionWorker connectionWorker;
 
@@ -44,10 +44,10 @@ public final class ConnectionService implements Service {
 
             send(new Message(EntityType.QUERY, queryDTO));
         } catch (NotYetConnectedException e) {
-            LOGGER_ADAPTER.errorThrowable("Not yet connected.", e);
+            LOG_MANAGER.errorThrowable("Not yet connected.", e);
             throw new CommandExecutionException(e);
         } catch (ConnectionException e) {
-            LOGGER_ADAPTER.errorThrowable("Cannot send queryDTO. THe problem in connection with server", e);
+            LOG_MANAGER.errorThrowable("Cannot send queryDTO. THe problem in connection with server", e);
             throw new CommandExecutionException(e);
         }
 
@@ -55,10 +55,10 @@ public final class ConnectionService implements Service {
             Message message = read();
             return message.getResponse();
         } catch (NotYetConnectedException e) {
-            LOGGER_ADAPTER.errorThrowable("Not yet connected.", e);
+            LOG_MANAGER.errorThrowable("Not yet connected.", e);
             throw new CommandExecutionException(e);
         } catch (ConnectionException e) {
-            LOGGER_ADAPTER.errorThrowable("Problem with connection to the server. Probably lost.", e);
+            LOG_MANAGER.errorThrowable("Problem with connection to the server. Probably lost.", e);
             throw new CommandExecutionException(e);
         }
     }

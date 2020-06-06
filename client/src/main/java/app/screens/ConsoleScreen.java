@@ -1,28 +1,22 @@
-package client.view.screens;
+package app.screens;
 
-import adapter.LoggerAdapter;
-import client.controller.services.exitingDirector.INeedExiting;
-import client.controller.services.queryBuilder.queryCreationException.InputArgumentsValidationException;
-import client.controller.services.queryBuilder.queryCreationException.QueryCreationException;
-import client.view.Console;
-import client.view.Viewer;
-import client.view.exceptions.ConsoleException;
+import app.Console;
+import app.Exceptions.ConsoleException;
+import app.Viewer;
+import app.controller.services.exitingDirector.INeedExiting;
 import connection.exception.ConnectionException;
 import connection.exception.NotYetConnectedException;
 import controller.Controller;
 import controller.command.exception.CommandExecutionException;
 import controller.exception.ControllerException;
+import manager.LogManager;
 import message.exception.WrongTypeException;
 import query.Query;
 import response.Response;
-import router.exception.NoSuchRoutException;
 import router.screen.Screen;
 import router.screen.ScreenContext;
 import router.screen.ScreenMemento;
-import serializer.exception.DeserializationException;
-import serializer.exception.SerializationException;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,7 +25,7 @@ import java.util.Map;
  * Uses The Router framework
  */
 public abstract class ConsoleScreen implements Screen, INeedExiting {
-    private static final LoggerAdapter LOGGER_ADAPTER = LoggerAdapter.createDefault(ConsoleScreen.class.getSimpleName());
+    private static final LogManager LOG_MANAGER = LogManager.createDefault(ConsoleScreen.class);
 
     protected final Console console;
     protected final Viewer viewer;
@@ -63,7 +57,7 @@ public abstract class ConsoleScreen implements Screen, INeedExiting {
             String userInput = console.readLine();
 
             if (userInput == null) {
-                LOGGER_ADAPTER.debug("User entered null. Asked for repeat.");
+                LOG_MANAGER.debug("User entered null. Asked for repeat.");
                 console.writeLine(viewer.showNullEnterInput());
                 console.writeLine(viewer.showOfferToRepeatInput());
                 continue;
@@ -78,7 +72,7 @@ public abstract class ConsoleScreen implements Screen, INeedExiting {
                 response = controller.handle(query);
 
                 if (response == null) {
-                    LOGGER_ADAPTER.debug("Entered unsupported command.");
+                    LOG_MANAGER.debug("Entered unsupported command.");
                     console.writeLine(viewer.showNoSuchCommandErrorMessage());
                     console.writeLine(viewer.showOfferToRepeatInput());
                     continue;
@@ -94,15 +88,6 @@ public abstract class ConsoleScreen implements Screen, INeedExiting {
     @Override
     public void onActive(ScreenMemento screenMemento, ScreenContext screenContext) {
         onStart(screenContext);
-    }
-
-    protected void goOnScreen(String rout) {
-        try {
-            isActive = false;
-            screenContext.getRouter().go("login");
-        } catch (NoSuchRoutException e) {
-            LOGGER_ADAPTER.errorThrowable("Cannot go to the screen with rout: " + rout, e);
-        }
     }
 
     protected abstract void showScreenDescription();
@@ -127,20 +112,6 @@ public abstract class ConsoleScreen implements Screen, INeedExiting {
 
             if (commandExecutionException.getCause() instanceof NotYetConnectedException) {
                 console.writeLine(viewer.showNotYetConnectedErrorMessage());
-                console.writeLine(viewer.showOfferToRepeatInput());
-                return;
-            }
-
-            if (commandExecutionException.getCause() instanceof InputArgumentsValidationException) {
-                console.writeLine(viewer.getErrorPrefix() + commandExecutionException.getCause().getMessage());
-                console.writeLine(viewer.showOfferToRepeatInput());
-                return;
-            }
-
-            if (commandExecutionException.getCause() instanceof QueryCreationException ||
-                    commandExecutionException.getCause() instanceof SerializationException ||
-                    commandExecutionException.getCause() instanceof DeserializationException) {
-                console.writeLine(viewer.showInternalClientErrorMessage());
                 console.writeLine(viewer.showOfferToRepeatInput());
                 return;
             }
@@ -174,12 +145,6 @@ public abstract class ConsoleScreen implements Screen, INeedExiting {
     public void exit() {
         console.writeLine(viewer.showGoodbyeMessage());
         isActive = false;
-
-        try {
-            screenContext.save();
-        } catch (IOException e) {
-            LOGGER_ADAPTER.errorThrowable("Cannot save the shared data,", e);
-        }
 
         System.exit(0);
     }

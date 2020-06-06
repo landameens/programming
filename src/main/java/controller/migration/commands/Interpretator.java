@@ -1,10 +1,9 @@
-package controller.commands;
+package controller.migration.commands;
 
-import app.Viewer;
 import app.query.CommandName;
 import app.query.CommandType;
-import controller.commands.factory.*;
-import controller.commands.scripts.RecursionChecker;
+import controller.migration.commands.factory.*;
+import controller.migration.commands.scripts.RecursionChecker;
 import domain.commandsRepository.ICommandsRepository;
 import domain.studyGroupRepository.IStudyGroupRepository;
 

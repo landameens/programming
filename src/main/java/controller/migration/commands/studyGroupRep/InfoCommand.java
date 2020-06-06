@@ -1,4 +1,4 @@
-package controller.commands.studyGroupRep;
+package controller.migration.commands.studyGroupRep;
 
 import response.Response;
 import domain.studyGroupRepository.IStudyGroupRepository;

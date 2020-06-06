@@ -1,8 +1,8 @@
-package controller.commands.factory;
+package controller.migration.commands.factory;
 
-import controller.commands.Command;
-import controller.commands.ExitCommand;
-import controller.commands.HelpCommand;
+import controller.migration.commands.Command;
+import controller.migration.commands.ExitCommand;
+import controller.migration.commands.HelpCommand;
 import domain.exception.CreationException;
 
 import java.lang.reflect.Constructor;

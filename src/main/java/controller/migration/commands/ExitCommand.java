@@ -1,6 +1,6 @@
-package controller.commands;
+package controller.migration.commands;
 
-import controller.commands.studyGroupRep.StudyGroupRepositoryCommand;
+import controller.migration.commands.studyGroupRep.StudyGroupRepositoryCommand;
 import domain.studyGroupRepository.IStudyGroupRepository;
 import response.Response;
 import manager.LogManager;

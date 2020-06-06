@@ -1,41 +1,19 @@
-package client.view.screens;
+package app.screens;
 
-import adapter.LoggerAdapter;
-import client.view.Console;
-import client.view.Viewer;
+import app.Console;
+import app.Viewer;
 import controller.Controller;
+import manager.LogManager;
 import response.Response;
 import response.Status;
 import router.exception.NoSuchRoutException;
 import router.screen.ScreenContext;
 
 public final class EnterScreen extends ConsoleScreen {
-    private static final LoggerAdapter LOGGER_ADAPTER = LoggerAdapter.createDefault(EnterScreen.class.getSimpleName());
-
-
     public EnterScreen(Console console,
                        Viewer viewer,
                        Controller controller) {
         super(console, viewer, controller);
-    }
-
-    @Override
-    public void onStart(ScreenContext screenContext) {
-        isActive = true;
-        this.screenContext = screenContext;
-
-        String accessToken = screenContext.get("accessToken");
-
-        if (accessToken != null && !accessToken.isEmpty()) {
-            isActive = false;
-            try {
-                screenContext.getRouter().go("main");
-            } catch (NoSuchRoutException e) {
-                LOGGER_ADAPTER.errorThrowable("Cannot go to the main scree.", e);
-            }
-        } else {
-            super.onStart(screenContext);
-        }
     }
 
     @Override
@@ -45,18 +23,24 @@ public final class EnterScreen extends ConsoleScreen {
 
     @Override
     protected void analyseResponse(Response response) {
-        if (response.getStatus().equals(Status.FOUND)) {
+        if (response.getStatus().equals(Status.SUCCESSFULLY)) {
+            String[] subStrings = response.getAnswer().split(" +");
+
+            screenContext.add("login", subStrings[0]);
+            screenContext.add("password", subStrings[1]);
+
             isActive = false;
-            try {
-                screenContext.getRouter().go(response.getAnswer());
-            } catch (NoSuchRoutException e) {
-                LOGGER_ADAPTER.errorThrowable("Cannot go further.", e);
-            }
+            screenContext.getRouter().go("main");
         }
 
         if (response.getStatus().equals(Status.BAD_REQUEST)) {
             console.writeLine(viewer.showBadRequestErrorMessage());
             console.writeLine(response.getAnswer());
+            console.writeLine(viewer.showOfferToRepeatInput());
+        }
+
+        if (response.getStatus().equals(Status.INTERNAL_ERROR)) {
+            console.writeLine(viewer.showInternalServerErrorMessage());
             console.writeLine(viewer.showOfferToRepeatInput());
         }
 

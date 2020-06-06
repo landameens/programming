@@ -1,11 +1,10 @@
-package controller.commands.scripts;
+package controller.migration.commands.scripts;
 
 import app.query.CommandName;
 import app.query.CommandType;
-import app.Viewer;
-import controller.commands.Command;
-import controller.commands.Interpretator;
-import controller.commands.factory.ICommandFactory;
+import controller.migration.commands.Command;
+import controller.migration.commands.Interpretator;
+import controller.migration.commands.factory.ICommandFactory;
 import response.Response;
 import domain.commandsRepository.ICommandsRepository;
 import domain.commandsRepository.Record;

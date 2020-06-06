@@ -1,9 +1,9 @@
-package app.controller.commands.signUpScreen;
+package app.controller.commands.enterScreen;
 
-import adapter.LoggerAdapter;
-import client.controller.services.connectionService.ConnectionService;
+import app.controller.services.connectionService.ConnectionService;
 import controller.command.Command;
 import controller.command.exception.CommandExecutionException;
+import manager.LogManager;
 import org.apache.commons.configuration2.Configuration;
 import query.Query;
 import response.Response;
@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class SignUpCommand extends Command {
-    private static final LoggerAdapter LOGGER_ADAPTER = LoggerAdapter.createDefault(SignUpCommand.class.getSimpleName());
+    private static final LogManager LOG_MANAGER = LogManager.createDefault(SignUpCommand.class);
 
 
     private ConnectionService connectionService;
@@ -32,7 +32,7 @@ public final class SignUpCommand extends Command {
         String[] subStrings = userInput.split(" +");
 
         if (subStrings.length != 3) {
-            return new Response(Status.BAD_REQUEST, "SignUp command format: \"sign_up LOGIN PASSWORD\"");
+            return new Response(Status.BAD_REQUEST, "SignUp command format: \"signUp LOGIN PASSWORD\"");
         }
 
         String login = subStrings[1];

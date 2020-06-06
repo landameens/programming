@@ -1,7 +1,7 @@
-package controller.commands.factory;
+package controller.migration.commands.factory;
 
-import controller.commands.Command;
-import controller.commands.history.HistoryCommand;
+import controller.migration.commands.Command;
+import controller.migration.commands.history.HistoryCommand;
 import domain.commandsRepository.ICommandsRepository;
 import domain.exception.CreationException;
 

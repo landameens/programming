@@ -1,4 +1,4 @@
-package controller.commands.exception;
+package controller.migration.commands.exception;
 
 public class CreationException extends Throwable {
     public CreationException(String message) {

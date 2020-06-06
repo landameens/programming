@@ -1,4 +1,4 @@
-package controller.commands.scripts;
+package controller.migration.commands.scripts;
 
 import java.util.List;
 import java.util.Objects;
