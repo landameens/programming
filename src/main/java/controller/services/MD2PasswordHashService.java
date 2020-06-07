@@ -9,7 +9,7 @@ public final class MD2PasswordHashService implements PasswordHashService {
 
     {
         try {
-            messageDigest = MessageDigest.getInstance("MD-2");
+            messageDigest = MessageDigest.getInstance("MD2");
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
