@@ -24,7 +24,7 @@ public class StudyGroup implements Cloneable{
     @Column(name = "user_id")
     private int userId;
 
-    @Column(name = "product_name")
+    @Column(name = "study_group_name")
     private String name; //Поле не может быть null, Строка не может быть пустой
 
     @Embedded

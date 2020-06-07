@@ -7,11 +7,14 @@ import domain.studyGroup.StudyGroupDTO;
 import domain.studyGroup.coordinates.CoordinatesDTO;
 import domain.studyGroup.person.PersonDTO;
 import domain.studyGroupRepository.IStudyGroupRepository;
+import domain.studyGroupRepository.concreteSet.ConcreteSet;
+import domain.studyGroupRepository.concreteSet.ConcreteSetWithSpecialField;
 import manager.LogManager;
 import response.Response;
 
 import java.time.LocalDateTime;
 import java.util.Map;
+import java.util.Set;
 
 public class UpdateCommad extends StudyGroupRepositoryCommand {
     private static final LogManager LOG_MANAGER = LogManager.createDefault(UpdateCommad.class);
@@ -45,10 +48,19 @@ public class UpdateCommad extends StudyGroupRepositoryCommand {
         studyGroupDTO.semesterEnum = args.get("semesterEnum");
         studyGroupDTO.groupAdmin = personDTO;
         studyGroupDTO.creationDate = LocalDateTime.now();
+        studyGroupDTO.userId = Integer.parseInt(args.get("userId"));
 
         try {
+            ConcreteSet concreteSet = new ConcreteSetWithSpecialField(StudyGroup.class, "id", id);
+            Set<StudyGroup> groups = studyGroupRepository.getConcreteSetOfStudyGroups(concreteSet);
+            StudyGroup oldGroup = null;
+            for (StudyGroup studyGroup : groups) {
+                oldGroup = studyGroup;
+            }
             StudyGroup studyGroupNew = StudyGroup.getStudyGroup(studyGroupDTO);
-            studyGroupRepository.update(studyGroupNew);
+            if(oldGroup.getUserId() == studyGroupNew.getUserId()) {
+                studyGroupRepository.update(studyGroupNew);
+            } else return getBadRequestResponseDTO("Группа создана другим пользователем, вы не можете обновить ее данные.");
             LOG_MANAGER.info("The group info updating...");
 
             return getSuccessfullyResponseDTO("Группа обновлена." + System.lineSeparator());
