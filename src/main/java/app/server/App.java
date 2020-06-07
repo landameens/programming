@@ -32,6 +32,8 @@ import router.Router;
 import router.RouterBuilder;
 import router.screen.Screen;
 import server.Server;
+import server.middleware.CommandNameValidator;
+import server.middleware.GeneralAccessValidator;
 import server.view.Viewer;
 import server.view.screen.MainScreen;
 import storage.dao.DAO;
@@ -79,9 +81,16 @@ public class App {
         IStudyGroupRepository studyGroupRepository = createStudyGroupRepository(createStudyGroupDAO());
         UserRepository userRepository = creaeteUserRepository(creaateUserDAO());
 
+        Interpretator interpretator = new Interpretator(new DBStudyGroupRepository(createStudyGroupDAO()),
+                new HistoryRepository());
+
         Middleware migrationController = createMigrationController(studyGroupRepository);
         Middleware loginController = createLoginController(configuration, userRepository);
-
+        Middleware rootMiddleware = createRootMiddleware(migrationController,
+                loginController,
+                userRepository,
+                interpretator);
+        
         ExitingDirector exitingDirector = createExitingDirector();
         Console console = createConsole();
         Viewer viewer = createViewer();
@@ -90,10 +99,10 @@ public class App {
         ExecutorService executorService = Executors.newCachedThreadPool();
 
         new Server(configuration.getInt("bufferSize"),
-                                   configuration.getInt("port"),
-                                   migrationController,
-                                   executorService,
-                                   router).start();
+                configuration.getInt("port"),
+                rootMiddleware,
+                executorService,
+                router).start();
     }
 
     private static void checkInputPath(String[] args) {
@@ -132,8 +141,17 @@ public class App {
     }
 
     private static Middleware createRootMiddleware(Middleware migrationController,
-                                                   Middleware loginController) {
+                                                   Middleware loginController,
+                                                   UserRepository userRepository,
+                                                   Interpretator interpretator) {
+        Middleware generalAccessValidator = new GeneralAccessValidator(userRepository);
+        generalAccessValidator.addLeave("old", migrationController);
 
+        Middleware commandNameValidator = new CommandNameValidator(interpretator);
+        commandNameValidator.addLeave("old", generalAccessValidator);
+        commandNameValidator.addLeave("login", loginController);
+
+        return commandNameValidator;
     }
 
     private static Middleware createMigrationController(IStudyGroupRepository studyGroupRepository) {
