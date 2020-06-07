@@ -2,8 +2,8 @@ package controller.migration.commands;
 
 import controller.migration.commands.studyGroupRep.StudyGroupRepositoryCommand;
 import domain.studyGroupRepository.IStudyGroupRepository;
-import response.Response;
 import manager.LogManager;
+import response.Response;
 import storage.exception.DAOException;
 
 import java.util.Map;

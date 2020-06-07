@@ -45,7 +45,7 @@ public final class DBUserRepository implements UserRepository {
     @Override
     public void delele(User user) throws UserRepositoryException {
         try {
-            userDAO.delete(user.getId());
+            userDAO.delete(user);
             LOG_MANAGER.debug("User was deleted: " + user);
         } catch (DAOException e) {
             LOG_MANAGER.errorThrowable(e);

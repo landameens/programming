@@ -1,10 +1,22 @@
 package domain.user;
 
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
+@Table(name = "users")
 public final class User implements Cloneable {
+
+    @Id
+    @SequenceGenerator(sequenceName = "user_id_seq", name = "user_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_seq")
+    @Column(name = "id", updatable = false, nullable = false)
     private int id;
+
+    @Column(name = "login", nullable = false)
     private String login;
+
+    @Column(name = "password", nullable = false)
     private String password;
 
 
@@ -19,6 +31,9 @@ public final class User implements Cloneable {
         this.password = password;
     }
 
+
+    public User() {
+    }
 
     public int getId() {
         return id;

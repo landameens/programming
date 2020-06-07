@@ -4,7 +4,6 @@ import domain.studyGroup.StudyGroup;
 
 import java.util.Comparator;
 import java.util.Set;
-import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 /**

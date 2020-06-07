@@ -1,12 +1,12 @@
 package controller.migration.commands.studyGroupRep;
 
-import response.Response;
 import domain.exception.StudyGroupRepositoryException;
 import domain.studyGroup.StudyGroup;
 import domain.studyGroupRepository.IStudyGroupRepository;
 import domain.studyGroupRepository.concreteSet.ConcreteSet;
 import domain.studyGroupRepository.concreteSet.ConcreteSetWithSpecialField;
 import manager.LogManager;
+import response.Response;
 
 import java.util.Map;
 import java.util.Set;

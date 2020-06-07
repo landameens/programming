@@ -1,6 +1,5 @@
 package controller.migration.commands.studyGroupRep;
 
-import response.Response;
 import domain.exception.StudyGroupRepositoryException;
 import domain.exception.VerifyException;
 import domain.studyGroup.StudyGroup;
@@ -11,6 +10,7 @@ import domain.studyGroupRepository.IStudyGroupRepository;
 import domain.studyGroupRepository.concreteSet.ConcreteSet;
 import domain.studyGroupRepository.concreteSet.ConcreteSetWhichLessThanThatStudyGroup;
 import manager.LogManager;
+import response.Response;
 
 import java.time.LocalDateTime;
 import java.util.Map;

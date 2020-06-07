@@ -13,7 +13,6 @@ import java.util.Map;
 
 import static app.query.CommandName.*;
 import static app.query.CommandType.*;
-import static app.query.CommandType.SIMPLE_COMMAND;
 
 /**
  * Class for an assign to a command to each factory

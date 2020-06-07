@@ -1,6 +1,5 @@
 package controller.migration.commands.studyGroupRep;
 
-import response.Response;
 import domain.exception.StudyGroupRepositoryException;
 import domain.exception.VerifyException;
 import domain.studyGroup.StudyGroup;
@@ -9,6 +8,7 @@ import domain.studyGroup.coordinates.CoordinatesDTO;
 import domain.studyGroup.person.PersonDTO;
 import domain.studyGroupRepository.IStudyGroupRepository;
 import manager.LogManager;
+import response.Response;
 
 import java.time.LocalDateTime;
 import java.util.Map;

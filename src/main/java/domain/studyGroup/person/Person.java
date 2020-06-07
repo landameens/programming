@@ -1,16 +1,33 @@
 package domain.studyGroup.person;
 
 import domain.exception.VerifyException;
-import domain.studyGroup.FormOfEducation;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "persons")
 public class Person implements Cloneable{
     private static final String EMPTY_VALUE = "Поле не должно быть пустым.";
     private static final String SHOULD_BE_POSITIVE = "Значение должно быть положительным.";
-    private static final String NotUnic = "Такое значение уже соответствует другому человеку.";
+    private static final String NOT_UNIC = "Такое значение уже соответствует другому человеку.";
 
+    @Id
+    @Column(name = "person_id")
+    @SequenceGenerator(sequenceName = "person_id_seq", name = "person_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "person_id_seq")
+    private long id;
+
+    @Column(name = "name")
     private String name; //Поле не может быть null, Строка не может быть пустой
+
+    @Column(name = "height")
     private int height; //Значение поля должно быть больше 0
+
+    @Column(name = "passport_id")
     private String passportID; //Строка не может быть пустой, Значение этого поля должно быть уникальным, Поле не может быть null
+
+    @Column(name = "country")
+    @Enumerated(EnumType.STRING)
     private Country nationality; //Поле может быть null
 
     public Person(String name,
