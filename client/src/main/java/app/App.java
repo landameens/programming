@@ -46,7 +46,14 @@ public final class App {
         ExitingDirector exitingDirector = createExitingDirector();
 
         AbstractController enterController = createEnterScreenController(configuration, connectionService, exitingDirector);
-        AbstractController mainController = creaateMainController(configuration, connectionService, exitingDirector, console, interpretator, validator, viewer);
+        AbstractController mainController = creaateMainController(configuration,
+                connectionService,
+                exitingDirector,
+                console,
+                interpretator,
+                validator,
+                viewer,
+                new QueryBuilderFactory(validator, interpretator));
 
         ConsoleScreen enterScreen = createEnterScreen(console, viewer, enterController);
         exitingDirector.addINeedExiting(enterScreen);
@@ -129,7 +136,8 @@ public final class App {
                                                             Console console,
                                                             Interpretator interpretator,
                                                             Validator validator,
-                                                            Viewer viewer) {
+                                                            Viewer viewer,
+                                                            QueryBuilderFactory queryBuilderFactory) {
         Map<String, Class<? extends Command>> commandMap = new HashMap<>();
         commandMap.put("exit", ExitCommand.class);
         commandMap.put("logout", LogoutCommand.class);
@@ -145,6 +153,7 @@ public final class App {
         services.add(interpretator);
         services.add(validator);
         services.add(viewer);
+        services.add(queryBuilderFactory);
 
         return new ControllerBuilder(configuration, commandMap)
                     .buildServiceMediator(services)

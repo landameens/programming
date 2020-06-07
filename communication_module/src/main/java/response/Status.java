@@ -33,6 +33,10 @@ public enum Status {
         return result + "";
     }
 
+    public String getCode() {
+        return result + "";
+    }
+
     public static Status getInstance(int result) {
         Status[] statuses = values();
 

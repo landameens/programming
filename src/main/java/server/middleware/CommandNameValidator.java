@@ -45,6 +45,6 @@ public final class CommandNameValidator extends Middleware {
         }
 
         LOG_MANAGER.info("Redirect on old");
-        return callLeave(query, "old", "old");
+        return callLeave(query, "old");
     }
 }

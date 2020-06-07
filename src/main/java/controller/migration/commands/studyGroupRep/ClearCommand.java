@@ -29,7 +29,9 @@ public class ClearCommand extends StudyGroupRepositoryCommand {
             Set<StudyGroup> groupSet = studyGroupRepository.getConcreteSetOfStudyGroups(allSet);
 
             for (StudyGroup removableStudyGroup : groupSet) {
-                studyGroupRepository.remove(removableStudyGroup);
+                if (Integer.parseInt(args.get("userId")) == removableStudyGroup.getUserId()) {
+                    studyGroupRepository.remove(removableStudyGroup);
+                }
             }
             LOG_MANAGER.info("Коллекция очищена.");
 
