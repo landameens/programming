@@ -9,14 +9,12 @@ import java.util.Map;
 public final class QueryDTO extends EntityDTO implements Serializable {
     public String commandName;
     public Map<String, String> arguments;
-    public String accessJWT;
 
     @Override
     public String toString() {
         return "QueryDTO{" +
                 "commandName='" + commandName + '\'' +
                 ", arguments=" + arguments +
-                ", accessJWT='" + accessJWT + '\'' +
                 '}';
     }
 }
