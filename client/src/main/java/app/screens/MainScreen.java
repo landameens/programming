@@ -29,8 +29,8 @@ public final class MainScreen extends ConsoleScreen {
             if (response.getAnswer().equals("No such user. Probably was deleted.")) {
                 screenContext.remove("login");
                 screenContext.remove("password");
-                screenContext.getRouter().go("enter");
                 console.writeLine("The connection was lost. Plese, relogin to the system!");
+                screenContext.getRouter().go("enter");
             }
 
 
