@@ -1,7 +1,7 @@
 package app;
 
 import app.Exceptions.InputException;
-import app.query.CommandName;
+import app.controller.commands.mainScreen.CommandName;
 import controller.components.serviceMediator.Service;
 
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static app.query.CommandName.*;
+import static app.controller.commands.mainScreen.CommandName.*;
 
 /**
  * This class is responsible for validating user's input, command name, number of arguments, type of arguments, and others.

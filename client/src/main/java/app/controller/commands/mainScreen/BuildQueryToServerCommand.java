@@ -6,10 +6,6 @@ import app.Interpretator;
 import app.Validator;
 import app.Viewer;
 import app.controller.services.connectionService.ConnectionService;
-import app.query.CommandName;
-import app.query.CommandType;
-import app.query.queryBuilder.QueryBuilder;
-import app.query.queryBuilder.QueryBuilderFactory;
 import controller.command.Command;
 import controller.command.exception.CommandExecutionException;
 import manager.LogManager;
@@ -27,7 +23,6 @@ public final class BuildQueryToServerCommand extends Command {
     private static final LogManager LOG_MANAGER = LogManager.createDefault(BuildQueryToServerCommand.class);
 
 
-    private QueryBuilderFactory queryBuilderFactory;
     private Validator validator;
     private Interpretator interpretator;
     private ConnectionService connectionService;
@@ -73,17 +68,7 @@ public final class BuildQueryToServerCommand extends Command {
         arguments.put("login", this.arguments.get("login"));
         arguments.put("password", this.arguments.get("password"));
 
-        QueryBuilder queryBuilder = queryBuilderFactory.getQueryBuilder(commandType);
-        Query query;
-        try {
-            query = queryBuilder.buildQuery(commandName,
-                    commandList,
-                    arguments);
-        } catch (InputException e) {
-            LOG_MANAGER.errorThrowable(e);
-            return new Response(Status.BAD_REQUEST, e.getMessage());
-        }
-
+        Query query = new Query(commandName.getName(), arguments);
         return connectionService.send(query);
     }
 

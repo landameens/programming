@@ -1,4 +1,4 @@
-package app.query;
+package app.controller.commands.mainScreen;
 
 /**
  * This enum contains all command names

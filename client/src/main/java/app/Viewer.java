@@ -1,11 +1,11 @@
 package app;
 
-import app.query.CommandName;
+import app.controller.commands.mainScreen.CommandName;
 import controller.components.serviceMediator.Service;
 
 import java.util.*;
 
-import static app.query.CommandName.*;
+import static app.controller.commands.mainScreen.CommandName.*;
 
 /**
  * This class is responsible for displaying results of commands in console.

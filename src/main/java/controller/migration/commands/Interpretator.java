@@ -1,7 +1,7 @@
 package controller.migration.commands;
 
-import app.query.CommandName;
-import app.query.CommandType;
+import app.controller.commands.mainScreen.CommandName;
+import app.controller.commands.mainScreen.CommandType;
 import controller.migration.commands.factory.*;
 import controller.migration.commands.scripts.RecursionChecker;
 import domain.commandsRepository.ICommandsRepository;
@@ -11,8 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static app.query.CommandName.*;
-import static app.query.CommandType.*;
+import static app.controller.commands.mainScreen.CommandName.*;
+import static app.controller.commands.mainScreen.CommandType.*;
 
 /**
  * Class for an assign to a command to each factory

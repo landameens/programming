@@ -1,16 +1,15 @@
 package app;
 
-import app.query.CommandName;
-import app.query.CommandType;
+import app.controller.commands.mainScreen.CommandName;
+import app.controller.commands.mainScreen.CommandType;
 import controller.components.serviceMediator.Service;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import static app.query.CommandName.*;
-import static app.query.CommandType.*;
+import static app.controller.commands.mainScreen.CommandName.*;
+import static app.controller.commands.mainScreen.CommandType.*;
 
 /**
  * This class is responsible for interpretating user's input

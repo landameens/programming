@@ -8,7 +8,7 @@ import app.controller.commands.mainScreen.LogoutCommand;
 import app.controller.services.connectionService.ConnectionService;
 import app.controller.services.exitingDirector.ExitingDirector;
 import app.controller.services.exitingDirector.INeedExiting;
-import app.query.CommandName;
+import app.controller.commands.mainScreen.CommandName;
 import app.screens.ConsoleScreen;
 import app.screens.EnterScreen;
 import app.screens.MainScreen;
