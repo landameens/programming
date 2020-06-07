@@ -81,7 +81,7 @@ public final class Validator implements Service {
             put(CLEAR, 0);
             //put(SAVE, 0);
             //put(EXECUTE_SCRIPT, 1);
-            put(EXIT, 0);
+            //put(EXIT, 0);
             put(ADD_IF_MIN, 0);
             put(REMOVE_LOWER, 0);
             //put(HISTORY, 0);

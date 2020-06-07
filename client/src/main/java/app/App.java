@@ -144,7 +144,6 @@ public final class App {
         Arrays.asList(CommandName.values())
               .forEach(commandName -> commandMap.put(commandName.getName(), BuildQueryToServerCommand.class));
 
-
         Set<Service> services = new HashSet<>();
         services.add(connectionService);
         services.add(exitingDirector);

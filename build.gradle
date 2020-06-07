@@ -38,6 +38,7 @@ jar {
 }
 
 application {
+    applicationDefaultJvmArgs = ["-Duser.language=en"]
     mainClassName = "app.App"
     compileJava.options.encoding = "UTF-8"
     compileTestJava.options.encoding = "UTF-8"

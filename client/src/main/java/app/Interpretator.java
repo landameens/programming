@@ -27,7 +27,7 @@ public final class Interpretator implements Service {
             put(CLEAR, COMMAND_WITHOUT_ARGUMENTS);
             //put(SAVE, COMMAND_WITHOUT_ARGUMENTS);
             //put(EXECUTE_SCRIPT, SIMPLE_COMMAND);
-            put(EXIT, COMMAND_WITHOUT_ARGUMENTS);
+            //put(EXIT, COMMAND_WITHOUT_ARGUMENTS);
             put(ADD_IF_MIN, COMPOUND_COMMAND);
             put(REMOVE_LOWER, COMPOUND_COMMAND);
             put(COUNT_BY_GROUP_ADMIN, COMPOUND_COMMAND);

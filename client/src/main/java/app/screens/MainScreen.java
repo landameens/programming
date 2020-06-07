@@ -30,6 +30,7 @@ public final class MainScreen extends ConsoleScreen {
                 screenContext.remove("login");
                 screenContext.remove("password");
                 screenContext.getRouter().go("enter");
+                console.writeLine("The connection was lost. Plese, relogin to the system!");
             }
 
 

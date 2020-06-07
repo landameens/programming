@@ -13,7 +13,7 @@ public enum CommandName {
     CLEAR("clear"),
     //SAVE("save"),
     //EXECUTE_SCRIPT("execute_script"),
-    EXIT("exit"),
+    //EXIT("exit"),
     ADD_IF_MIN("add_if_min"),
     REMOVE_LOWER("remove_lower"),
     //HISTORY("history"),

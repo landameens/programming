@@ -4,12 +4,12 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public final class MD2PasswordHashService implements PasswordHashService {
+public final class SHA256PasswordHashService implements PasswordHashService {
     private final MessageDigest messageDigest;
 
     {
         try {
-            messageDigest = MessageDigest.getInstance("MD2");
+            messageDigest = MessageDigest.getInstance("SHA-256");
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }

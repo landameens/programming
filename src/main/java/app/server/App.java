@@ -11,7 +11,7 @@ import controller.loginController.LoginCommand;
 import controller.loginController.SignUpCommand;
 import controller.migration.Controller;
 import controller.migration.Interpretator;
-import controller.services.MD2PasswordHashService;
+import controller.services.SHA256PasswordHashService;
 import domain.commandsRepository.HistoryRepository;
 import domain.commandsRepository.ICommandsRepository;
 import domain.studyGroup.StudyGroup;
@@ -168,7 +168,7 @@ public class App {
 
         Set<Service> services = new HashSet<>();
         services.add(userRepository);
-        services.add(new MD2PasswordHashService());
+        services.add(new SHA256PasswordHashService());
 
         return new ControllerBuilder(configuration, commandMap)
                         .buildServiceMediator(services)
