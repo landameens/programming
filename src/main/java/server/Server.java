@@ -1,10 +1,9 @@
 package server;
 
-import app.Console;
 import app.Exceptions.InputException;
 import connection.exception.ConnectionException;
 import connectionWorker.ConnectionWorker;
-import controller.Controller;
+import controller.migration.Controller;
 import domain.exception.CreationException;
 import manager.LogManager;
 import message.EntityType;

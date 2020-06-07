@@ -1,7 +1,7 @@
 package app.server;
 
-import controller.Controller;
-import controller.Interpretator;
+import controller.migration.Controller;
+import controller.migration.Interpretator;
 import domain.commandsRepository.HistoryRepository;
 import domain.commandsRepository.ICommandsRepository;
 import domain.exception.VerifyException;

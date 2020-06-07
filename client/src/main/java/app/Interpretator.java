@@ -2,8 +2,10 @@ package app;
 
 import app.query.CommandName;
 import app.query.CommandType;
+import controller.components.serviceMediator.Service;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,7 +15,7 @@ import static app.query.CommandType.*;
 /**
  * This class is responsible for interpretating user's input
  */
-public final class Interpretator {
+public final class Interpretator implements Service {
 
     private Map<CommandName, CommandType> allCommands = new HashMap<CommandName, CommandType>(){
         {
@@ -79,4 +81,5 @@ public final class Interpretator {
 
         return map;
     }
+
 }

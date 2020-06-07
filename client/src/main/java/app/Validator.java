@@ -2,6 +2,7 @@ package app;
 
 import app.Exceptions.InputException;
 import app.query.CommandName;
+import controller.components.serviceMediator.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,7 +14,7 @@ import static app.query.CommandName.*;
 /**
  * This class is responsible for validating user's input, command name, number of arguments, type of arguments, and others.
  */
-public final class Validator {
+public final class Validator implements Service {
 
     private final static String UNKNOWN_COMMAND = "Ошибка: Неизвестная команда.";
     private final static String WRONG_NUMBER_OF_ARGUMENTS = "Ошибка: Неверное количество аргументов. ";

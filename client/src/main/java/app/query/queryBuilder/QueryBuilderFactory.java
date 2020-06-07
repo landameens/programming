@@ -1,13 +1,14 @@
 package app.query.queryBuilder;
 
-import app.query.CommandType;
 import app.Interpretator;
 import app.Validator;
+import app.query.CommandType;
+import controller.components.serviceMediator.Service;
 
 /**
  * Factory for creating concrete QueryBuilder depending on command type.
  */
-public class QueryBuilderFactory {
+public class QueryBuilderFactory implements Service {
     private Validator validator;
     private Interpretator interpretator;
 
