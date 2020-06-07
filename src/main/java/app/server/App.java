@@ -5,12 +5,15 @@ import controller.migration.Interpretator;
 import domain.commandsRepository.HistoryRepository;
 import domain.commandsRepository.ICommandsRepository;
 import domain.exception.VerifyException;
+import domain.studyGroup.StudyGroup;
 import domain.studyGroupFactory.StudyGroupFactory;
 import domain.studyGroupFactory.idProducer.IdProducer;
+import domain.studyGroupRepository.DBStudyGroupRepository;
 import domain.studyGroupRepository.IStudyGroupRepository;
 import domain.studyGroupRepository.TreeSetStudyGroupRepository;
 import manager.LogManager;
 import server.Server;
+import storage.dao.DAO;
 import storage.exception.DAOException;
 
 import java.io.File;
@@ -40,10 +43,6 @@ public class App {
             }
         }
 
-        IdProducer idProducer = new IdProducer(pathForAppFiles);
-        LOG_MANAGER.debug("IdProducer was created SUCCESSFUL.");
-        StudyGroupFactory studyGroupFactory = new StudyGroupFactory(idProducer);
-        LOG_MANAGER.debug("StudyGroupFactory was created SUCCESFULL.");
         IStudyGroupRepository studyGroupRepository = null;
         try {
             studyGroupRepository = new TreeSetStudyGroupRepository(studyGroupFactory, pathForAppFiles);
@@ -75,6 +74,19 @@ public class App {
     private static void checkInputPath(String[] args) {
         if (args.length > 1) {
             System.err.println(ARGUMENTS_ERROR);
+            System.exit(1);
+        }
+    }
+
+    private static DAO<StudyGroup> createStudyGroupDAO() {
+        
+    }
+    private static IStudyGroupRepository createStudyGroupRepository(DAO<StudyGroup> studyGroupDAO) {
+        try {
+            return new DBStudyGroupRepository();
+            LOG_MANAGER.debug("IStudyGroupRepository was created SUCCESFULL.");
+        } catch (DAOException | VerifyException e) {
+            System.err.println(e.getMessage());
             System.exit(1);
         }
     }
