@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.Comparator;
 
 @Entity
-@Table(name = "products")
+@Table(name = "study_groups")
 public class StudyGroup implements Cloneable{
 
     private static final String SHOULD_BE_POSITIVE = "Значение должно быть положительным.";
