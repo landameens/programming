@@ -22,10 +22,6 @@ public class Response {
         return new Response(Status.INTERNAL_ERROR, "");
     }
 
-    public static Response createTeapot() {
-        return new Response(Status.I_AM_TEAPOT, "");
-    }
-
     public static Response createSuccessfully() {
         return new Response(Status.SUCCESSFULLY, "");
     }

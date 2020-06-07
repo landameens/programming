@@ -1,31 +1,23 @@
-package app.screens;
+package server.view.screen;
 
 import app.Console;
 import app.Exceptions.ConsoleException;
-import app.Viewer;
 import app.controller.services.exitingDirector.INeedExiting;
-import connection.exception.ConnectionException;
-import connection.exception.NotYetConnectedException;
 import controller.Controller;
-import controller.command.exception.CommandExecutionException;
 import controller.exception.ControllerException;
 import manager.LogManager;
-import message.exception.WrongTypeException;
 import query.Query;
 import response.Response;
 import router.screen.Screen;
 import router.screen.ScreenContext;
 import router.screen.ScreenMemento;
+import server.view.Viewer;
 
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * This class defines a "screen" which can be used in the console app.
- * Uses The Router framework
- */
-public abstract class ConsoleScreen implements Screen, INeedExiting {
-    private static final LogManager LOG_MANAGER = LogManager.createDefault(ConsoleScreen.class);
+public abstract class ServerScreen implements INeedExiting, Screen {
+    private static final LogManager LOG_MANAGER = LogManager.createDefault(ServerScreen.class);
 
     protected final Console console;
     protected final Viewer viewer;
@@ -36,10 +28,9 @@ public abstract class ConsoleScreen implements Screen, INeedExiting {
     protected ScreenContext screenContext;
 
 
-
-    public ConsoleScreen(Console console,
-                         Viewer viewer,
-                         Controller controller) {
+    public ServerScreen(Console console,
+                        Viewer viewer,
+                        Controller controller) {
         this.console = console;
         this.viewer = viewer;
         this.controller = controller;
@@ -95,10 +86,8 @@ public abstract class ConsoleScreen implements Screen, INeedExiting {
     private Query createQuery(String userInput) {
         Map<String, String> arguments = new HashMap<>();
         arguments.put("userInput", userInput);
-        arguments.put("login", screenContext.get("login"));
-        arguments.put("password", screenContext.get("password"));
 
-        return new Query(userInput.split(" +")[0], arguments);
+        return new Query(userInput.split(" +")[0], arguments, null);
     }
 
     /**
@@ -107,33 +96,7 @@ public abstract class ConsoleScreen implements Screen, INeedExiting {
     protected abstract void analyseResponse(Response response);
 
     private void handleControllerException(ControllerException e) throws ConsoleException {
-        if (e.getCause() instanceof CommandExecutionException) {
-
-            CommandExecutionException commandExecutionException = (CommandExecutionException) e.getCause();
-
-            if (commandExecutionException.getCause() instanceof NotYetConnectedException) {
-                console.writeLine(viewer.showNotYetConnectedErrorMessage());
-                console.writeLine(viewer.showOfferToRepeatInput());
-                return;
-            }
-
-            if (commandExecutionException.getCause() instanceof WrongTypeException) {
-                console.writeLine(viewer.showGetWrongMessageErrorMessage());
-                console.writeLine(viewer.showOfferToRepeatInput());
-                return;
-            }
-
-            if (commandExecutionException.getCause() instanceof ConnectionException) {
-                console.writeLine(viewer.showClientCannotConnectToServerErrorMessage());
-                console.writeLine(viewer.showOfferToRepeatInput());
-                return;
-            }
-
-            console.writeLine(viewer.showInternalClientErrorMessage());
-            return;
-        }
-
-        console.writeLine(viewer.showInternalClientErrorMessage());
+        console.writeLine(viewer.showInternalServerErrorMessage());
     }
 
     @Override
@@ -146,7 +109,6 @@ public abstract class ConsoleScreen implements Screen, INeedExiting {
     public void exit() {
         console.writeLine(viewer.showGoodbyeMessage());
         isActive = false;
-
         System.exit(0);
     }
 }

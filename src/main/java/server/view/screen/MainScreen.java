@@ -1,13 +1,13 @@
-package app.screens;
+package server.view.screen;
 
 import app.Console;
-import app.Viewer;
 import controller.Controller;
 import manager.LogManager;
 import response.Response;
 import response.Status;
+import server.view.Viewer;
 
-public final class MainScreen extends ConsoleScreen {
+public final class MainScreen extends ServerScreen {
     private static final LogManager LOG_MANAGER = LogManager.createDefault(MainScreen.class);
 
 
@@ -18,16 +18,17 @@ public final class MainScreen extends ConsoleScreen {
 
     @Override
     protected void showScreenDescription() {
-        console.writeLine("Now you can work with collection. For details, please, enter \"help\" command.");
+        console.writeLine("Here you can manage your collection." + System.lineSeparator() + "Available commands: exit");
     }
 
 
     protected void analyseResponse(Response response) {
-        LOG_MANAGER.debug("Server answered: " + response);
+        LOG_MANAGER.debug("Controller returned: " + response);
+
 
         if (response.getStatus().equals(Status.BAD_REQUEST)) {
             console.writeLine(viewer.showBadRequestErrorMessage());
-            console.writeLine(viewer.showPrefixServerAnswer() + response.getAnswer());
+            console.writeLine(viewer.showControllerPrefixAnswer() + response.getAnswer());
             console.writeLine(viewer.showOfferToRepeatInput());
         }
 
@@ -38,18 +39,6 @@ public final class MainScreen extends ConsoleScreen {
         if (response.getStatus().equals(Status.INTERNAL_ERROR)) {
             console.writeLine(viewer.showInternalServerErrorMessage());
             console.writeLine(viewer.showOfferToRepeatInput());
-        }
-
-        if (response.getStatus().equals(Status.PRECONDITION_FAILED)) {
-            console.writeLine(viewer.showUnsuccessfulCommandMessage());
-            console.writeLine(viewer.showPrefixServerAnswer() + response.getAnswer());
-            console.writeLine(viewer.showOfferToRepeatInput());
-        }
-
-        if (response.getStatus().equals(Status.GO_BACK)) {
-            screenContext.remove("login");
-            screenContext.remove("password");
-            screenContext.getRouter().go("enter");
         }
 
         console.writeLine();

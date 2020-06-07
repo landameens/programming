@@ -70,6 +70,8 @@ public final class BuildQueryToServerCommand extends Command {
         if (commandType.equals(CommandType.COMPOUND_COMMAND)) {
             arguments = getArgumentsOfCompoundCommands(commandName);
         }
+        arguments.put("login", this.arguments.get("login"));
+        arguments.put("password", this.arguments.get("password"));
 
         QueryBuilder queryBuilder = queryBuilderFactory.getQueryBuilder(commandType);
         Query query;

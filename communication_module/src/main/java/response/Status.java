@@ -14,7 +14,6 @@ public enum Status {
     BAD_REQUEST        (400),
     FORBIDDEN          (403),
     PRECONDITION_FAILED(412),
-    I_AM_TEAPOT        (418),
 
     INTERNAL_ERROR     (500);
 

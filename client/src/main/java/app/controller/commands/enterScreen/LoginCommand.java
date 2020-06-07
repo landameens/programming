@@ -41,7 +41,7 @@ public final class LoginCommand extends Command {
         queryArguments.put("login", login);
         queryArguments.put("password", password);
 
-        Query query = new Query("login", queryArguments, "");
+        Query query = new Query("login", queryArguments);
         return connectionService.send(query);
     }
 }

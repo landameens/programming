@@ -1,5 +1,7 @@
 package controller.migration;
 
+import middleware.Middleware;
+import middleware.MiddlewareException;
 import query.Query;
 import controller.migration.commands.Command;
 import controller.migration.commands.factory.ICommandFactory;
@@ -11,10 +13,12 @@ import domain.commandsRepository.Record;
 import domain.exception.CreationException;
 import manager.LogManager;
 
+import javax.annotation.Nonnull;
+
 /**
  * Class for processing user requests
  */
-public final class Controller {
+public final class Controller extends Middleware {
     private final Interpretator interpretator;
     private final ICommandsRepository commandsRepository;
 
@@ -57,5 +61,15 @@ public final class Controller {
         Record recordDTO = new Record();
         recordDTO.name = query.getCommandName();
         commandsRepository.add(recordDTO);
+    }
+
+    @Override
+    public Response handle(@Nonnull Query query) throws MiddlewareException {
+        try {
+            return handleQuery(query);
+        } catch (CreationException e) {
+            LOG_MANAGER.errorThrowable(e);
+            throw new MiddlewareException(e);
+        }
     }
 }

@@ -12,9 +12,12 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.4'
+    compile group: 'org.apache.commons', name: 'commons-configuration2', version: '2.6'
     compile project(":logger_manager")
     compile project(":communication_module")
     compile project(":controller")
+    compile project(":path_finder")
 }
 
 jar {

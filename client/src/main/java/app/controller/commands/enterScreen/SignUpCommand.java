@@ -42,7 +42,7 @@ public final class SignUpCommand extends Command {
         queryArguments.put("login", login);
         queryArguments.put("password", password);
 
-        Query query = new Query("signUp", queryArguments, "");
+        Query query = new Query("signUp", queryArguments);
 
         return connectionService.send(query);
     }
