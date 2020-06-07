@@ -65,6 +65,10 @@ public final class BuildQueryToServerCommand extends Command {
         if (commandType.equals(CommandType.COMPOUND_COMMAND)) {
             arguments = getArgumentsOfCompoundCommands(commandName);
         }
+        if (commandType.equals(CommandType.SIMPLE_COMMAND)) {
+            arguments = interpretator.interpretateSimpleCommandArguments(commandName, commandList);
+        }
+
         arguments.put("login", this.arguments.get("login"));
         arguments.put("password", this.arguments.get("password"));
 
