@@ -8,7 +8,7 @@
     <database id="2" parent="1" name="nadya">
       <ObjectId>46278</ObjectId>
       <Owner>Yarik</Owner>
-      <IntrospectionStateNumber>4996</IntrospectionStateNumber>
+      <IntrospectionStateNumber>5181</IntrospectionStateNumber>
       <Current>1</Current>
     </database>
     <database id="3" parent="1" name="polina">
@@ -83,7 +83,7 @@
       <Comment>standard public schema</Comment>
       <StateNumber>276</StateNumber>
       <Owner>postgres</Owner>
-      <IntrospectionStateNumber>4997</IntrospectionStateNumber>
+      <IntrospectionStateNumber>5182</IntrospectionStateNumber>
       <Current>1</Current>
     </schema>
     <access-method id="19" parent="2" name="heap">
@@ -154,115 +154,212 @@
     <language id="29" parent="2" name="plpgsql"/>
     <language id="30" parent="2" name="sql"/>
     <sequence id="31" parent="18" name="person_id_seq">
-      <ObjectId>46317</ObjectId>
-      <StateNumber>4981</StateNumber>
+      <ObjectId>46707</ObjectId>
+      <StateNumber>5171</StateNumber>
       <Owner>Yarik</Owner>
       <SequenceIdentity>1</SequenceIdentity>
       <CacheSize>1</CacheSize>
       <DataType>bigint|0s</DataType>
     </sequence>
     <sequence id="32" parent="18" name="study_group_id_seq">
-      <ObjectId>46319</ObjectId>
-      <StateNumber>4982</StateNumber>
+      <ObjectId>46709</ObjectId>
+      <StateNumber>5172</StateNumber>
       <Owner>Yarik</Owner>
       <SequenceIdentity>1</SequenceIdentity>
       <CacheSize>1</CacheSize>
       <DataType>bigint|0s</DataType>
     </sequence>
     <sequence id="33" parent="18" name="user_id_seq">
-      <ObjectId>46321</ObjectId>
-      <StateNumber>4983</StateNumber>
+      <ObjectId>46711</ObjectId>
+      <StateNumber>5173</StateNumber>
       <Owner>Yarik</Owner>
       <SequenceIdentity>1</SequenceIdentity>
       <CacheSize>1</CacheSize>
       <DataType>bigint|0s</DataType>
     </sequence>
     <table id="34" parent="18" name="persons">
-      <ObjectId>46323</ObjectId>
+      <ObjectId>46713</ObjectId>
       <Owner>Yarik</Owner>
-      <StateNumber>4987</StateNumber>
+      <StateNumber>5177</StateNumber>
     </table>
-    <table id="35" parent="18" name="users">
-      <ObjectId>46339</ObjectId>
+    <table id="35" parent="18" name="study_groups">
+      <ObjectId>46721</ObjectId>
       <Owner>Yarik</Owner>
-      <StateNumber>4986</StateNumber>
+      <StateNumber>5177</StateNumber>
     </table>
-    <column id="36" parent="34" name="person_id">
+    <table id="36" parent="18" name="users">
+      <ObjectId>46729</ObjectId>
+      <Owner>Yarik</Owner>
+      <StateNumber>5176</StateNumber>
+    </table>
+    <column id="37" parent="34" name="person_id">
       <Position>1</Position>
       <DataType>bigint|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>4984</StateNumber>
+      <StateNumber>5174</StateNumber>
       <TypeId>20</TypeId>
     </column>
-    <column id="37" parent="34" name="height">
+    <column id="38" parent="34" name="height">
       <Position>2</Position>
       <DataType>integer|0s</DataType>
-      <StateNumber>4984</StateNumber>
+      <StateNumber>5174</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <column id="38" parent="34" name="name">
+    <column id="39" parent="34" name="name">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
-      <StateNumber>4984</StateNumber>
+      <StateNumber>5174</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="39" parent="34" name="country">
+    <column id="40" parent="34" name="country">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
-      <StateNumber>4984</StateNumber>
+      <StateNumber>5174</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="40" parent="34" name="passport_id">
+    <column id="41" parent="34" name="passport_id">
       <Position>5</Position>
       <DataType>varchar(255)|0s</DataType>
-      <StateNumber>4984</StateNumber>
+      <StateNumber>5174</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <index id="41" parent="34" name="persons_pkey">
-      <ObjectId>46329</ObjectId>
-      <StateNumber>4984</StateNumber>
+    <index id="42" parent="34" name="persons_pkey">
+      <ObjectId>46719</ObjectId>
+      <StateNumber>5174</StateNumber>
       <ColNames>person_id</ColNames>
       <Unique>1</Unique>
       <Primary>1</Primary>
     </index>
-    <key id="42" parent="34" name="persons_pkey">
-      <ObjectId>46330</ObjectId>
-      <StateNumber>4984</StateNumber>
+    <key id="43" parent="34" name="persons_pkey">
+      <ObjectId>46720</ObjectId>
+      <StateNumber>5174</StateNumber>
       <ColNames>person_id</ColNames>
       <Primary>1</Primary>
       <UnderlyingIndexName>persons_pkey</UnderlyingIndexName>
     </key>
-    <column id="43" parent="35" name="id">
+    <column id="44" parent="35" name="id">
       <Position>1</Position>
-      <DataType>integer|0s</DataType>
+      <DataType>bigint|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>4986</StateNumber>
+      <StateNumber>5175</StateNumber>
+      <TypeId>20</TypeId>
+    </column>
+    <column id="45" parent="35" name="x_coordinate">
+      <Position>2</Position>
+      <DataType>integer|0s</DataType>
+      <StateNumber>5175</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <column id="44" parent="35" name="login">
-      <Position>2</Position>
-      <DataType>varchar(255)|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>4986</StateNumber>
-      <TypeId>1043</TypeId>
-    </column>
-    <column id="45" parent="35" name="password">
+    <column id="46" parent="35" name="y_coordinate">
       <Position>3</Position>
+      <DataType>integer|0s</DataType>
+      <StateNumber>5175</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="47" parent="35" name="creation_date">
+      <Position>4</Position>
+      <DataType>timestamp|0s</DataType>
+      <StateNumber>5175</StateNumber>
+      <TypeId>1114</TypeId>
+    </column>
+    <column id="48" parent="35" name="form_of_education">
+      <Position>5</Position>
       <DataType>varchar(255)|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>4986</StateNumber>
+      <StateNumber>5175</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <index id="46" parent="35" name="users_pkey">
-      <ObjectId>46345</ObjectId>
-      <StateNumber>4986</StateNumber>
+    <column id="49" parent="35" name="study_group_name">
+      <Position>6</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <StateNumber>5175</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="50" parent="35" name="semester">
+      <Position>7</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <StateNumber>5175</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="51" parent="35" name="ahould_be_expelled">
+      <Position>8</Position>
+      <DataType>bigint|0s</DataType>
+      <StateNumber>5175</StateNumber>
+      <TypeId>20</TypeId>
+    </column>
+    <column id="52" parent="35" name="students_count">
+      <Position>9</Position>
+      <DataType>integer|0s</DataType>
+      <StateNumber>5175</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="53" parent="35" name="user_id">
+      <Position>10</Position>
+      <DataType>integer|0s</DataType>
+      <StateNumber>5175</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="54" parent="35" name="group_admin_id">
+      <Position>11</Position>
+      <DataType>bigint|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>5175</StateNumber>
+      <TypeId>20</TypeId>
+    </column>
+    <index id="55" parent="35" name="study_groups_pkey">
+      <ObjectId>46727</ObjectId>
+      <StateNumber>5175</StateNumber>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Primary>1</Primary>
     </index>
-    <key id="47" parent="35" name="users_pkey">
-      <ObjectId>46346</ObjectId>
-      <StateNumber>4986</StateNumber>
+    <key id="56" parent="35" name="study_groups_pkey">
+      <ObjectId>46728</ObjectId>
+      <StateNumber>5175</StateNumber>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>study_groups_pkey</UnderlyingIndexName>
+    </key>
+    <foreign-key id="57" parent="35" name="fk34blia0ml9gobu410cidam11n">
+      <ObjectId>46737</ObjectId>
+      <StateNumber>5177</StateNumber>
+      <ColNames>group_admin_id</ColNames>
+      <RefTableId>46713</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>persons</RefTableName>
+      <RefKeyName>persons_pkey</RefKeyName>
+      <RefColNames>person_id</RefColNames>
+    </foreign-key>
+    <column id="58" parent="36" name="id">
+      <Position>1</Position>
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>5176</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="59" parent="36" name="login">
+      <Position>2</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>5176</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="60" parent="36" name="password">
+      <Position>3</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>5176</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <index id="61" parent="36" name="users_pkey">
+      <ObjectId>46735</ObjectId>
+      <StateNumber>5176</StateNumber>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+      <Primary>1</Primary>
+    </index>
+    <key id="62" parent="36" name="users_pkey">
+      <ObjectId>46736</ObjectId>
+      <StateNumber>5176</StateNumber>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
       <UnderlyingIndexName>users_pkey</UnderlyingIndexName>

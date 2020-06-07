@@ -48,15 +48,15 @@ public final class Interpretator {
             put(CLEAR, StudyGroupRepositoryCommandFactory.class);
             put(UPDATE, StudyGroupRepositoryCommandFactory.class);
             put(ADD_IF_MIN, StudyGroupRepositoryCommandFactory.class);
-            put(SAVE, StudyGroupRepositoryCommandFactory.class);
+            //put(SAVE, StudyGroupRepositoryCommandFactory.class);
             put(REMOVE_LOWER, StudyGroupRepositoryCommandFactory.class);
             put(EXIT, StudyGroupRepositoryCommandFactory.class);
             put(FILTER_BY_SHOULD_BE_EXPELLED, StudyGroupRepositoryCommandFactory.class);
             put(FILTER_LESS_THAN_SHOULD_BE_EXPELLED, StudyGroupRepositoryCommandFactory.class);
             put(COUNT_BY_GROUP_ADMIN, StudyGroupRepositoryCommandFactory.class);
-            put(INFO, StudyGroupRepositoryCommandFactory.class);
-            put(EXECUTE_SCRIPT, ScriptCommandFactory.class);
-            put(HISTORY, HistoryRepositoryCommandFactory.class);
+            //put(INFO, StudyGroupRepositoryCommandFactory.class);
+            //put(EXECUTE_SCRIPT, ScriptCommandFactory.class);
+            //put(HISTORY, HistoryRepositoryCommandFactory.class);
         }
     };
 

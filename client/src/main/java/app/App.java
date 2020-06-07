@@ -26,6 +26,7 @@ import org.apache.commons.configuration2.PropertiesConfiguration;
 import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
 import org.apache.commons.configuration2.builder.fluent.Parameters;
 import org.apache.commons.configuration2.ex.ConfigurationException;
+import org.apache.lucene.queryparser.xml.QueryBuilderFactory;
 import router.Router;
 import router.RouterBuilder;
 
@@ -52,8 +53,7 @@ public final class App {
                 console,
                 interpretator,
                 validator,
-                viewer,
-                new QueryBuilderFactory(validator, interpretator));
+                viewer);
 
         ConsoleScreen enterScreen = createEnterScreen(console, viewer, enterController);
         exitingDirector.addINeedExiting(enterScreen);
@@ -136,8 +136,7 @@ public final class App {
                                                             Console console,
                                                             Interpretator interpretator,
                                                             Validator validator,
-                                                            Viewer viewer,
-                                                            QueryBuilderFactory queryBuilderFactory) {
+                                                            Viewer viewer) {
         Map<String, Class<? extends Command>> commandMap = new HashMap<>();
         commandMap.put("exit", ExitCommand.class);
         commandMap.put("logout", LogoutCommand.class);
@@ -153,7 +152,6 @@ public final class App {
         services.add(interpretator);
         services.add(validator);
         services.add(viewer);
-        services.add(queryBuilderFactory);
 
         return new ControllerBuilder(configuration, commandMap)
                     .buildServiceMediator(services)

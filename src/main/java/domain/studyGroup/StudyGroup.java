@@ -63,7 +63,6 @@ public class StudyGroup implements Cloneable{
                       FormOfEducation formOfEducation,
                       Semester semesterEnum,
                       Person groupAdmin) throws VerifyException{
-        checkId(id);
         this.id = id;
         checkName(name);
         this.name = name;
@@ -91,7 +90,6 @@ public class StudyGroup implements Cloneable{
                        FormOfEducation formOfEducation,
                        Semester semesterEnum,
                        Person groupAdmin) throws VerifyException{
-        checkId(id);
         this.id = id;
         this.userId = userId;
         checkName(name);

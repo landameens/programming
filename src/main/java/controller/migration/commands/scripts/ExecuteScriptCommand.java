@@ -1,5 +1,6 @@
 package controller.migration.commands.scripts;
 
+import app.Viewer;
 import app.controller.commands.mainScreen.CommandName;
 import app.controller.commands.mainScreen.CommandType;
 import controller.migration.commands.Command;
