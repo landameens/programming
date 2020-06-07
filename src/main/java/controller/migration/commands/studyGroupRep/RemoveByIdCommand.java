@@ -30,7 +30,9 @@ public class RemoveByIdCommand extends StudyGroupRepositoryCommand {
             Set<StudyGroup> groupSet = studyGroupRepository.getConcreteSetOfStudyGroups(removableStudyGroupSet);
 
             for (StudyGroup studyGroup : groupSet) {
-                studyGroupRepository.remove(studyGroup);
+                if (Integer.parseInt(args.get("userId")) == studyGroup.getUserId()) {
+                    studyGroupRepository.remove(studyGroup);
+                } else return getBadRequestResponseDTO("Группа создана другим пользователем, вы не можете её удалить.");
             }
 
             if (groupSet.isEmpty()) {

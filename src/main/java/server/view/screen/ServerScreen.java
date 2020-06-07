@@ -87,7 +87,7 @@ public abstract class ServerScreen implements INeedExiting, Screen {
         Map<String, String> arguments = new HashMap<>();
         arguments.put("userInput", userInput);
 
-        return new Query(userInput.split(" +")[0], arguments, null);
+        return new Query(userInput.split(" +")[0], arguments);
     }
 
     /**
