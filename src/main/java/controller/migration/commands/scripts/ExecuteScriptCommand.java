@@ -1,5 +1,6 @@
 package controller.migration.commands.scripts;
 
+import app.Viewer;
 import app.query.CommandName;
 import app.query.CommandType;
 import controller.migration.commands.Command;
