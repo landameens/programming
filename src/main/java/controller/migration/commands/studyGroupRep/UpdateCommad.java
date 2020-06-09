@@ -1,16 +1,22 @@
 package controller.migration.commands.studyGroupRep;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import controller.services.GsonPersonSerializer;
+import controller.services.GsonStudyGroupSerializer;
 import domain.exception.StudyGroupRepositoryException;
 import domain.exception.VerifyException;
 import domain.studyGroup.StudyGroup;
 import domain.studyGroup.StudyGroupDTO;
 import domain.studyGroup.coordinates.CoordinatesDTO;
+import domain.studyGroup.person.Person;
 import domain.studyGroup.person.PersonDTO;
 import domain.studyGroupRepository.IStudyGroupRepository;
 import domain.studyGroupRepository.concreteSet.ConcreteSet;
 import domain.studyGroupRepository.concreteSet.ConcreteSetWithSpecialField;
 import manager.LogManager;
 import response.Response;
+import response.Status;
 
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -18,6 +24,12 @@ import java.util.Set;
 
 public class UpdateCommad extends StudyGroupRepositoryCommand {
     private static final LogManager LOG_MANAGER = LogManager.createDefault(UpdateCommad.class);
+
+    private static final Gson gson = new GsonBuilder()
+            .registerTypeAdapter(StudyGroup.class, new GsonStudyGroupSerializer())
+            .registerTypeAdapter(Person.class, new GsonPersonSerializer())
+            .create();
+
     public UpdateCommad(String type,
                         Map<String, String> args,
                         IStudyGroupRepository studyGroupRepository) {
@@ -63,7 +75,7 @@ public class UpdateCommad extends StudyGroupRepositoryCommand {
             } else return getBadRequestResponseDTO("Группа создана другим пользователем, вы не можете обновить ее данные.");
             LOG_MANAGER.info("The group info updating...");
 
-            return getSuccessfullyResponseDTO("Группа обновлена." + System.lineSeparator());
+            return new Response(Status.SUCCESSFULLY, gson.toJson(studyGroupNew));
         } catch (StudyGroupRepositoryException | VerifyException e) {
             LOG_MANAGER.error("Произошла ошибка при обращении к коллекции.");
             return getBadRequestResponseDTO(e.getMessage());
