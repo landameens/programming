@@ -2,9 +2,11 @@ package domain.studyGroup;
 
 import domain.exception.VerifyException;
 import domain.studyGroup.coordinates.Coordinates;
+import domain.studyGroup.person.Country;
 import domain.studyGroup.person.Person;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class StudyGroup implements Cloneable{
 
@@ -168,9 +170,6 @@ public class StudyGroup implements Cloneable{
         this.coordinates = coordinates;
     }
 
-    public LocalDateTime getCreationDate() {
-        return creationDate;
-    }
 
     public void setCreationDate(LocalDateTime creationDate) {
         this.creationDate = creationDate;
@@ -222,6 +221,38 @@ public class StudyGroup implements Cloneable{
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public Integer getCoordinatesX() {
+        return coordinates.getX();
+    }
+
+    public double getCoordinatesY() {
+        return coordinates.getY();
+    }
+
+    public Person getPerson() {
+        return groupAdmin;
+    }
+
+    public String getPersonName() {
+        return groupAdmin.getName();
+    }
+
+    public int getPersonHeight() {
+        return groupAdmin.getHeight();
+    }
+
+    public String getPersonPassportId() {
+        return groupAdmin.getPassportID();
+    }
+
+    public Country getPersonNationality() {
+        return groupAdmin.getNationality();
+    }
+
+    public String getCreationDate() {
+        return creationDate.toLocalDate().format(DateTimeFormatter.ofPattern("yyyy.MM.dd 'at' HH:mm:ss"));
     }
 
     @Override

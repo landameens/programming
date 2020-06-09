@@ -2,10 +2,13 @@ package domain.studyGroup;
 
 import domain.exception.VerifyException;
 import domain.studyGroup.coordinates.Coordinates;
+import domain.studyGroup.person.Country;
 import domain.studyGroup.person.Person;
 
+import javax.imageio.spi.ServiceRegistry;
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 
 @Entity
@@ -188,8 +191,9 @@ public class StudyGroup implements Cloneable{
         this.coordinates = coordinates;
     }
 
-    public LocalDateTime getCreationDate() {
-        return creationDate;
+    //todo тут ес чо поломается вдруг
+    public String getCreationDate() {
+        return creationDate.toLocalDate().format(DateTimeFormatter.ofPattern("yyyy.MM.dd 'at' HH:mm:ss"));
     }
 
     public void setCreationDate(LocalDateTime creationDate) {
@@ -242,6 +246,34 @@ public class StudyGroup implements Cloneable{
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public Integer getCoordinatesX() {
+        return coordinates.getX();
+    }
+
+    public double getCoordinatesY() {
+        return coordinates.getY();
+    }
+
+    public Person getPerson() {
+        return groupAdmin;
+    }
+
+    public String getPersonName() {
+        return groupAdmin.getName();
+    }
+
+    public int getPersonHeight() {
+        return groupAdmin.getHeight();
+    }
+
+    public String getPersonPassportId() {
+        return groupAdmin.getPassportID();
+    }
+
+    public Country getPersonNationality() {
+        return groupAdmin.getNationality();
     }
 
     @Override
@@ -331,6 +363,8 @@ public class StudyGroup implements Cloneable{
 
     /**
      * This method returns Study Group DTO by Study Group.
+     *
+     * NOTE! Not acceptable!
      * @param studyGroup
      * @return StudyGroupDTO
      */
@@ -341,7 +375,7 @@ public class StudyGroup implements Cloneable{
         studyGroupDTO.userId = studyGroup.getUserId();
         studyGroupDTO.name = studyGroup.getName();
         studyGroupDTO.coordinates = Coordinates.getCoordinatesDTO(studyGroup.getCoordinates());
-        studyGroupDTO.creationDate = studyGroup.getCreationDate();
+        //studyGroupDTO.creationDate = studyGroup.getCreationDate();
         studyGroupDTO.studentsCount = studyGroup.getStudentsCount();
         studyGroupDTO.shouldBeExpelled = studyGroup.getShouldBeExpelled();
         studyGroupDTO.formOfEducation = studyGroup.getFormOfEducation() == null ? null : studyGroup.getFormOfEducation().getName();
