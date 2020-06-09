@@ -75,7 +75,7 @@ public abstract class Command {
      * @return ready response
      */
     protected Response getProgrammExitResponceDTO(String message){
-        responseDTO.status = Status.PROGRAMM_EXIT.getCode();
+        responseDTO.status = Status.GO_BACK.getCode();
         responseDTO.answer = message;
 
         return Response.getResponse(responseDTO);

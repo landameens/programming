@@ -1,7 +1,8 @@
 package controller.migration.commands.scripts;
 
-import app.query.CommandName;
-import app.query.CommandType;
+import app.Viewer;
+import app.controller.commands.mainScreen.CommandName;
+import app.controller.commands.mainScreen.CommandType;
 import controller.migration.commands.Command;
 import controller.migration.commands.Interpretator;
 import controller.migration.commands.factory.ICommandFactory;

@@ -30,6 +30,9 @@ public class Person implements Cloneable{
     @Enumerated(EnumType.STRING)
     private Country nationality; //Поле может быть null
 
+    public Person() {
+    }
+
     public Person(String name,
                   int height,
                   String passportID,

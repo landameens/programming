@@ -87,6 +87,20 @@ public final class DBStudyGroupRepository implements IStudyGroupRepository {
     }
 
     @Override
+    public synchronized Set<StudyGroup> getStudyGroup(long id) throws StudyGroupRepositoryException {
+        StudyGroup studyGroup;
+        try {
+            studyGroup = studyGroupDAO.get(StudyGroup.class, id);
+        } catch (DAOException e) {
+            LOG_MANAGER.fatalThrowable(e);
+            throw new StudyGroupRepositoryException(e);
+        }
+        Set<StudyGroup> studyGroups = new HashSet<>();
+        studyGroups.add(studyGroup);
+        return studyGroups;
+    }
+
+    @Override
     public synchronized void save() throws storage.exception.DAOException {
         LOG_MANAGER.warn("Not acceptable");
     }

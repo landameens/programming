@@ -193,6 +193,12 @@ public class TreeSetStudyGroupRepository implements IStudyGroupRepository, Savea
         return collectionInfo;
     }
 
+    @Override
+    public Set<StudyGroup> getStudyGroup(long id) throws StudyGroupRepositoryException {
+
+        return null;
+    }
+
 
     @Override
     public synchronized void save() throws DAOException {

@@ -8,7 +8,7 @@ import app.controller.commands.mainScreen.LogoutCommand;
 import app.controller.services.connectionService.ConnectionService;
 import app.controller.services.exitingDirector.ExitingDirector;
 import app.controller.services.exitingDirector.INeedExiting;
-import app.query.CommandName;
+import app.controller.commands.mainScreen.CommandName;
 import app.screens.ConsoleScreen;
 import app.screens.EnterScreen;
 import app.screens.MainScreen;
@@ -26,6 +26,7 @@ import org.apache.commons.configuration2.PropertiesConfiguration;
 import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
 import org.apache.commons.configuration2.builder.fluent.Parameters;
 import org.apache.commons.configuration2.ex.ConfigurationException;
+import org.apache.lucene.queryparser.xml.QueryBuilderFactory;
 import router.Router;
 import router.RouterBuilder;
 
@@ -46,7 +47,13 @@ public final class App {
         ExitingDirector exitingDirector = createExitingDirector();
 
         AbstractController enterController = createEnterScreenController(configuration, connectionService, exitingDirector);
-        AbstractController mainController = creaateMainController(configuration, connectionService, exitingDirector, console, interpretator, validator, viewer);
+        AbstractController mainController = creaateMainController(configuration,
+                connectionService,
+                exitingDirector,
+                console,
+                interpretator,
+                validator,
+                viewer);
 
         ConsoleScreen enterScreen = createEnterScreen(console, viewer, enterController);
         exitingDirector.addINeedExiting(enterScreen);
@@ -136,7 +143,6 @@ public final class App {
 
         Arrays.asList(CommandName.values())
               .forEach(commandName -> commandMap.put(commandName.getName(), BuildQueryToServerCommand.class));
-
 
         Set<Service> services = new HashSet<>();
         services.add(connectionService);

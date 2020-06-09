@@ -24,13 +24,14 @@ public class RemoveByIdCommand extends StudyGroupRepositoryCommand {
         LOG_MANAGER.info("Выполнение команды remove_by_id...");
         Long id = Long.parseLong(args.get("id"));
         LOG_MANAGER.debug("Поле id заполнено.");
-        ConcreteSet removableStudyGroupSet = new ConcreteSetWithSpecialField(StudyGroup.class, "id", id);
 
         try {
-            Set<StudyGroup> groupSet = studyGroupRepository.getConcreteSetOfStudyGroups(removableStudyGroupSet);
+            Set<StudyGroup> groupSet = studyGroupRepository.getStudyGroup(id);
 
             for (StudyGroup studyGroup : groupSet) {
-                studyGroupRepository.remove(studyGroup);
+                if (Integer.parseInt(args.get("userId")) == studyGroup.getUserId()) {
+                    studyGroupRepository.remove(studyGroup);
+                } else return getBadRequestResponseDTO("Группа создана другим пользователем, вы не можете её удалить.");
             }
 
             if (groupSet.isEmpty()) {

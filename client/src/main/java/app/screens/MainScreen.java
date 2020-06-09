@@ -26,6 +26,14 @@ public final class MainScreen extends ConsoleScreen {
         LOG_MANAGER.debug("Server answered: " + response);
 
         if (response.getStatus().equals(Status.BAD_REQUEST)) {
+            if (response.getAnswer().equals("No such user. Probably was deleted.")) {
+                screenContext.remove("login");
+                screenContext.remove("password");
+                console.writeLine("The connection was lost. Plese, relogin to the system!");
+                screenContext.getRouter().go("enter");
+            }
+
+
             console.writeLine(viewer.showBadRequestErrorMessage());
             console.writeLine(viewer.showPrefixServerAnswer() + response.getAnswer());
             console.writeLine(viewer.showOfferToRepeatInput());

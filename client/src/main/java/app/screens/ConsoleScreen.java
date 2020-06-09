@@ -146,7 +146,6 @@ public abstract class ConsoleScreen implements Screen, INeedExiting {
     public void exit() {
         console.writeLine(viewer.showGoodbyeMessage());
         isActive = false;
-
         System.exit(0);
     }
 }

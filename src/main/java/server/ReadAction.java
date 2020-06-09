@@ -45,6 +45,7 @@ public final class ReadAction extends RecursiveAction {
                 executorService.execute(() -> {
                     try {
                         connectionService.send(response);
+                        connectionService.close();
                     } catch (ConnectionException e) {
                         LOG_MANAGER.errorThrowable(e);
                     }
@@ -54,6 +55,7 @@ public final class ReadAction extends RecursiveAction {
                 executorService.execute(() -> {
                     try {
                         connectionService.send(Response.createInternalError());
+                        connectionService.close();
                     } catch (ConnectionException ex) {
                         LOG_MANAGER.errorThrowable(ex);
                     }

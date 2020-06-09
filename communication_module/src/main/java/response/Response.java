@@ -6,13 +6,9 @@ import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
-@Embeddable
 public class Response {
-    @Column(name = "status", nullable = false)
-    @Enumerated(EnumType.STRING)
     private Status status;
 
-    @Column(name = "answer", nullable = true, length = 5000)
     private String answer;
 
     public Response() {
@@ -30,6 +26,10 @@ public class Response {
         Status status = Status.getInstance(Integer.parseInt(responseDTO.status));
         return new Response(status,
                             responseDTO.answer);
+    }
+
+    public static Response getResponse(ResponseDTO responseDTO) {
+        return createResponse(responseDTO);
     }
 
     public static ResponseDTO dtoOf(Response response) {

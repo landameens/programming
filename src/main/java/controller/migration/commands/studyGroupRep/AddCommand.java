@@ -48,6 +48,7 @@ public class AddCommand extends StudyGroupRepositoryCommand {
         studyGroupDTO.semesterEnum = args.get("semesterEnum");
         studyGroupDTO.groupAdmin = personDTO;
         studyGroupDTO.creationDate = LocalDateTime.now();
+        studyGroupDTO.userId = Integer.parseInt(args.get("userId"));
 
         try {
             studyGroupRepository.add(studyGroupDTO);

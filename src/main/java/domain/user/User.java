@@ -79,7 +79,7 @@ public final class User implements Cloneable {
     }
 
     @Override
-    protected Object clone() throws CloneNotSupportedException {
+    public User clone(){
         return new User(this.id, this.login, this.password);
     }
 }

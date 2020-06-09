@@ -60,7 +60,9 @@ public class RemoveLowerCommand extends StudyGroupRepositoryCommand {
             }
 
             for (StudyGroup studyGroup : removableStudyGroup) {
-                studyGroupRepository.remove(studyGroup);
+                if (Integer.parseInt(args.get("userId")) == studyGroup.getUserId()) {
+                    studyGroupRepository.remove(studyGroup);
+                }
             }
 
             LOG_MANAGER.debug("Группа удалена.");

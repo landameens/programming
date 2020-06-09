@@ -23,4 +23,6 @@ public interface IStudyGroupRepository extends Saveable {
 
     CollectionInfo getInfo();
 
+    Set<StudyGroup> getStudyGroup(long id) throws StudyGroupRepositoryException;
+
 }

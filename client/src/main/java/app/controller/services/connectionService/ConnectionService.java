@@ -53,6 +53,7 @@ public final class ConnectionService implements Service {
 
         try {
             Message message = read();
+            connectionWorker.close();
             return message.getResponse();
         } catch (NotYetConnectedException e) {
             LOG_MANAGER.errorThrowable("Not yet connected.", e);

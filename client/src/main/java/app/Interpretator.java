@@ -1,16 +1,15 @@
 package app;
 
-import app.query.CommandName;
-import app.query.CommandType;
+import app.controller.commands.mainScreen.CommandName;
+import app.controller.commands.mainScreen.CommandType;
 import controller.components.serviceMediator.Service;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import static app.query.CommandName.*;
-import static app.query.CommandType.*;
+import static app.controller.commands.mainScreen.CommandName.*;
+import static app.controller.commands.mainScreen.CommandType.*;
 
 /**
  * This class is responsible for interpretating user's input
@@ -20,19 +19,19 @@ public final class Interpretator implements Service {
     private Map<CommandName, CommandType> allCommands = new HashMap<CommandName, CommandType>(){
         {
             put(HELP, COMMAND_WITHOUT_ARGUMENTS);
-            put(INFO, COMMAND_WITHOUT_ARGUMENTS);
+            //put(INFO, COMMAND_WITHOUT_ARGUMENTS);
             put(SHOW, COMMAND_WITHOUT_ARGUMENTS);
             put(ADD, COMPOUND_COMMAND);
             put(UPDATE, COMPOUND_COMMAND);
             put(REMOVE_BY_ID, SIMPLE_COMMAND);
             put(CLEAR, COMMAND_WITHOUT_ARGUMENTS);
-            put(SAVE, COMMAND_WITHOUT_ARGUMENTS);
-            put(EXECUTE_SCRIPT, SIMPLE_COMMAND);
-            put(EXIT, COMMAND_WITHOUT_ARGUMENTS);
+            //put(SAVE, COMMAND_WITHOUT_ARGUMENTS);
+            //put(EXECUTE_SCRIPT, SIMPLE_COMMAND);
+            //put(EXIT, COMMAND_WITHOUT_ARGUMENTS);
             put(ADD_IF_MIN, COMPOUND_COMMAND);
             put(REMOVE_LOWER, COMPOUND_COMMAND);
             put(COUNT_BY_GROUP_ADMIN, COMPOUND_COMMAND);
-            put(HISTORY, COMMAND_WITHOUT_ARGUMENTS);
+            //put(HISTORY, COMMAND_WITHOUT_ARGUMENTS);
             put(FILTER_BY_SHOULD_BE_EXPELLED, SIMPLE_COMMAND);
             put(FILTER_LESS_THEN_SHOULD_BE_EXPELLED, SIMPLE_COMMAND);
         }
@@ -42,7 +41,7 @@ public final class Interpretator implements Service {
     private Map<CommandName,String> mapOfNamesAndFields = new HashMap<CommandName, String>(){
         {
             put(REMOVE_BY_ID, "id");
-            put(EXECUTE_SCRIPT, "file_name");
+            //put(EXECUTE_SCRIPT, "file_name");
             put(FILTER_BY_SHOULD_BE_EXPELLED, "should_be_expelled");
             put(FILTER_LESS_THEN_SHOULD_BE_EXPELLED, "should_be_expelled");
 

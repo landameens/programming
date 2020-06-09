@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.Comparator;
 
 @Entity
-@Table(name = "products")
+@Table(name = "study_groups")
 public class StudyGroup implements Cloneable{
 
     private static final String SHOULD_BE_POSITIVE = "Значение должно быть положительным.";
@@ -24,7 +24,7 @@ public class StudyGroup implements Cloneable{
     @Column(name = "user_id")
     private int userId;
 
-    @Column(name = "product_name")
+    @Column(name = "study_group_name")
     private String name; //Поле не может быть null, Строка не может быть пустой
 
     @Embedded
@@ -63,7 +63,6 @@ public class StudyGroup implements Cloneable{
                       FormOfEducation formOfEducation,
                       Semester semesterEnum,
                       Person groupAdmin) throws VerifyException{
-        checkId(id);
         this.id = id;
         checkName(name);
         this.name = name;
@@ -91,7 +90,6 @@ public class StudyGroup implements Cloneable{
                        FormOfEducation formOfEducation,
                        Semester semesterEnum,
                        Person groupAdmin) throws VerifyException{
-        checkId(id);
         this.id = id;
         this.userId = userId;
         checkName(name);
