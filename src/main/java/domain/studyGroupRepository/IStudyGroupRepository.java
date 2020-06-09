@@ -1,5 +1,6 @@
 package domain.studyGroupRepository;
 
+import controller.components.serviceMediator.Service;
 import domain.exception.StudyGroupRepositoryException;
 import domain.studyGroup.StudyGroup;
 import domain.studyGroup.StudyGroupDTO;
@@ -12,7 +13,7 @@ import java.util.Set;
  * Interface for working with the repository where Study Groups stored.
  * To get a set of Study Groups using the abstract class ConcreteSet.
  */
-public interface IStudyGroupRepository extends Saveable {
+public interface IStudyGroupRepository extends Saveable, Service {
     void add(StudyGroupDTO studyGroupDTO) throws StudyGroupRepositoryException;
 
     void remove(StudyGroup studyGroup) throws StudyGroupRepositoryException;
