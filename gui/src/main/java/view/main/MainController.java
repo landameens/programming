@@ -1,4 +1,4 @@
 package view.main;
 
-public class MainController {
+public class MainController{
 }
