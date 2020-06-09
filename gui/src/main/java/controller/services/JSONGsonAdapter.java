@@ -11,8 +11,8 @@ public final class JSONGsonAdapter implements JSONAdapter {
 
     public JSONGsonAdapter() {
         this.gson = new GsonBuilder()
-                            .registerTypeAdapter(StudyGroup.class, new GsonStudyGroupSerializer())
-                            .registerTypeAdapter(Person.class, new GsonPersonSerializer())
+                            .registerTypeAdapter(StudyGroup.class, new GsonStudyGroupDeserializer())
+                            .registerTypeAdapter(Person.class, new GsonPersonDeserializer())
                             .create();
     }
 
