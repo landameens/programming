@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+
+<AnchorPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <GridPane prefHeight="30.0" prefWidth="1920.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="955.0" minWidth="10.0" prefWidth="720.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="1473.0" minWidth="10.0" prefWidth="612.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="1473.0" minWidth="10.0" prefWidth="589.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <MenuBar prefHeight="25.0" prefWidth="247.0">
+              <menus>
+                <Menu mnemonicParsing="false" text="Menu">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Close" />
+                  </items>
+                </Menu>
+              </menus>
+               <GridPane.margin>
+                  <Insets right="600.0" />
+               </GridPane.margin>
+            </MenuBar>
+            <TextField prefHeight="25.0" prefWidth="364.0" promptText="Enter value to filter" GridPane.columnIndex="1">
+               <GridPane.margin>
+                  <Insets left="220.0" right="20.0" />
+               </GridPane.margin>
+            </TextField>
+            <ChoiceBox prefHeight="25.0" prefWidth="403.0" GridPane.columnIndex="2">
+               <GridPane.margin>
+                  <Insets left="20.0" right="50.0" />
+               </GridPane.margin>
+            </ChoiceBox>
+         </children>
+      </GridPane>
+      <SplitPane dividerPositions="0.37799791449426484" layoutY="29.0" prefHeight="1051.0" prefWidth="1920.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <ScrollPane layoutX="80.0" layoutY="135.0" pannable="true" prefHeight="1049.0" prefWidth="535.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <content>
+                        <Canvas height="1186.0" width="1918.0" />
+                     </content>
+                  </ScrollPane>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <TableView layoutX="458.0" layoutY="275.0" prefHeight="1049.0" prefWidth="1377.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <columns>
+                      <TableColumn prefWidth="1300.0" resizable="false" text="Study Group">
+                           <columns>
+                            <TableColumn prefWidth="75.0" text="ID" />
+                              <TableColumn prefWidth="75.0" text="User ID" />
+                              <TableColumn prefWidth="75.0" text="Name" />
+                              <TableColumn prefWidth="75.0" text="Coordinates">
+                                 <columns>
+                                    <TableColumn prefWidth="75.0" text="X" />
+                                    <TableColumn prefWidth="75.0" text="Y" />
+                                 </columns>
+                              </TableColumn>
+                              <TableColumn minWidth="100.0" prefWidth="100.0" text="Creation date" />
+                              <TableColumn minWidth="100.0" prefWidth="85.0" text="Students count" />
+                              <TableColumn minWidth="120.0" prefWidth="75.0" text="Should be expelled" />
+                              <TableColumn minWidth="120.0" prefWidth="75.0" text="Form of education" />
+                              <TableColumn prefWidth="75.0" text="Semester" />
+                              <TableColumn prefWidth="75.0" text="Person">
+                                 <columns>
+                                    <TableColumn minWidth="50.0" prefWidth="100.0" text="Height" />
+                                    <TableColumn prefWidth="100.0" text="Passport ID" />
+                                    <TableColumn minWidth="100.0" prefWidth="75.0" text="Nationality" />
+                                 </columns>
+                              </TableColumn>
+                           </columns>
+                        </TableColumn>
+                    </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>
