@@ -13,9 +13,19 @@ repositories {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     compile group: 'com.google.code.gson', name: 'gson', version: '2.8.6'
+    compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.4'
+    compile group: 'org.apache.commons', name: 'commons-configuration2', version: '2.6'
     compile project(":logger_manager")
     compile project(":path_finder")
     compile project(":controller")
+}
+
+jar {
+    manifest.attributes('Main-Class': 'guiApp.App')
+
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
 }
 
 application {

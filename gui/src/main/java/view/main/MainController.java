@@ -1,23 +1,23 @@
 package view.main;
 
 import controller.AbstractController;
-import controller.localizer.Localizer;
-import controller.serverAdapter.exception.ServerAdapterException;
 import domain.studyGroup.FormOfEducation;
 import domain.studyGroup.Semester;
 import domain.studyGroup.StudyGroup;
+import domain.studyGroup.dao.ServerStudyGroupDAO;
 import domain.studyGroup.person.Country;
+import domain.studyGroupRepository.ProductCollectionUpdater;
+import domain.studyGroupRepository.StudyGroupRepositorySubscriber;
 import domain.user.ServerUserDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import org.apache.lucene.analysis.ckb.SoraniStemFilter;
 import view.fxController.FXController;
 
-public class MainController extends FXController {
+import java.util.List;
+
+public class MainController extends FXController implements StudyGroupRepositorySubscriber {
     private static final String ENTER_VALUE_TO_FILTER = "Enter value to filter";
     private static final String MENU = "Menu";
     private static final String STUDY_GROUP = "Study group";
@@ -45,9 +45,9 @@ public class MainController extends FXController {
     @FXML
     public TableColumn<StudyGroup, Long> idCol;
     @FXML
-    public TableColumn<StudyGroup,Integer> userIdCol;
+    public TableColumn<StudyGroup, Integer> userIdCol;
     @FXML
-    public TableColumn<StudyGroup,String> nameCol;
+    public TableColumn<StudyGroup, String> nameCol;
     @FXML
     public TableColumn<StudyGroup, Integer> coordinatesCol;
     @FXML
@@ -75,11 +75,17 @@ public class MainController extends FXController {
 
     private ObservableList<StudyGroup> products;
     private ServerUserDAO serverUserDAO;
+    private ServerStudyGroupDAO serverStudyGroupDAO;
+    private ProductCollectionUpdater productCollectionUpdater;
+
 
     public MainController(AbstractController businessLogicController,
+                          ServerStudyGroupDAO serverStudyGroupDAO,
                           ServerUserDAO serverUserDAO) {
+
         super(businessLogicController);
         this.serverUserDAO = serverUserDAO;
+        this.serverStudyGroupDAO = serverStudyGroupDAO;
     }
 
     /**
@@ -119,9 +125,9 @@ public class MainController extends FXController {
     @Override
     public void onStart() {
         sceneAdapter.getStage().setFullScreen(true);
-       // productCollectionUpdater.start();
+        // productCollectionUpdater.start();
 
-       // initProductCollection();
+        // initProductCollection();
 
         /*try {
             user = serverUserDAO.fromAccessToken(screenContext.get("accessToken"));
@@ -180,5 +186,19 @@ public class MainController extends FXController {
         String oldFilterText = filter.getText();
         filter.textProperty().setValue(" ");
         filter.textProperty().setValue(oldFilterText);
+    }
+
+    public void setProductCollectionUpdater(ProductCollectionUpdater productCollectionUpdater) {
+        this.productCollectionUpdater = productCollectionUpdater;
+    }
+
+    @Override
+    public void change(List<StudyGroup> products) {
+
+    }
+
+    @Override
+    public void disconnect() {
+
     }
 }

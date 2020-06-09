@@ -1,5 +1,6 @@
 package controller.localizer;
 
+import domain.studyGroup.StudyGroup;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;
 import javafx.beans.property.ObjectProperty;
