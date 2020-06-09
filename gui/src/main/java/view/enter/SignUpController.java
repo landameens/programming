@@ -1,4 +1,4 @@
-package view.screens.enter;
+package view.enter;
 
 import controller.AbstractController;
 import controller.localizer.Localizer;
@@ -8,7 +8,7 @@ import controller.serverAdapter.exception.ServerInternalErrorException;
 import controller.serverAdapter.exception.ServerUnavailableException;
 import controller.serverAdapter.exception.WrongQueryException;
 import controller.validators.Validator;
-import domain.user.dao.ServerUserDAO;
+import domain.user.ServerUserDAO;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -21,10 +21,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class SignUpController extends FXController {
-    /*private static final String WRONG_LOGIN_OR_PASSWORD = Localizer.getStringFromBundle("wrongLoginOrPassword", "SignInScreen");
+    private static final String WRONG_LOGIN_OR_PASSWORD = Localizer.getStringFromBundle("wrongLoginOrPassword", "SignInScreen");
     private static final String DISC_FROM_SERVER = Localizer.getStringFromBundle("disconnectFormServer", "SignInScreen");
     private static final String SUCC_REC = Localizer.getStringFromBundle("successfullyReconnected", "SignInScreen");
-    private static final String SER_ANS_INT_ERR = Localizer.getStringFromBundle("serverAnswerInternalError", "SignInScreen");*/
+    private static final String SER_ANS_INT_ERR = Localizer.getStringFromBundle("serverAnswerInternalError", "SignInScreen");
 
     private final Validator validator;
 
@@ -135,11 +135,12 @@ public class SignUpController extends FXController {
 
     private void reconnectToServer() {
         try {
-            if (serverUserDAO.checkConnection() && alert == null) {
-                alert = new Alert(Alert.AlertType.INFORMATION, SUCC_REC);
-                alert.showAndWait();
-                alert = null;
-            }
+            //check for dostupnost'
+            serverUserDAO.getAllUser();
+
+            alert = new Alert(Alert.AlertType.INFORMATION, SUCC_REC);
+            alert.showAndWait();
+            alert = null;
         } catch (ServerAdapterException e) {
             handleServerAdapterException(e);
         }
@@ -179,10 +180,12 @@ public class SignUpController extends FXController {
 
         if (response.getStatus().equals(Status.SUCCESSFULLY)) {
             errorText.setText("");
-            screenContext.add("accessToken", response.getAnswer());
-            screenContext.add("accessToken", response.getAnswer());
-            serverAdapter.setAccessToken(response.getAnswer());
-            screenContext.getRouter().go("viewport");
+            String[] strings = response.getAnswer().split(" +");
+            screenContext.add("login", strings[0]);
+            screenContext.add("password", strings[1]);
+            serverAdapter.setLogin(strings[0]);
+            serverAdapter.setPassword(strings[1]);
+            screenContext.getRouter().go("main");
         }
     }
 

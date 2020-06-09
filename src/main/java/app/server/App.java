@@ -7,10 +7,13 @@ import app.controller.services.exitingDirector.INeedExiting;
 import controller.ControllerBuilder;
 import controller.command.Command;
 import controller.components.serviceMediator.Service;
+import controller.getController.GetAllStudyGroupsCommand;
+import controller.getController.GetAllUsersCommand;
 import controller.loginController.LoginCommand;
 import controller.loginController.SignUpCommand;
 import controller.migration.Controller;
 import controller.migration.Interpretator;
+import controller.services.JSONGsonAdapter;
 import controller.services.SHA256PasswordHashService;
 import domain.commandsRepository.HistoryRepository;
 import domain.commandsRepository.ICommandsRepository;
@@ -86,8 +89,10 @@ public class App {
 
         Middleware migrationController = createMigrationController(studyGroupRepository);
         Middleware loginController = createLoginController(configuration, userRepository);
+        Middleware getController = createGetController(configuration, userRepository, studyGroupRepository);
         Middleware rootMiddleware = createRootMiddleware(migrationController,
                 loginController,
+                getController,
                 userRepository,
                 interpretator);
         
@@ -140,15 +145,35 @@ public class App {
         return new DBStudyGroupRepository(studyGroupDAO);
     }
 
+    private static Middleware createGetController(Configuration configuration,
+                                                  UserRepository userRepository,
+                                                  IStudyGroupRepository studyGroupRepository) {
+        Map<String, Class<? extends Command>> commandMap = new HashMap<>();
+        commandMap.put("getAllUsers", GetAllUsersCommand.class);
+        commandMap.put("getAllStudyGroups", GetAllStudyGroupsCommand.class);
+
+        Set<Service> services = new HashSet<>();
+        services.add(userRepository);
+        services.add(new JSONGsonAdapter());
+        services.add(studyGroupRepository);
+
+        return new ControllerBuilder(configuration, commandMap)
+                .buildServiceMediator(services)
+                .build();
+    }
+
     private static Middleware createRootMiddleware(Middleware migrationController,
                                                    Middleware loginController,
+                                                   Middleware getController,
                                                    UserRepository userRepository,
                                                    Interpretator interpretator) {
         Middleware generalAccessValidator = new GeneralAccessValidator(userRepository);
         generalAccessValidator.addLeave("old", migrationController);
+        generalAccessValidator.addLeave("get", getController);
 
         Middleware commandNameValidator = new CommandNameValidator(interpretator);
         commandNameValidator.addLeave("old", generalAccessValidator);
+        commandNameValidator.addLeave("get", generalAccessValidator);
         commandNameValidator.addLeave("login", loginController);
 
         return commandNameValidator;

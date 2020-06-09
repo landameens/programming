@@ -25,25 +25,10 @@ public final class ServerUserDAO {
         this.serverAdapter = serverAdapter;
     }
 
-
-    @Nullable
-    public User get(int id) throws ServerAdapterException {
-        Map<String, String> queryArguments = new HashMap<>();
-        queryArguments.put("id", id + "");
-
-        Response response = serverAdapter.send("getUser", queryArguments);
-
-        if (response.getStatus().equals(Status.SUCCESSFULLY)) {
-            return gson.fromJson(response.getAnswer(), User.class);
-        }
-
-        return null;
-    }
-
     public List<User> getAllUser() throws ServerAdapterException {
         Map<String, String> queryArguments = new HashMap<>();
 
-        Response response = serverAdapter.send("getAllUser", queryArguments);
+        Response response = serverAdapter.send("getAllUsers", queryArguments);
 
         if (response.getStatus().equals(Status.SUCCESSFULLY)) {
             return gson.fromJson(response.getAnswer(), new TypeToken<List<User>>() {}.getType());

@@ -26,8 +26,7 @@ public final class ServerStudyGroupDAO {
                                 .create();
 
 
-    public ServerStudyGroupDAO(ServerAdapter serverAdapter,
-                               JSONAdapter jsonAdapter) {
+    public ServerStudyGroupDAO(ServerAdapter serverAdapter) {
         this.serverAdapter = serverAdapter;
     }
 
