@@ -59,7 +59,7 @@ public final class ServerAdapter implements Service {
 
         ConnectionService connectionService;
         try {
-            SocketConnection socketConnection = new SocketConnection("localhost", 8080, 128);
+            SocketConnection socketConnection = new SocketConnection("localhost", 54355, 128);
             ConnectionWorker connectionWorker = ConnectionWorker.createDefault(socketConnection);
             connectionService = new ConnectionService(connectionWorker);
         } catch (ConnectionException e) {
