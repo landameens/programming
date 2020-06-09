@@ -14,6 +14,7 @@
             <option value="$PROJECT_DIR$/client" />
             <option value="$PROJECT_DIR$/communication_module" />
             <option value="$PROJECT_DIR$/controller" />
+            <option value="$PROJECT_DIR$/gui" />
             <option value="$PROJECT_DIR$/logger_manager" />
             <option value="$PROJECT_DIR$/path_finder" />
           </set>
