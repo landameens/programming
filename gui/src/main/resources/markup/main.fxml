@@ -58,7 +58,7 @@
                <children>
                   <ScrollPane layoutX="80.0" layoutY="135.0" pannable="true" prefHeight="1049.0" prefWidth="641.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <content>
-                        <Canvas height="1186.0" width="1918.0" />
+                        <Canvas height="1186.0" width="1918.0" fx:id="canvasField"/>
                      </content>
                   </ScrollPane>
                </children>

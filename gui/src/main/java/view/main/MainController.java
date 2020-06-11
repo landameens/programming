@@ -1,18 +1,22 @@
 package view.main;
 
 import controller.AbstractController;
+import controller.localizer.Localizer;
+import controller.serverAdapter.exception.*;
 import domain.studyGroup.FormOfEducation;
 import domain.studyGroup.Semester;
 import domain.studyGroup.StudyGroup;
 import domain.studyGroup.dao.ServerStudyGroupDAO;
 import domain.studyGroup.person.Country;
-import domain.studyGroupRepository.ProductCollectionUpdater;
+import domain.studyGroupRepository.StudyGroupCollectionUpdater;
 import domain.studyGroupRepository.StudyGroupRepositorySubscriber;
 import domain.user.ServerUserDAO;
+import domain.user.User;
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
@@ -24,12 +28,14 @@ import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
+import manager.LogManager;
 import view.fxController.FXController;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class MainController extends FXController implements StudyGroupRepositorySubscriber {
+    private static final LogManager LOG_MANAGER = LogManager.createDefault(MainController.class);
+
     private static final String ENTER_VALUE_TO_FILTER = "Enter value to filter";
     private static final String MENU = "Menu";
     private static final String STUDY_GROUP = "Study group";
@@ -90,7 +96,7 @@ public class MainController extends FXController implements StudyGroupRepository
     private ObservableList<StudyGroup> products;
     private ServerUserDAO serverUserDAO;
     private ServerStudyGroupDAO serverStudyGroupDAO;
-    private ProductCollectionUpdater productCollectionUpdater;
+    private StudyGroupCollectionUpdater studyGroupCollectionUpdater;
 
 
     public MainController(AbstractController businessLogicController,
@@ -136,6 +142,7 @@ public class MainController extends FXController implements StudyGroupRepository
         Localizer.bindComponentToLocale(coordinatesColumn, "TableScreen", "coordinates");*/
     }
 
+    private Timer canvasTimer;
     @Override
     public void onStart() {
         sceneAdapter.getStage().setFullScreen(true);
@@ -154,25 +161,53 @@ public class MainController extends FXController implements StudyGroupRepository
         }
 
         bindCellsToTextEditors();*/
+
+        initUserColors();
+
+        canvasTimer = new Timer();
+        canvasTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                updateCanvas();
+            }
+        }, 100, 1000);
+    }
+
+    private static final int MAGIC_CRUTCH_NUMBER = 500;
+
+    private final Map<Integer, Color> userColors = new HashMap<>();
+    private final Random random = new Random();
+    //private final Map<Color, Circle> tooltips = new HashMap<>();
+
+    private static class Point {
+        int userId;
+        double x, y;
+
+
+        Point(int userId, double x, double y) {
+            this.userId = userId;
+            this.x = x;
+            this.y = y;
+        }
     }
 
     private void updateCanvas() {
         GraphicsContext graphicsContext = canvasField.getGraphicsContext2D();
         graphicsContext.clearRect(0, 0, canvasField.getWidth(), canvasField.getHeight());
 
-        DoubleProperty radius  = new SimpleDoubleProperty(5.0);
+        DoubleProperty alpha  = new SimpleDoubleProperty(1.0);
 
-        double maxRadius = 20;
+        double maxAlpha = 1.0;
 
         List<Point> points = new ArrayList<>();
-        tableController.getProducts().forEach(product -> points.add(new Point(product.getUserId(), product.getCoordinates().getX(), product.getCoordinates().getY())));
+        products.forEach(product -> points.add(new Point(product.getUserId(), product.getCoordinates().getX(), product.getCoordinates().getY())));
 
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.seconds(0),
-                        new KeyValue(radius, 0)
+                        new KeyValue(alpha, 0)
                 ),
                 new KeyFrame(Duration.seconds(0.5),
-                        new KeyValue(radius, maxRadius)
+                        new KeyValue(alpha, maxAlpha)
                 )
         );
         timeline.setAutoReverse(true);
@@ -185,19 +220,18 @@ public class MainController extends FXController implements StudyGroupRepository
                     GraphicsContext graphicsContext = canvasField.getGraphicsContext2D();
 
                     Color color = userColors.get(point.userId);
+                    Color withAlpha = new Color(color.getRed(), color.getGreen(), color.getBlue(), alpha.doubleValue());
                     Circle circle = new Circle(point.x + MAGIC_CRUTCH_NUMBER,
                             point.y + MAGIC_CRUTCH_NUMBER,
                             20.0);
 
-                    //tooltips.put(color, circle);
+                    graphicsContext.setFill(withAlpha);
+                    graphicsContext.fillOval(circle.getCenterX() - 20.0,
+                            circle.getCenterY() - 20.0,
+                            20.0 * 2,
+                            20.02 * 2);
 
-                    graphicsContext.setFill(color);
-                    graphicsContext.fillOval(circle.getCenterX() - radius.doubleValue(),
-                            circle.getCenterY() - radius.doubleValue(),
-                            radius.doubleValue() * 2,
-                            radius.doubleValue() * 2);
-
-                    if (radius.doubleValue() == maxRadius) {
+                    if (alpha.doubleValue() == maxAlpha) {
                         stop();
                     }
                 });
@@ -206,8 +240,129 @@ public class MainController extends FXController implements StudyGroupRepository
 
         timer.start();
         timeline.play();
+    }
 
-//        tableController.getProducts().forEach(drawProductInCanvas);
+    private void initUserColors() {
+        List<User> users = new ArrayList<>();
+        try {
+            users = serverUserDAO.getAllUser();
+        } catch (ServerAdapterException e) {
+            handleServerAdapterException(e);
+        }
+
+        if (!users.isEmpty()) {
+            users.forEach(concreteUser -> userColors.put(concreteUser.getId(), generateRandomColor()));
+        }
+    }
+
+    private Color generateRandomColor() {
+        return new Color(random.nextDouble(), random.nextDouble(), random.nextDouble(), 1);
+    }
+
+    private void handleServerAdapterException(ServerAdapterException serverAdapterException) {
+        if (serverAdapterException instanceof ServerInternalErrorException) {
+            showInternalErrorAlert(Localizer.getStringFromBundle("serverAnswerInternalError", "MainScreen"));
+            System.exit(1);
+        }
+
+        if (serverAdapterException instanceof ServerUnavailableException) {
+            showDisconnectAlert();
+        }
+
+        if (serverAdapterException instanceof AccessTokenExpiredException) {
+            showAccessTokenExpiredAlert();
+        }
+
+        if (serverAdapterException instanceof WrongSignatureOfAccessTokenException) {
+            showAccessTokenExpiredAlert();
+        }
+
+        if (serverAdapterException instanceof WrongQueryException) {
+            showInternalErrorAlert(Localizer.getStringFromBundle("serverAnswerBadRequest", "MainScreen"));
+            System.exit(1);
+        }
+    }
+
+    private void showInternalErrorAlert(String string) {
+        if (alert == null) {
+            alert = new Alert(Alert.AlertType.ERROR, string);
+            alert.showAndWait();
+            alert = null;
+        }
+    }
+
+    private void showWarningAlert(String errorText) {
+        if (alert == null) {
+            alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Storage");
+            alert.setContentText(errorText);
+            alert.showAndWait();
+            alert = null;
+        }
+    }
+
+    private Alert alert;
+
+    private void showDisconnectAlert() {
+        if (alert != null) {
+            return;
+        }
+
+        alert = new Alert(Alert.AlertType.CONFIRMATION,
+                Localizer.getStringFromBundle("disconnectFormServer", "MainScreen"),
+                ButtonType.FINISH, ButtonType.OK);
+
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Platform.runLater(() -> reconnectToServer());
+            }
+        }, 30000);
+
+        Optional<ButtonType> response = alert.showAndWait();
+        response.ifPresent(buttonType -> {
+            if (buttonType.equals(ButtonType.OK)) {
+                alert = null;
+                reconnectToServer();
+            }
+
+            if (buttonType.equals(ButtonType.FINISH)) {
+                alert = null;
+                System.exit(0);
+            }
+            alert = null;
+        });
+    }
+
+    private void showAccessTokenExpiredAlert() {
+        if (alert == null) {
+            alert = new Alert(Alert.AlertType.WARNING, Localizer.getStringFromBundle("sessionIsExpired", "MainScreen"), ButtonType.OK);
+            Optional<ButtonType> response = alert.showAndWait();
+            response.ifPresent(buttonType -> {
+                if (buttonType.equals(ButtonType.OK)) {
+                    alert = null;
+                    screenContext.remove("accessToken");
+                    onStop();
+                    LOG_MANAGER.info("All support threads has been stop");
+                    screenContext.getRouter().go("signIn");
+                }
+            });
+
+            alert = null;
+        }
+    }
+
+    private void reconnectToServer() {
+        try {
+            if (serverStudyGroupDAO.checkConnection()) {
+                alert = new Alert(Alert.AlertType.INFORMATION, Localizer.getStringFromBundle("successfullyReconnected", "MainScreen"));
+                alert.showAndWait();
+                alert = null;
+            }
+        } catch (ServerAdapterException e) {
+            handleServerAdapterException(e);
+        }
     }
 
     private void initTableProperties() {
@@ -256,8 +411,8 @@ public class MainController extends FXController implements StudyGroupRepository
         filter.textProperty().setValue(oldFilterText);
     }
 
-    public void setProductCollectionUpdater(ProductCollectionUpdater productCollectionUpdater) {
-        this.productCollectionUpdater = productCollectionUpdater;
+    public void setStudyGroupCollectionUpdater(StudyGroupCollectionUpdater studyGroupCollectionUpdater) {
+        this.studyGroupCollectionUpdater = studyGroupCollectionUpdater;
     }
 
     @Override
@@ -268,5 +423,15 @@ public class MainController extends FXController implements StudyGroupRepository
     @Override
     public void disconnect() {
 
+    }
+
+    public void onStop() {
+        if (studyGroupCollectionUpdater != null) {
+            studyGroupCollectionUpdater.stop();
+        }
+
+        if (canvasTimer != null) {
+            canvasTimer.cancel();
+        }
     }
 }

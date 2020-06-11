@@ -8,25 +8,25 @@ import java.util.TimerTask;
 
 public class CollectionUpdateTimerTask extends TimerTask {
     private final ServerStudyGroupDAO serverStudyGroupDAO;
-    private final ProductCollectionUpdater productCollectionUpdater;
+    private final StudyGroupCollectionUpdater studyGroupCollectionUpdater;
 
     private final LogManager loggerAdapter = LogManager.createDefault(CollectionUpdateTimerTask.class);
 
 
     CollectionUpdateTimerTask(ServerStudyGroupDAO serverStudyGroupDAO,
-                              ProductCollectionUpdater productCollectionUpdater) {
+                              StudyGroupCollectionUpdater studyGroupCollectionUpdater) {
         this.serverStudyGroupDAO = serverStudyGroupDAO;
-        this.productCollectionUpdater = productCollectionUpdater;
+        this.studyGroupCollectionUpdater = studyGroupCollectionUpdater;
     }
 
 
     @Override
     public void run() {
         try {
-            productCollectionUpdater.update(serverStudyGroupDAO.get());
+            studyGroupCollectionUpdater.update(serverStudyGroupDAO.get());
         } catch (ServerAdapterException e) {
             loggerAdapter.errorThrowable("The internal problem in work of Connection: ", e);
-            productCollectionUpdater.disconnect();
+            studyGroupCollectionUpdater.disconnect();
         }
     }
 }

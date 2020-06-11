@@ -103,4 +103,8 @@ public final class ServerStudyGroupDAO {
         serverAdapter.send(query);
     }
 
+    public boolean checkConnection() throws ServerAdapterException {
+        get();
+        return true;
+    }
 }
