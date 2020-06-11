@@ -39,6 +39,7 @@ public class UpdateCommad extends StudyGroupRepositoryCommand {
     @Override
     public Response execute() {
         LOG_MANAGER.info("Executing the update command...");
+        LOG_MANAGER.warn(args.toString());
         Long id = Long.parseLong(args.get("id"));
         CoordinatesDTO coordinatesDTO = new CoordinatesDTO();
         coordinatesDTO.x = Integer.parseInt(args.get("xCoordinate"));
@@ -52,7 +53,7 @@ public class UpdateCommad extends StudyGroupRepositoryCommand {
 
         StudyGroupDTO studyGroupDTO = new StudyGroupDTO();
         studyGroupDTO.id = id;
-        studyGroupDTO.name = args.get("StudyGroupName");
+        studyGroupDTO.name = args.get("studyGroupName");
         studyGroupDTO.coordinates = coordinatesDTO;
         studyGroupDTO.studentsCount = Integer.parseInt(args.get("studentsCount"));
         studyGroupDTO.shouldBeExpelled = Long.parseLong(args.get("shouldBeExpelled"));
@@ -63,16 +64,20 @@ public class UpdateCommad extends StudyGroupRepositoryCommand {
         studyGroupDTO.userId = Integer.parseInt(args.get("userId"));
 
         try {
-            ConcreteSet concreteSet = new ConcreteSetWithSpecialField(StudyGroup.class, "id", id);
-            Set<StudyGroup> groups = studyGroupRepository.getConcreteSetOfStudyGroups(concreteSet);
+            Set<StudyGroup> groups = studyGroupRepository.getStudyGroup(id);
+
             StudyGroup oldGroup = null;
+
             for (StudyGroup studyGroup : groups) {
                 oldGroup = studyGroup;
             }
+
             StudyGroup studyGroupNew = StudyGroup.getStudyGroup(studyGroupDTO);
             if(oldGroup.getUserId() == studyGroupNew.getUserId()) {
                 studyGroupRepository.update(studyGroupNew);
-            } else return getBadRequestResponseDTO("Группа создана другим пользователем, вы не можете обновить ее данные.");
+            } else {
+                return getBadRequestResponseDTO("Группа создана другим пользователем, вы не можете обновить ее данные.");
+            }
             LOG_MANAGER.info("The group info updating...");
 
             return new Response(Status.SUCCESSFULLY, gson.toJson(studyGroupNew));

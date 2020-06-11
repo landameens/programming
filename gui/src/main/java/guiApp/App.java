@@ -12,7 +12,7 @@ import controller.validators.PasswordEqualityValidator;
 import controller.validators.PasswordValidator;
 import controller.validators.Validator;
 import domain.studyGroup.dao.ServerStudyGroupDAO;
-import domain.studyGroupRepository.ProductCollectionUpdater;
+import domain.studyGroupRepository.StudyGroupCollectionUpdater;
 import domain.studyGroupRepository.StudyGroupRepositorySubscriber;
 import domain.user.ServerUserDAO;
 import javafx.application.Application;
@@ -44,7 +44,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        primaryStage.setTitle("Yofik Storage");
+        primaryStage.setTitle("Nadya lab");
 
         Configuration configuration = provideConfiguration();
         ServerAdapter serverAdapter = provideServerAdapter(configuration);
@@ -66,8 +66,8 @@ public class App extends Application {
         List<StudyGroupRepositorySubscriber> subscribers = new ArrayList<>();
         subscribers.add(mainController);
 
-        ProductCollectionUpdater productCollectionUpdater = new ProductCollectionUpdater(serverStudyGroupDAO, subscribers);
-        mainController.setProductCollectionUpdater(productCollectionUpdater);
+        StudyGroupCollectionUpdater studyGroupCollectionUpdater = new StudyGroupCollectionUpdater(serverStudyGroupDAO, subscribers);
+        mainController.setStudyGroupCollectionUpdater(studyGroupCollectionUpdater);
 
         SceneAdapter signInAdapter = createSignInAdapter(primaryStage, signInController);
         SceneAdapter signUpAdapter = createSignUpAdapter(primaryStage, signUpController);

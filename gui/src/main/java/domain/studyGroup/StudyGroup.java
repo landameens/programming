@@ -243,7 +243,7 @@ public class StudyGroup implements Cloneable{
         return groupAdmin.getHeight();
     }
 
-    public String getPersonPassportId() {
+    public String getPersonPassportID() {
         return groupAdmin.getPassportID();
     }
 
@@ -252,7 +252,7 @@ public class StudyGroup implements Cloneable{
     }
 
     public String getCreationDate() {
-        return creationDate.toLocalDate().format(DateTimeFormatter.ofPattern("yyyy.MM.dd 'at' HH:mm:ss"));
+        return creationDate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd 'at' HH:mm:ss"));
     }
 
     @Override
@@ -278,22 +278,25 @@ public class StudyGroup implements Cloneable{
 
     @Override
     public String toString() {
-        return "StudyGroup" + id + System.lineSeparator() +
-                " id= " + id + System.lineSeparator() +
-                " name= " + name + System.lineSeparator() +
-                " coordinates (" + coordinates + ")" + System.lineSeparator() +
-                " creationDate= " + creationDate + System.lineSeparator() +
-                " studentsCount= " + studentsCount + System.lineSeparator() +
-                " shouldBeExpelled= " + shouldBeExpelled + System.lineSeparator() +
-                " formOfEducation= " + formOfEducation + System.lineSeparator() +
-                " semesterEnum= " + semesterEnum + System.lineSeparator() +
-                " groupAdmin " + groupAdmin;
+        return "StudyGroup{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", name='" + name + '\'' +
+                ", coordinates=" + coordinates +
+                ", creationDate=" + creationDate +
+                ", studentsCount=" + studentsCount +
+                ", shouldBeExpelled=" + shouldBeExpelled +
+                ", formOfEducation=" + formOfEducation +
+                ", semesterEnum=" + semesterEnum +
+                ", groupAdmin=" + groupAdmin +
+                '}';
     }
 
     @Override
     public StudyGroup clone() {
         try {
             return new StudyGroup(this.id,
+                    this.userId,
                     this.name,
                     this.coordinates.clone(),
                     this.creationDate,

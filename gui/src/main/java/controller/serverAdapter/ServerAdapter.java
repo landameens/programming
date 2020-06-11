@@ -5,7 +5,10 @@ import connection.exception.ConnectionException;
 import connectionService.ConnectionService;
 import connectionService.ConnectionWorker;
 import controller.components.serviceMediator.Service;
-import controller.serverAdapter.exception.*;
+import controller.serverAdapter.exception.ServerAdapterException;
+import controller.serverAdapter.exception.ServerInternalErrorException;
+import controller.serverAdapter.exception.ServerUnavailableException;
+import controller.serverAdapter.exception.WrongQueryException;
 import manager.LogManager;
 import query.Query;
 import response.Response;
@@ -20,10 +23,6 @@ import java.util.concurrent.locks.ReentrantLock;
  * <br></br>
  * Provide commandName and arguments and ServerAdapter will return a response. Also
  * it will analyzes the status of a response and throw one of the following exceptions in bad cases:
- * <br></br>
- * {@link AccessTokenExpiredException},
- * <br></br>
- * {@link WrongSignatureOfAccessTokenException},
  * <br></br>
  * {@link ServerInternalErrorException},
  * <br></br>
@@ -83,18 +82,6 @@ public final class ServerAdapter implements Service {
         if (response.getStatus().equals(Status.INTERNAL_ERROR)) {
             LOG_MANAGER.errorThrowable("Server answered: internal error! " + response.getAnswer());
             throw new ServerInternalErrorException();
-        }
-
-        if (response.getStatus().equals(Status.FORBIDDEN)) {
-            LOG_MANAGER.errorThrowable("Server answered: FORBIDDEN. " + response.getAnswer());
-
-            if (response.getAnswer().equals("JWT signature is wrong.")) {
-                throw new WrongSignatureOfAccessTokenException();
-            }
-
-            if (response.getAnswer().equals("JWT has already expired.")) {
-                throw new AccessTokenExpiredException();
-            }
         }
 
         LOG_MANAGER.debug(response.toString());

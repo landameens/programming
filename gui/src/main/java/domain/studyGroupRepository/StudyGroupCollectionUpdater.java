@@ -8,8 +8,8 @@ import manager.LogManager;
 import java.util.Collections;
 import java.util.List;
 
-public class ProductCollectionUpdater {
-    private static final LogManager LOG_MANAGER = LogManager.createDefault(ProductCollectionUpdater.class);
+public class StudyGroupCollectionUpdater {
+    private static final LogManager LOG_MANAGER = LogManager.createDefault(StudyGroupCollectionUpdater.class);
 
 
     private static final int UPDATE_PERIOD = 60000;
@@ -20,8 +20,8 @@ public class ProductCollectionUpdater {
     private final ServerStudyGroupDAO serverStudyGroupDAO;
 
 
-    public ProductCollectionUpdater(ServerStudyGroupDAO serverStudyGroupDAO,
-                                    List<StudyGroupRepositorySubscriber> subscribers) {
+    public StudyGroupCollectionUpdater(ServerStudyGroupDAO serverStudyGroupDAO,
+                                       List<StudyGroupRepositorySubscriber> subscribers) {
         this.subscribers = subscribers;
         this.serverStudyGroupDAO = serverStudyGroupDAO;
     }

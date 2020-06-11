@@ -50,7 +50,7 @@ public class AddCommand extends StudyGroupRepositoryCommand {
         personDTO.height = Integer.parseInt(args.get("groupAdminHeight"));
 
         StudyGroupDTO studyGroupDTO = new StudyGroupDTO();
-        studyGroupDTO.name =  args.get("StudyGroupName");
+        studyGroupDTO.name =  args.get("studyGroupName");
         studyGroupDTO.coordinates = coordinatesDTO;
         studyGroupDTO.studentsCount = Integer.parseInt(args.get("studentsCount"));
         if (args.get("shouldBeExpelled") != null) {

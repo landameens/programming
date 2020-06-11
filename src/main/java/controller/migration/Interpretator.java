@@ -124,6 +124,7 @@ public final class Interpretator {
     }
 
     public boolean isSuchCommandExists(String commandName) {
-        return ALL_COMMANDS.contains(commandName) || LOGIN_CONTROLLER_COMMAND.contains(commandName);
+        return ALL_COMMANDS.contains(commandName) || LOGIN_CONTROLLER_COMMAND.contains(commandName)
+                || commandName.equals("getAllUsers") || commandName.equals("getAllStudyGroups") || commandName.equals("getUser");
     }
 }
