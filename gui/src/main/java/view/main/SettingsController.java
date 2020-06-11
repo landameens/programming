@@ -10,12 +10,12 @@ import javafx.scene.control.Label;
 import java.util.Locale;
 
 public class SettingsController {
-    /*private static String ENGLISH = Localizer.getStringFromBundle("english", "SettingScreen");
-    private static String RUSSIAN = Localizer.getStringFromBundle("russian", "SettingScreen");
-    private static String SWEDISH = Localizer.getStringFromBundle("swedish", "SettingScreen");
-    private static String ICELAND = Localizer.getStringFromBundle("icelandic", "SettingScreen");*//*
+    private static String ROMANIAN = Localizer.getStringFromBundle("romanian", "MenuScreen");
+    private static String RUSSIAN = Localizer.getStringFromBundle("russian", "MenuScreen");
+    private static String SPANISH = Localizer.getStringFromBundle("spanish", "MenuScreen");
+    private static String GREEK = Localizer.getStringFromBundle("greek", "MenuScreen");
 
-    private TableController tableController;
+    private MainController mainController;
     @FXML
     private ComboBox<String> localeComboBox;
 
@@ -25,53 +25,50 @@ public class SettingsController {
     @FXML
     private Label localeLabel;
 
-    public SettingsController(TableController tableController) {
-        this.tableController = tableController;
+    public SettingsController(MainController mainController) {
+        this.mainController = mainController;
     }
 
     @FXML
     private void initialize() {
         initLocaleComboBox();
 
-        Localizer.bindComponentToLocale(settingsLabel, "SettingScreen", "settingLabel");
-        Localizer.bindComponentToLocale(localeLabel, "SettingScreen", "localeLabel");
+        Localizer.bindComponentToLocale(settingsLabel, "MenuScreen", "settings");
+        Localizer.bindComponentToLocale(localeLabel, "MenuScreen", "locale");
 
         localeComboBox.setOnAction(event -> {
             String newValue = localeComboBox.getSelectionModel().getSelectedItem();
 
-            System.err.println(Localizer.getLocale().getLanguage());
-
-            if (ENGLISH.equals(newValue)) {
-                Localizer.switchLanguage("en");
+            if (ROMANIAN.equals(newValue)) {
+                Localizer.switchLanguage("ro");
             } else if (RUSSIAN.equals(newValue)) {
                 Localizer.switchLanguage("ru");
-            } else if (SWEDISH.equals(newValue)) {
-                Localizer.switchLanguage("sv");
-            } else if (ICELAND.equals(newValue)) {
-                Localizer.switchLanguage("is");
+            } else if (SPANISH.equals(newValue)) {
+                Localizer.switchLanguage("es");
+            } else if (GREEK.equals(newValue)) {
+                Localizer.switchLanguage("el");
             }
 
-            System.err.println(Localizer.getLocale().getLanguage());
             initStr();
-            tableController.restoreAfterLocale();
+            mainController.restoreChoiceBox();
         });
     }
 
     private void initStr() {
-        ENGLISH = Localizer.getStringFromBundle("english", "SettingScreen");
-        RUSSIAN = Localizer.getStringFromBundle("russian", "SettingScreen");
-        SWEDISH = Localizer.getStringFromBundle("swedish", "SettingScreen");
-        ICELAND = Localizer.getStringFromBundle("icelandic", "SettingScreen");
+        ROMANIAN = Localizer.getStringFromBundle("romanian", "MenuScreen");
+        RUSSIAN = Localizer.getStringFromBundle("russian", "MenuScreen");
+        SPANISH = Localizer.getStringFromBundle("spanish", "MenuScreen");
+        GREEK = Localizer.getStringFromBundle("greek", "MenuScreen");
 
         initLocaleComboBox();
     }
 
     private void initLocaleComboBox() {
         ObservableList<String> locales = FXCollections.observableArrayList(
-                ENGLISH,
+                ROMANIAN,
                 RUSSIAN,
-                SWEDISH,
-                ICELAND
+                SPANISH,
+                GREEK
         );
 
         localeComboBox.setItems(locales);
@@ -81,12 +78,12 @@ public class SettingsController {
 
         if ("ru".equals(locale.getLanguage())) {
             localeComboBox.getSelectionModel().select(RUSSIAN);
-        } else if ("en".equals(locale.getLanguage())) {
-            localeComboBox.getSelectionModel().select(ENGLISH);
-        } else if ("sv".equals(locale.getLanguage())) {
-            localeComboBox.getSelectionModel().select(SWEDISH);
-        } else if ("is".equals(locale.getLanguage())) {
-            localeComboBox.getSelectionModel().select(ICELAND);
+        } else if ("ro".equals(locale.getLanguage())) {
+            localeComboBox.getSelectionModel().select(ROMANIAN);
+        } else if ("es".equals(locale.getLanguage())) {
+            localeComboBox.getSelectionModel().select(SPANISH);
+        } else if ("el".equals(locale.getLanguage())) {
+            localeComboBox.getSelectionModel().select(GREEK);
         }
-    }*/
+    }
 }

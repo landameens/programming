@@ -62,27 +62,21 @@ import static java.lang.Math.sqrt;
 public class MainController extends FXController implements StudyGroupRepositorySubscriber {
     private static final LogManager LOG_MANAGER = LogManager.createDefault(MainController.class);
 
-    private static final String ENTER_VALUE_TO_FILTER = "Enter value to filter";
-    private static final String MENU = "Menu";
-    private static final String STUDY_GROUP = "Study group";
-    private static final String USER_ID = "User ID";
-    private static final String ID = "ID";
-    private static final String COORDINATES = "Coordinates";
-    private static final String NAME = "Name";
-    private static final String CREATION_DATE = "Creation date";
-    private static final String STUD_COUNT = "Students count";
-    private static final String SHOULD_BE_EXPELLED = "Should be expelled";
-    private static final String FORM_OF_EDUCATION = "Form of education";
-    private static final String SEMESTER = "Semester";
-    private static final String PERSON = "Person";
-    private static final String HEIGHT = "Height";
-    private static final String PASSPORT_ID = "Passport ID";
-    private static final String NATIONALITY = "Nationality";
+    private String USER_ID = "User ID";
+    private String ID = "ID";
+    private String CREATION_DATE = "Creation date";
+    private String STUD_COUNT = "Students count";
+    private String SHOULD_BE_EXPELLED = "Should be expelled";
+    private String FORM_OF_EDUCATION = "Form of education";
+    private String SEMESTER = "Semester";
+    private String HEIGHT = "Height";
+    private String PASSPORT_ID = "Passport ID";
+    private String NATIONALITY = "Nationality";
 
-    private static final String X_COORDINATES = "Coordinates X";
-    private static final String Y_COORDINATES = "Coordinates Y";
-    private static final String STUDY_GROUP_NAME = "Study group name";
-    private static final String PERSON_NAME = "Person name";
+    private String X_COORDINATES = "Coordinates X";
+    private String Y_COORDINATES = "Coordinates Y";
+    private String STUDY_GROUP_NAME = "Study group name";
+    private String PERSON_NAME = "Person name";
     @FXML
     public MenuBar menuBar;
     @FXML
@@ -120,13 +114,15 @@ public class MainController extends FXController implements StudyGroupRepository
     @FXML
     public TableColumn<StudyGroup, String> passportIdCol;
     @FXML
+    public TableColumn<StudyGroup, String> personCol;
+    @FXML
     public TableColumn<StudyGroup, Country> natCol;
     @FXML
     public TableView<StudyGroup> table;
     @FXML
     public Canvas canvasField;
 
-    private ObservableList<StudyGroup> studyGroups;
+    private volatile ObservableList<StudyGroup> studyGroups;
     private ServerUserDAO serverUserDAO;
     private ServerStudyGroupDAO serverStudyGroupDAO;
     private User user;
@@ -150,10 +146,13 @@ public class MainController extends FXController implements StudyGroupRepository
      */
     @FXML
     private void initialize() {
-        studyGroups = FXCollections.observableArrayList();
+        synchronized (LOG_MANAGER) {
+            studyGroups = FXCollections.observableArrayList();
+        }
         initTableProperties();
-        bindColumnsToProductFields();
+        bindColumnsToStudyGroupFields();
         initContextMenu();
+        initMenuBar();
 
         canvasField.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             double sceneX = event.getX() - MAGIC_CRUTCH_NUMBER;
@@ -171,27 +170,21 @@ public class MainController extends FXController implements StudyGroupRepository
             }
         });
 
-        /*Localizer.bindComponentToLocale(hasLocationButton, "MainScreen", "availabilityLocation");
-        Localizer.bindComponentToLocale(hasOrganizationButton, "MainScreen", "availabilityOrganization");
-        Localizer.bindComponentToLocale(filter, "MainScreen", "filter");
-        Localizer.bindComponentToLocale(productProps, "MainScreen", "prodProps");
+        Localizer.bindTextFieldToLocale(filter, "MainScreen", "enterValue");
 
-        Localizer.bindComponentToLocale(userIdColumn, "MainScreen", "userId");
-        Localizer.bindComponentToLocale(productNameColumn, "MainScreen", "name");
-        Localizer.bindComponentToLocale(priceColumn, "MainScreen", "price");
-        Localizer.bindComponentToLocale(partNumberColumn, "MainScreen", "partNumber");
-        Localizer.bindComponentToLocale(unitOfMeasureColumn, "MainScreen", "unitOfMeasure");
-        Localizer.bindComponentToLocale(creationDateColumn, "MainScreen", "creationDate");
-        Localizer.bindComponentToLocale(manufactureCostColumn, "MainScreen", "manufactureCost");
-        Localizer.bindComponentToLocale(organizationColumn, "MainScreen", "organization");
-        Localizer.bindComponentToLocale(productColumn, "MainScreen", "product");
-        Localizer.bindComponentToLocale(addressColumn, "MainScreen", "address");
-        Localizer.bindComponentToLocale(locationColumn, "MainScreen", "location");
-        Localizer.bindComponentToLocale(orgNameColumn, "MainScreen", "name");
-        Localizer.bindComponentToLocale(orgAnnualTurnoverColumn, "MainScreen", "anTur");
-        Localizer.bindComponentToLocale(orgTypeColumn, "MainScreen", "type");
-        Localizer.bindComponentToLocale(zipCodeColumn, "MainScreen", "zipCode");
-        Localizer.bindComponentToLocale(coordinatesColumn, "MainScreen", "coordinates");*/
+        Localizer.bindComponentToLocale(personCol, "MainScreen", "person");
+        Localizer.bindComponentToLocale(studyGroup, "MainScreen", "studyGroup");
+        Localizer.bindComponentToLocale(nameCol, "MainScreen", "name");
+        Localizer.bindComponentToLocale(creatDateCol, "MainScreen", "creationDate");
+        Localizer.bindComponentToLocale(coordinatesCol, "MainScreen", "coordinates");
+        Localizer.bindComponentToLocale(studCountCol, "MainScreen", "studCount");
+        Localizer.bindComponentToLocale(personNameCol, "MainScreen", "name");
+        Localizer.bindComponentToLocale(shouldBeExpCol, "MainScreen", "shouldBeExpelled");
+        Localizer.bindComponentToLocale(formOfEducCol, "MainScreen", "formOfEduc");
+        Localizer.bindComponentToLocale(semesterCol, "MainScreen", "semester");
+        Localizer.bindComponentToLocale(heightCol, "MainScreen", "height");
+        Localizer.bindComponentToLocale(passportIdCol, "MainScreen", "passportId");
+        Localizer.bindComponentToLocale(natCol, "MainScreen", "nationality");
     }
 
     private <T> StudyGroup getStudyGroup(TableColumn.CellEditEvent<StudyGroup, T> event) {
@@ -204,9 +197,8 @@ public class MainController extends FXController implements StudyGroupRepository
     @Override
     public void onStart() {
         sceneAdapter.getStage().setFullScreen(true);
-         studyGroupCollectionUpdater.start();
-
         initStudyGroupCollection();
+
 
         bindCellsToTextEditors();
 
@@ -216,6 +208,7 @@ public class MainController extends FXController implements StudyGroupRepository
             handleServerAdapterException(e);
         }
 
+        studyGroupCollectionUpdater.start();
         initUserColors();
         canvasTimer = new Timer();
         canvasTimer.scheduleAtFixedRate(new TimerTask() {
@@ -227,8 +220,8 @@ public class MainController extends FXController implements StudyGroupRepository
     }
 
     private void initMenuBar() {
-        MenuItem profile = new MenuItem(Localizer.getStringFromBundle("profile", "ViewportScreen"));
-        Localizer.bindComponentToLocale(profile, "ViewportScreen", "profile");
+        MenuItem profile = new MenuItem(Localizer.getStringFromBundle("profile", "MainScreen"));
+        Localizer.bindComponentToLocale(profile, "MainScreen", "profile");
         profile.setAccelerator(new KeyCodeCombination(KeyCode.P, KeyCodeCombination.CONTROL_DOWN));
         profile.setOnAction(event -> {
             Stage newWindow = new Stage();
@@ -244,16 +237,15 @@ public class MainController extends FXController implements StudyGroupRepository
             try {
                 parent = loader.load();
             } catch (IOException e) {
-                showInternalErrorAlert(Localizer.getStringFromBundle("errorDuling", "ViewportScreen"));
+                showInternalErrorAlert(Localizer.getStringFromBundle("errorDuling", "MainScreen"));
             }
 
             newWindow.setScene(new Scene(parent));
-            newWindow.setTitle("Profile");
             newWindow.show();
         });
 
-        MenuItem settings = new MenuItem(Localizer.getStringFromBundle("settings", "ViewportScreen"));
-        Localizer.bindComponentToLocale(settings, "ViewportScreen", "settings");
+        MenuItem settings = new MenuItem(Localizer.getStringFromBundle("settings", "MainScreen"));
+        Localizer.bindComponentToLocale(settings, "MainScreen", "settings");
         settings.setAccelerator(new KeyCodeCombination(KeyCode.N, KeyCodeCombination.CONTROL_DOWN));
         settings.setOnAction(event -> {
             Stage newWindow = new Stage();
@@ -262,14 +254,14 @@ public class MainController extends FXController implements StudyGroupRepository
             URL url = getClass().getClassLoader().getResource("markup/settings.fxml");
             loader.setLocation(url);
 
-            SettingsController settingsController = new SettingsController();
+            SettingsController settingsController = new SettingsController(this);
             loader.setController(settingsController);
 
             Parent parent = null;
             try {
                 parent = loader.load();
             } catch (IOException e) {
-                showInternalErrorAlert(Localizer.getStringFromBundle("errorDuling", "ViewportScreen"));
+                showInternalErrorAlert(Localizer.getStringFromBundle("errorDuling", "MainScreen"));
             }
 
             newWindow.setScene(new Scene(parent));
@@ -277,8 +269,8 @@ public class MainController extends FXController implements StudyGroupRepository
             newWindow.show();
         });
 
-        MenuItem logout = new MenuItem(Localizer.getStringFromBundle("logOut", "ViewportScreen"));
-        Localizer.bindComponentToLocale(logout, "ViewportScreen", "logOut");
+        MenuItem logout = new MenuItem(Localizer.getStringFromBundle("logout", "MainScreen"));
+        Localizer.bindComponentToLocale(logout, "MainScreen", "logout");
         logout.setAccelerator(new KeyCodeCombination(KeyCode.L, KeyCodeCombination.CONTROL_DOWN));
         logout.setOnAction(event -> {
             screenContext.remove("login");
@@ -287,8 +279,8 @@ public class MainController extends FXController implements StudyGroupRepository
             screenContext.getRouter().go("signIn");
         });
 
-        MenuItem refreshCollection = new MenuItem(Localizer.getStringFromBundle("refreshData", "ViewportScreen"));
-        Localizer.bindComponentToLocale(refreshCollection, "ViewportScreen", "refreshData");
+        MenuItem refreshCollection = new MenuItem(Localizer.getStringFromBundle("refresh", "MainScreen"));
+        Localizer.bindComponentToLocale(refreshCollection, "MainScreen", "refresh");
         refreshCollection.setAccelerator(new KeyCodeCombination(KeyCode.R, KeyCodeCombination.CONTROL_DOWN));
         refreshCollection.setOnAction(event -> {
             try {
@@ -301,20 +293,18 @@ public class MainController extends FXController implements StudyGroupRepository
         SeparatorMenuItem separatorMenuItem = new SeparatorMenuItem();
         SeparatorMenuItem separatorMenuItem1 = new SeparatorMenuItem();
 
-        MenuItem exit = new MenuItem(Localizer.getStringFromBundle("exit", "ViewportScreen"));
-        Localizer.bindComponentToLocale(exit, "ViewportScreen", "exit");
+        MenuItem exit = new MenuItem(Localizer.getStringFromBundle("exit", "MainScreen"));
+        Localizer.bindComponentToLocale(exit, "MainScreen", "exit");
         exit.setAccelerator(new KeyCodeCombination(KeyCode.Q, KeyCodeCombination.CONTROL_DOWN));
         exit.setOnAction(event -> {
-            try {
-                screenContext.save();
-            } catch (IOException e) {
-                //logger
-            }
-
             System.exit(0);
         });
 
         menuBar.getMenus().forEach(menu -> menu.getItems().addAll(profile, settings, separatorMenuItem, refreshCollection, separatorMenuItem1, logout, exit));
+    }
+
+    public void restoreChoiceBox() {
+        initChoiceBox();
     }
 
     private void bindCellsToTextEditors() {
@@ -322,6 +312,7 @@ public class MainController extends FXController implements StudyGroupRepository
         nameCol.setOnEditCommit((TableColumn.CellEditEvent<StudyGroup, String> event) -> {
             if (getStudyGroup(event).getUserId() != user.getId()) {
                 showWarningAlert(Localizer.getStringFromBundle("notYoursDelete", "MainScreen"));
+                table.refresh();
                 return;
             }
 
@@ -330,6 +321,7 @@ public class MainController extends FXController implements StudyGroupRepository
             } catch (VerifyException e) {
                 table.refresh();
                 showErrorAlert(Localizer.getStringFromBundle("noteStudyGroup", "MainScreen"));
+                return;
             }
 
             change(studyGroups);
@@ -345,10 +337,17 @@ public class MainController extends FXController implements StudyGroupRepository
         xCoorCol.setOnEditCommit((TableColumn.CellEditEvent<StudyGroup, Integer> event) -> {
             if (getStudyGroup(event).getUserId() != user.getId()) {
                 showWarningAlert(Localizer.getStringFromBundle("notYoursDelete", "MainScreen"));
+                table.refresh();
                 return;
             }
 
-            getStudyGroup(event).getCoordinates().setX(event.getNewValue());
+            try {
+                getStudyGroup(event).getCoordinates().setX(event.getNewValue());
+            } catch (VerifyException e) {
+                showWarningAlert(Localizer.getStringFromBundle("tooHighX", "MainScreen"));
+                table.refresh();
+                return;
+            }
 
             change(studyGroups);
 
@@ -363,6 +362,7 @@ public class MainController extends FXController implements StudyGroupRepository
         yCoorCol.setOnEditCommit((TableColumn.CellEditEvent<StudyGroup, Integer> event) -> {
             if (getStudyGroup(event).getUserId() != user.getId()) {
                 showWarningAlert(Localizer.getStringFromBundle("notYoursDelete", "MainScreen"));
+                table.refresh();
                 return;
             }
 
@@ -381,10 +381,17 @@ public class MainController extends FXController implements StudyGroupRepository
         studCountCol.setOnEditCommit((TableColumn.CellEditEvent<StudyGroup, Integer> event) -> {
             if (getStudyGroup(event).getUserId() != user.getId()) {
                 showWarningAlert(Localizer.getStringFromBundle("notYoursDelete", "MainScreen"));
+                table.refresh();
                 return;
             }
 
-            getStudyGroup(event).setStudentsCount(event.getNewValue());
+            try {
+                getStudyGroup(event).setStudentsCount(event.getNewValue());
+            } catch (VerifyException e) {
+                showWarningAlert("Поле не может быть меньше нуля!");
+                table.refresh();
+                return;
+            }
 
             change(studyGroups);
 
@@ -399,10 +406,17 @@ public class MainController extends FXController implements StudyGroupRepository
         shouldBeExpCol.setOnEditCommit((TableColumn.CellEditEvent<StudyGroup, Long> event) -> {
             if (getStudyGroup(event).getUserId() != user.getId()) {
                 showWarningAlert(Localizer.getStringFromBundle("notYoursDelete", "MainScreen"));
+                table.refresh();
                 return;
             }
 
-            getStudyGroup(event).setShouldBeExpelled(event.getNewValue());
+            try {
+                getStudyGroup(event).setShouldBeExpelled(event.getNewValue());
+            } catch (VerifyException e) {
+                showWarningAlert("Поле не может быть меньше нуля или пустым!");
+                table.refresh();
+                return;
+            }
 
             change(studyGroups);
 
@@ -417,6 +431,7 @@ public class MainController extends FXController implements StudyGroupRepository
         formOfEducCol.setOnEditCommit((TableColumn.CellEditEvent<StudyGroup, FormOfEducation> event) -> {
             if (getStudyGroup(event).getUserId() != user.getId()) {
                 showWarningAlert(Localizer.getStringFromBundle("notYoursDelete", "MainScreen"));
+                table.refresh();
                 return;
             }
 
@@ -436,6 +451,7 @@ public class MainController extends FXController implements StudyGroupRepository
         semesterCol.setOnEditCommit((TableColumn.CellEditEvent<StudyGroup, Semester> event) -> {
             if (getStudyGroup(event).getUserId() != user.getId()) {
                 showWarningAlert(Localizer.getStringFromBundle("notYoursDelete", "MainScreen"));
+                table.refresh();
                 return;
             }
 
@@ -454,10 +470,18 @@ public class MainController extends FXController implements StudyGroupRepository
         personNameCol.setOnEditCommit((TableColumn.CellEditEvent<StudyGroup, String> event) -> {
             if (getStudyGroup(event).getUserId() != user.getId()) {
                 showWarningAlert(Localizer.getStringFromBundle("notYoursDelete", "MainScreen"));
+                table.refresh();
                 return;
             }
 
-            getStudyGroup(event).getGroupAdmin().setName(event.getNewValue());
+            try {
+                getStudyGroup(event).getGroupAdmin().setName(event.getNewValue());
+            } catch (VerifyException e) {
+                showWarningAlert("Поле не может быть пустым!");
+                table.refresh();
+
+                return;
+            }
 
             change(studyGroups);
 
@@ -472,10 +496,17 @@ public class MainController extends FXController implements StudyGroupRepository
         heightCol.setOnEditCommit((TableColumn.CellEditEvent<StudyGroup, Integer> event) -> {
             if (getStudyGroup(event).getUserId() != user.getId()) {
                 showWarningAlert(Localizer.getStringFromBundle("notYoursDelete", "MainScreen"));
+                table.refresh();
                 return;
             }
 
-            getStudyGroup(event).getGroupAdmin().setHeight(event.getNewValue());
+            try {
+                getStudyGroup(event).getGroupAdmin().setHeight(event.getNewValue());
+            } catch (VerifyException e) {
+                showWarningAlert("Неверный формат! Введите число");
+                table.refresh();
+                return;
+            }
 
             change(studyGroups);
 
@@ -490,10 +521,17 @@ public class MainController extends FXController implements StudyGroupRepository
         passportIdCol.setOnEditCommit((TableColumn.CellEditEvent<StudyGroup, String> event) -> {
             if (getStudyGroup(event).getUserId() != user.getId()) {
                 showWarningAlert(Localizer.getStringFromBundle("notYoursDelete", "MainScreen"));
+                table.refresh();
                 return;
             }
 
-            getStudyGroup(event).getGroupAdmin().setPassportID(event.getNewValue());
+            try {
+                getStudyGroup(event).getGroupAdmin().setPassportID(event.getNewValue());
+            } catch (VerifyException e) {
+                showWarningAlert("Поле не может быть пустым!");
+                table.refresh();
+                return;
+            }
 
             change(studyGroups);
 
@@ -509,6 +547,7 @@ public class MainController extends FXController implements StudyGroupRepository
         natCol.setOnEditCommit((TableColumn.CellEditEvent<StudyGroup, Country> event) -> {
             if (getStudyGroup(event).getUserId() != user.getId()) {
                 showWarningAlert(Localizer.getStringFromBundle("notYoursDelete", "MainScreen"));
+                table.refresh();
                 return;
             }
 
@@ -534,17 +573,21 @@ public class MainController extends FXController implements StudyGroupRepository
 
             if (selectedItem == null) {
                 showErrorAlert(Localizer.getStringFromBundle("noteDelete", "MainScreen"));
+                table.refresh();
                 return;
             }
 
             if (selectedItem.getUserId() != user.getId()) {
                 showWarningAlert(Localizer.getStringFromBundle("notYoursDelete", "MainScreen"));
+                table.refresh();
                 return;
             }
 
             localList.remove(selectedItem);
 
-            studyGroups = FXCollections.observableArrayList(localList);
+            synchronized (LOG_MANAGER) {
+                studyGroups = FXCollections.observableArrayList(localList);
+            }
             table.setItems(studyGroups);
 
             try {
@@ -587,11 +630,15 @@ public class MainController extends FXController implements StudyGroupRepository
 
             localList.add(studyGroup);
 
-            studyGroups = FXCollections.observableArrayList(localList);
+            synchronized (LOG_MANAGER) {
+                studyGroups = FXCollections.observableArrayList(localList);
+            }
+
             table.setItems(studyGroups);
 
             try {
                 serverStudyGroupDAO.create(studyGroup);
+                change(serverStudyGroupDAO.get());
             } catch (ServerAdapterException e) {
                 handleServerAdapterException(e);
             }
@@ -612,8 +659,8 @@ public class MainController extends FXController implements StudyGroupRepository
     private void initFilter(FilteredList<StudyGroup> filteredList) {
         filter.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredList.setPredicate(studyGroup -> {
-                if (newValue == null || newValue.isEmpty()) {
-                    return false;
+                if (newValue == null || newValue.trim().isEmpty()) {
+                    return true;
                 }
 
                 String lowerCaseFilter = newValue.toLowerCase();
@@ -623,7 +670,7 @@ public class MainController extends FXController implements StudyGroupRepository
                 if (ID.equals(filterProperty)) {
                     return Long.toString(studyGroup.getId()).toLowerCase().contains(lowerCaseFilter);
                 } else if (USER_ID.equals(filterProperty)) {
-                    return Integer.toString(studyGroup.getUserId()).contains(lowerCaseFilter);
+                    return Integer.toString(studyGroup.getUserId()).toLowerCase().contains(lowerCaseFilter);
                 } else if (STUDY_GROUP_NAME.equals(filterProperty)) {
                     return studyGroup.getName().toLowerCase().contains(lowerCaseFilter);
                 } else if (CREATION_DATE.equals(filterProperty)) {
@@ -655,28 +702,30 @@ public class MainController extends FXController implements StudyGroupRepository
     }
 
     private void initStudyGroupCollection() {
-        ObservableList<StudyGroup> rawProducts = null;
+        ObservableList<StudyGroup> studyGroups = null;
         try {
-            rawProducts = FXCollections.observableArrayList(serverStudyGroupDAO.get());
+            studyGroups = FXCollections.observableArrayList(serverStudyGroupDAO.get());
         } catch (ServerAdapterException e) {
             handleServerAdapterException(e);
         }
 
-        FilteredList<StudyGroup> filteredList = new FilteredList<>(rawProducts, product -> true);
+        FilteredList<StudyGroup> filteredList = new FilteredList<>(studyGroups, studyGroup -> true);
         initFilter(filteredList);
 
         SortedList<StudyGroup> sortedList = new SortedList<>(filteredList);
         sortedList.comparatorProperty().bind(table.comparatorProperty());
-        studyGroups = sortedList;
 
-        table.setItems(studyGroups);
+        synchronized (LOG_MANAGER) {
+            this.studyGroups = sortedList;
+        }
+
+        table.setItems(this.studyGroups);
     }
 
     private static final int MAGIC_CRUTCH_NUMBER = 500;
 
     private final Map<Integer, Color> userColors = new HashMap<>();
     private final Random random = new Random();
-    //private final Map<Color, Circle> tooltips = new HashMap<>();
 
     private static class Point {
         int userId;
@@ -737,7 +786,7 @@ public class MainController extends FXController implements StudyGroupRepository
                     graphicsContext.fillOval(circle.getCenterX() - 20.0,
                             circle.getCenterY() - 20.0,
                             20.0 * 2,
-                            20.02 * 2);
+                            20.0 * 2);
 
                     if (alpha.doubleValue() == maxAlpha) {
                         stop();
@@ -794,7 +843,7 @@ public class MainController extends FXController implements StudyGroupRepository
     private void showWarningAlert(String errorText) {
         if (alert == null) {
             alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Storage");
+            alert.setTitle("Nadya lab");
             alert.setContentText(errorText);
             alert.showAndWait();
             alert = null;
@@ -855,7 +904,7 @@ public class MainController extends FXController implements StudyGroupRepository
         initChoiceBox();
     }
 
-    private void bindColumnsToProductFields() {
+    private void bindColumnsToStudyGroupFields() {
         idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         userIdCol.setCellValueFactory(new PropertyValueFactory<>("userId"));
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -873,6 +922,18 @@ public class MainController extends FXController implements StudyGroupRepository
     }
 
     private void initChoiceBox() {
+        STUDY_GROUP_NAME = Localizer.getStringFromBundle("studyGroupName", "MainScreen");
+        CREATION_DATE = Localizer.getStringFromBundle("creationDate", "MainScreen");
+        STUD_COUNT = Localizer.getStringFromBundle("studCount", "MainScreen");
+        SHOULD_BE_EXPELLED = Localizer.getStringFromBundle("shouldBeExpelled", "MainScreen");
+        FORM_OF_EDUCATION = Localizer.getStringFromBundle("formOfEduc", "MainScreen");
+        SEMESTER = Localizer.getStringFromBundle("semester", "MainScreen");
+        PERSON_NAME = Localizer.getStringFromBundle("personName", "MainScreen");
+        HEIGHT = Localizer.getStringFromBundle("height", "MainScreen");
+        PASSPORT_ID = Localizer.getStringFromBundle("passportId", "MainScreen");
+        NATIONALITY = Localizer.getStringFromBundle("nationality", "MainScreen");
+        X_COORDINATES = Localizer.getStringFromBundle("xCoordinates", "MainScreen");
+        Y_COORDINATES = Localizer.getStringFromBundle("yCoordinates", "MainScreen");
         ObservableList<String> choices = FXCollections.observableArrayList(
                 ID,
                 USER_ID,
@@ -895,9 +956,9 @@ public class MainController extends FXController implements StudyGroupRepository
     }
 
     private void refreshFilterText() {
-        String oldFilterText = filter.getText();
-        filter.textProperty().setValue(" ");
-        filter.textProperty().setValue(oldFilterText);
+//        String oldFilterText = filter.getText();
+//        filter.textProperty().setValue(" ");
+//        filter.textProperty().setValue(oldFilterText);
     }
 
     public void setStudyGroupCollectionUpdater(StudyGroupCollectionUpdater studyGroupCollectionUpdater) {
@@ -905,14 +966,14 @@ public class MainController extends FXController implements StudyGroupRepository
     }
 
     @Override
-    public void change(List<StudyGroup> products) {
-        ObservableList<StudyGroup> rawProducts = FXCollections.observableArrayList(products);
-        FilteredList<StudyGroup> filteredList = new FilteredList<>(rawProducts, product -> true);
+    public void change(List<StudyGroup> studyGroups) {
+        ObservableList<StudyGroup> rawStudyGroups = FXCollections.observableArrayList(studyGroups);
+        FilteredList<StudyGroup> filteredList = new FilteredList<>(rawStudyGroups, group -> true);
 
         filter.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredList.setPredicate(studyGroup -> {
-                if (newValue == null || newValue.isEmpty()) {
-                    return false;
+                if (newValue == null || newValue.trim().isEmpty()) {
+                    return true;
                 }
 
                 String lowerCaseFilter = newValue.toLowerCase();
@@ -954,15 +1015,20 @@ public class MainController extends FXController implements StudyGroupRepository
 
         SortedList<StudyGroup> sortedList = new SortedList<>(filteredList);
         sortedList.comparatorProperty().bind(table.comparatorProperty());
-        this.studyGroups = sortedList;
+        synchronized (LOG_MANAGER) {
+            this.studyGroups = sortedList;
+        }
 
-        table.setItems(sortedList);
+        table.setItems(this.studyGroups);
+
         Platform.runLater(this::refreshFilterText);
+
+        updateCanvas();
     }
 
     @Override
     public void disconnect() {
-
+        Platform.runLater(this::showDisconnectAlert);
     }
 
     public void onStop() {

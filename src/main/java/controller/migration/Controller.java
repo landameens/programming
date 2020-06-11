@@ -44,8 +44,8 @@ public final class Controller extends Middleware {
         Command command = commandFactory.createCommand(query.getCommandName(), query.getArguments());
         LOG_MANAGER.debug("Command " + command.getClass().getSimpleName() + " was created SUCCESSFUL");
 
-        addRecordToHistory(query);
-        LOG_MANAGER.debug("The command is added to the history.");
+//        addRecordToHistory(query);
+//        LOG_MANAGER.debug("The command is added to the history.");
 
         Response response = command.execute();
         LOG_MANAGER.debug("Received responce: " + response.toString());

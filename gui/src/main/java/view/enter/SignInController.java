@@ -63,16 +63,11 @@ public class SignInController extends FXController {
 
     @FXML
     public void initialize() {
-        /*Localizer.bindComponentToLocale(welcomeLabel, "SignInScreen", "welcome");
+        Localizer.bindComponentToLocale(welcomeLabel, "SignInScreen", "welcome");
         Localizer.bindComponentToLocale(loginLabel, "SignInScreen", "login");
-        Localizer.bindTextFieldToLocale(login, "SignInScreen", "enterLogin");
         Localizer.bindComponentToLocale(passwordLabel, "SignInScreen", "password");
-        Localizer.bindTextFieldToLocale(password, "SignInScreen", "enterPassword");
         Localizer.bindComponentToLocale(signInButton, "SignInScreen", "singIn");
-        Localizer.bindComponentToLocale(newToStorageLabel, "SignInScreen", "newToStorage");
         Localizer.bindComponentToLocale(signUpButton, "SignInScreen", "singUp");
-        Localizer.bindComponentToLocale(exitButton, "SignInScreen", "exit");
-*/
     }
 
     private void showInternalErrorAlert(String string) {
