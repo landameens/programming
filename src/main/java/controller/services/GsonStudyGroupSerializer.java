@@ -17,7 +17,7 @@ public final class GsonStudyGroupSerializer implements JsonSerializer<StudyGroup
         jsonObject.add("studentsCount", new JsonPrimitive(src.getStudentsCount()));
         jsonObject.add("shouldBeExpelled", new JsonPrimitive(src.getShouldBeExpelled()));
         jsonObject.add("formOfEducation", new JsonPrimitive(src.getFormOfEducation().getName()));
-        jsonObject.add("semesterEnum", new JsonPrimitive(src.getSemesterEnum().toString()));
+        jsonObject.add("semesterEnum", new JsonPrimitive(src.getSemesterEnum().getName()));
         jsonObject.add("groupAdmin", context.serialize(src.getGroupAdmin()));
 
         return jsonObject;

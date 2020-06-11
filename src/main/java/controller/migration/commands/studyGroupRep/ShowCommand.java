@@ -8,6 +8,7 @@ import domain.studyGroupRepository.concreteSet.ConcreteSet;
 import manager.LogManager;
 import response.Response;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -23,8 +24,7 @@ public class ShowCommand extends StudyGroupRepositoryCommand {
     public Response execute() {
         LOG_MANAGER.info("Выполнение команды show...");
         try {
-            ConcreteSet allSet = new AllSet();
-            Set<StudyGroup> studyGroupSet = studyGroupRepository.getConcreteSetOfStudyGroups(allSet);
+            List<StudyGroup> studyGroupSet = studyGroupRepository.getAll();
 
             LOG_MANAGER.info("Вывод информации о коллекции.");
             return getSuccessfullyResponseDTO(getMessage(studyGroupSet));
@@ -34,7 +34,7 @@ public class ShowCommand extends StudyGroupRepositoryCommand {
         }
     }
 
-    private String getMessage(Set<StudyGroup> studyGroupSet){
+    private String getMessage(List<StudyGroup> studyGroupSet){
 
         if(!studyGroupSet.isEmpty()) {
             StringBuilder allStudyGroups = new StringBuilder();

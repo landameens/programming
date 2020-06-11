@@ -13,7 +13,7 @@ public final class GsonPersonSerializer implements JsonSerializer<Person> {
         jsonObject.add("name", new JsonPrimitive(src.getName()));
         jsonObject.add("height", new JsonPrimitive(src.getHeight()));
         jsonObject.add("passportId", new JsonPrimitive(src.getPassportID()));
-        jsonObject.add("nationality", new JsonPrimitive(src.getNationality().toString()));
+        jsonObject.add("nationality", new JsonPrimitive(src.getNationality().getName()));
 
         return jsonObject;
     }

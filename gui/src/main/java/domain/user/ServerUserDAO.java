@@ -36,4 +36,18 @@ public final class ServerUserDAO {
 
         return Collections.emptyList();
     }
+
+
+    public User get(String login) throws ServerAdapterException {
+        Map<String, String> queryArguments = new HashMap<>();
+        queryArguments.put("login", login);
+
+        Response response = serverAdapter.send("getUser", queryArguments);
+
+        if (response.getStatus().equals(Status.SUCCESSFULLY)) {
+            return gson.fromJson(response.getAnswer(), User.class);
+        }
+
+        return null;
+    }
 }

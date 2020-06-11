@@ -10,6 +10,8 @@ import controller.services.GsonStudyGroupDeserializer;
 import controller.services.JSONAdapter;
 import domain.studyGroup.StudyGroup;
 import domain.studyGroup.person.Person;
+import manager.LogManager;
+import org.omg.PortableInterceptor.LOCATION_FORWARD;
 import query.Query;
 import response.Response;
 import response.Status;
@@ -19,6 +21,9 @@ import java.util.List;
 import java.util.Map;
 
 public final class ServerStudyGroupDAO {
+    private static final LogManager LOG_MANAGER = LogManager.createDefault(ServerStudyGroupDAO.class);
+
+
     private ServerAdapter serverAdapter;
     private Gson gson = new GsonBuilder()
                                 .registerTypeAdapter(StudyGroup.class, new GsonStudyGroupDeserializer())
@@ -65,6 +70,7 @@ public final class ServerStudyGroupDAO {
     }
 
     public StudyGroup update(StudyGroup studyGroup) throws ServerAdapterException {
+        LOG_MANAGER.warn(studyGroup.toString());
         Map<String, String> map = new HashMap<>();
         map.put("id", studyGroup.getId() + "");
         map.put("xCoordinate", studyGroup.getCoordinates().getX() + "");

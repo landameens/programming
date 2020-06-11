@@ -1,5 +1,6 @@
 package server.middleware;
 
+import com.google.gson.Gson;
 import domain.user.User;
 import domain.userRepository.UserRepository;
 import domain.userRepository.exception.UserRepositoryException;
@@ -22,6 +23,8 @@ public final class GeneralAccessValidator extends Middleware {
     private static final LogManager LOG_MANAGER = LogManager.createDefault(GeneralAccessValidator.class);
 
     private final UserRepository userRepository;
+
+    private final Gson gson = new Gson();
 
 
     private String nextLeave = "old";
@@ -49,6 +52,10 @@ public final class GeneralAccessValidator extends Middleware {
             }
 
             user = userRepository.get(getQuery).iterator().next();
+
+            if (query.getCommandName().equals("getUser")) {
+                return new Response(Status.SUCCESSFULLY, gson.toJson(user));
+            }
         } catch (NoSuchElementException | UserRepositoryException e) {
             LOG_MANAGER.errorThrowable(e);
             return Response.createInternalError();

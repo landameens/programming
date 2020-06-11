@@ -2,11 +2,15 @@ package view.main;
 
 import controller.AbstractController;
 import controller.localizer.Localizer;
-import controller.serverAdapter.exception.*;
+import controller.serverAdapter.exception.ServerAdapterException;
+import controller.serverAdapter.exception.ServerInternalErrorException;
+import controller.serverAdapter.exception.ServerUnavailableException;
+import controller.serverAdapter.exception.WrongQueryException;
 import domain.exception.VerifyException;
 import domain.studyGroup.FormOfEducation;
 import domain.studyGroup.Semester;
 import domain.studyGroup.StudyGroup;
+import domain.studyGroup.coordinates.Coordinates;
 import domain.studyGroup.dao.ServerStudyGroupDAO;
 import domain.studyGroup.person.Country;
 import domain.studyGroup.person.Person;
@@ -42,7 +46,10 @@ import javafx.util.converter.LongStringConverter;
 import manager.LogManager;
 import view.fxController.FXController;
 
+import java.time.LocalDateTime;
 import java.util.*;
+
+import static java.lang.Math.sqrt;
 
 public class MainController extends FXController implements StudyGroupRepositorySubscriber {
     private static final LogManager LOG_MANAGER = LogManager.createDefault(MainController.class);
@@ -140,6 +147,22 @@ public class MainController extends FXController implements StudyGroupRepository
         bindColumnsToProductFields();
         initContextMenu();
 
+        canvasField.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            double sceneX = event.getX() - MAGIC_CRUTCH_NUMBER;
+            double sceneY = event.getY() - MAGIC_CRUTCH_NUMBER;
+
+            for (StudyGroup studyGroup : studyGroups) {
+                double centerX = studyGroup.getCoordinatesX();
+                double centerY = studyGroup.getCoordinatesY();
+
+                double length = sqrt((sceneX - centerX) * (sceneX - centerX) + (sceneY - centerY) * (sceneY - centerY));
+
+                if (length <= 20.0) {
+                    table.getSelectionModel().select(studyGroup);
+                }
+            }
+        });
+
         /*Localizer.bindComponentToLocale(hasLocationButton, "MainScreen", "availabilityLocation");
         Localizer.bindComponentToLocale(hasOrganizationButton, "MainScreen", "availabilityOrganization");
         Localizer.bindComponentToLocale(filter, "MainScreen", "filter");
@@ -178,6 +201,12 @@ public class MainController extends FXController implements StudyGroupRepository
         initStudyGroupCollection();
 
         bindCellsToTextEditors();
+
+        try {
+            user = serverUserDAO.get(screenContext.get("login"));
+        } catch (ServerAdapterException e) {
+            handleServerAdapterException(e);
+        }
 
         initUserColors();
         canvasTimer = new Timer();
@@ -528,9 +557,30 @@ public class MainController extends FXController implements StudyGroupRepository
 
         MenuItem addGroup = new MenuItem("add");
         addGroup.setOnAction(event -> {
-            Person person = new Person();
-            StudyGroup studyGroup = new StudyGroup();
-            studyGroup.setGroupAdmin(person);
+            Person person;
+            try {
+                person = new Person("1", 1, "1", Country.JAPAN);
+            } catch (VerifyException e) {
+                LOG_MANAGER.errorThrowable(e);
+                throw new RuntimeException(e);
+            }
+
+            StudyGroup studyGroup;
+            try {
+                studyGroup = new StudyGroup(1L,
+                                                    1,
+                                                    "a",
+                                                    new Coordinates(1,1 ),
+                                                    LocalDateTime.now(),
+                                                    1,
+                                                    1L,
+                                                    FormOfEducation.DISTANCE_EDUCATION,
+                                                    Semester.EIGHTH,
+                                                    person);
+            } catch (VerifyException e) {
+                LOG_MANAGER.errorThrowable(e);
+                throw new RuntimeException(e);
+            }
 
             List<StudyGroup> localList = new ArrayList<>(studyGroups);
 
@@ -549,6 +599,7 @@ public class MainController extends FXController implements StudyGroupRepository
         });
 
         contextMenu.getItems().add(deleteStudyGroup);
+        contextMenu.getItems().add(addGroup);
 
         table.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
             if (event.getButton() == MouseButton.SECONDARY) {
@@ -593,7 +644,7 @@ public class MainController extends FXController implements StudyGroupRepository
                 } else if (HEIGHT.equals(filterProperty)) {
                     return Integer.toString(studyGroup.getPersonHeight()).toLowerCase().contains(lowerCaseFilter);
                 } else if (PASSPORT_ID.equals(filterProperty)) {
-                    return studyGroup.getPersonPassportId().toLowerCase().contains(lowerCaseFilter);
+                    return studyGroup.getPersonPassportID().toLowerCase().contains(lowerCaseFilter);
                 } else if (NATIONALITY.equals(filterProperty)) {
                     return studyGroup.getPersonNationality().getName().toLowerCase().contains(lowerCaseFilter);
                 }
@@ -657,7 +708,6 @@ public class MainController extends FXController implements StudyGroupRepository
 
         List<Point> points = new ArrayList<>();
         studyGroups.forEach(studyGroup -> points.add(new Point(studyGroup.getUserId(), studyGroup.getCoordinates().getX(), studyGroup.getCoordinates().getY())));
-        LOG_MANAGER.debug("Points: " + points.toString());
 
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.seconds(0),
@@ -710,8 +760,6 @@ public class MainController extends FXController implements StudyGroupRepository
         if (!users.isEmpty()) {
             users.forEach(concreteUser -> userColors.put(concreteUser.getId(), generateRandomColor()));
         }
-
-        LOG_MANAGER.debug("Colors: " + userColors.toString());
     }
 
     private Color generateRandomColor() {
@@ -726,14 +774,6 @@ public class MainController extends FXController implements StudyGroupRepository
 
         if (serverAdapterException instanceof ServerUnavailableException) {
             showDisconnectAlert();
-        }
-
-        if (serverAdapterException instanceof AccessTokenExpiredException) {
-            showAccessTokenExpiredAlert();
-        }
-
-        if (serverAdapterException instanceof WrongSignatureOfAccessTokenException) {
-            showAccessTokenExpiredAlert();
         }
 
         if (serverAdapterException instanceof WrongQueryException) {
@@ -792,24 +832,6 @@ public class MainController extends FXController implements StudyGroupRepository
             }
             alert = null;
         });
-    }
-
-    private void showAccessTokenExpiredAlert() {
-        if (alert == null) {
-            alert = new Alert(Alert.AlertType.WARNING, Localizer.getStringFromBundle("sessionIsExpired", "MainScreen"), ButtonType.OK);
-            Optional<ButtonType> response = alert.showAndWait();
-            response.ifPresent(buttonType -> {
-                if (buttonType.equals(ButtonType.OK)) {
-                    alert = null;
-                    screenContext.remove("accessToken");
-                    onStop();
-                    LOG_MANAGER.info("All support threads has been stop");
-                    screenContext.getRouter().go("signIn");
-                }
-            });
-
-            alert = null;
-        }
     }
 
     private void reconnectToServer() {
