@@ -42,26 +42,26 @@ public class SettingsController {
             System.err.println(Localizer.getLocale().getLanguage());
 
             if (ROMANIAN.equals(newValue)) {
-                Localizer.switchLanguage("en");
+                Localizer.switchLanguage("ro");
             } else if (RUSSIAN.equals(newValue)) {
                 Localizer.switchLanguage("ru");
             } else if (SPANISH.equals(newValue)) {
-                Localizer.switchLanguage("sv");
+                Localizer.switchLanguage("es");
             } else if (GREEK.equals(newValue)) {
-                Localizer.switchLanguage("is");
+                Localizer.switchLanguage("el");
             }
 
             System.err.println(Localizer.getLocale().getLanguage());
             initStr();
-            //mainController.restoreAfterLocale();
+            mainController.restoreChoiceBox();
         });
     }
 
     private void initStr() {
         ROMANIAN = Localizer.getStringFromBundle("romanian", "MenuScreen");
         RUSSIAN = Localizer.getStringFromBundle("russian", "MenuScreen");
-        String SPANISH = Localizer.getStringFromBundle("spanish", "MenuScreen");
-        String GREEK = Localizer.getStringFromBundle("greek", "MenuScreen");
+        SPANISH = Localizer.getStringFromBundle("spanish", "MenuScreen");
+        GREEK = Localizer.getStringFromBundle("greek", "MenuScreen");
 
         initLocaleComboBox();
     }
@@ -81,11 +81,11 @@ public class SettingsController {
 
         if ("ru".equals(locale.getLanguage())) {
             localeComboBox.getSelectionModel().select(RUSSIAN);
-        } else if ("en".equals(locale.getLanguage())) {
+        } else if ("ro".equals(locale.getLanguage())) {
             localeComboBox.getSelectionModel().select(ROMANIAN);
-        } else if ("sv".equals(locale.getLanguage())) {
+        } else if ("es".equals(locale.getLanguage())) {
             localeComboBox.getSelectionModel().select(SPANISH);
-        } else if ("is".equals(locale.getLanguage())) {
+        } else if ("el".equals(locale.getLanguage())) {
             localeComboBox.getSelectionModel().select(GREEK);
         }
     }

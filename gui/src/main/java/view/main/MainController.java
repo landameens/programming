@@ -300,6 +300,10 @@ public class MainController extends FXController implements StudyGroupRepository
         menuBar.getMenus().forEach(menu -> menu.getItems().addAll(profile, settings, separatorMenuItem, refreshCollection, separatorMenuItem1, logout, exit));
     }
 
+    public void restoreChoiceBox() {
+        initChoiceBox();
+    }
+
     private void bindCellsToTextEditors() {
         nameCol.setCellFactory(TextFieldTableCell.forTableColumn());
         nameCol.setOnEditCommit((TableColumn.CellEditEvent<StudyGroup, String> event) -> {
