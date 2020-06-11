@@ -61,7 +61,8 @@ public class Person implements Cloneable{
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(String name) throws VerifyException {
+        checkName(name);
         this.name = name;
     }
 
@@ -69,7 +70,8 @@ public class Person implements Cloneable{
         return height;
     }
 
-    public void setHeight(int height) {
+    public void setHeight(int height) throws VerifyException {
+        checkHeight(height);
         this.height = height;
     }
 
@@ -77,7 +79,8 @@ public class Person implements Cloneable{
         return passportID;
     }
 
-    public void setPassportID(String passportID) {
+    public void setPassportID(String passportID) throws VerifyException {
+        checkPassportID(passportID);
         this.passportID = passportID;
     }
 
