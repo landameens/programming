@@ -44,7 +44,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        primaryStage.setTitle("Yofik Storage");
+        primaryStage.setTitle("Nadya lab");
 
         Configuration configuration = provideConfiguration();
         ServerAdapter serverAdapter = provideServerAdapter(configuration);
