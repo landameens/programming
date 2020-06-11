@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 <?import javafx.geometry.*?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
-<AnchorPane prefHeight="182.0" prefWidth="585.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="182.0" prefWidth="585.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <VBox layoutX="101.0" layoutY="45.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <Label fx:id="settingsLabel" alignment="CENTER" prefHeight="28.0" prefWidth="842.0" style="-fx-text-fill: #9000ff;" text="Settings">
+                <Label fx:id="settingsLabel" alignment="CENTER" prefHeight="28.0" prefWidth="842.0" text="Settings">
                     <font>
                         <Font name="Monospaced Regular" size="24.0" />
                     </font>
@@ -36,7 +34,7 @@
                         <Insets top="25.0" />
                     </VBox.margin>
                     <children>
-                        <Label fx:id="localeLabel" style="-fx-text-fill: #9000ff;" text="Locale:">
+                        <Label fx:id="localeLabel" text="Locale:">
                             <font>
                                 <Font name="Leelawadee UI" size="18.0" />
                             </font>
@@ -44,7 +42,7 @@
                                 <Insets left="180.0" top="10.0" />
                             </GridPane.margin>
                         </Label>
-                        <ComboBox fx:id="localeComboBox" prefHeight="25.0" prefWidth="235.0" stylesheets="@../cssStyles/filterComboBox.css" GridPane.columnIndex="1">
+                        <ComboBox fx:id="localeComboBox" prefHeight="25.0" prefWidth="235.0" GridPane.columnIndex="1">
                             <GridPane.margin>
                                 <Insets top="10.0" />
                             </GridPane.margin>

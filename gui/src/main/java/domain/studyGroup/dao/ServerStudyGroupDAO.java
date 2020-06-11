@@ -103,6 +103,14 @@ public final class ServerStudyGroupDAO {
         serverAdapter.send(query);
     }
 
+    public void delete(Long studyGroupId) throws ServerAdapterException {
+        Map<String, String> map = new HashMap<>();
+        map.put("id", String.valueOf(studyGroupId));
+
+        Query query = new Query("remove_by_id", map);
+
+        serverAdapter.send(query);
+    }
     public boolean checkConnection() throws ServerAdapterException {
         get();
         return true;

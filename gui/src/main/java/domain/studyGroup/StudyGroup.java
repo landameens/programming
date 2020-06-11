@@ -227,7 +227,7 @@ public class StudyGroup implements Cloneable{
         return coordinates.getX();
     }
 
-    public double getCoordinatesY() {
+    public Integer getCoordinatesY() {
         return coordinates.getY();
     }
 
