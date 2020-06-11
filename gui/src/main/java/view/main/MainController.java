@@ -3,11 +3,13 @@ package view.main;
 import controller.AbstractController;
 import controller.localizer.Localizer;
 import controller.serverAdapter.exception.ServerAdapterException;
+import domain.exception.VerifyException;
 import domain.studyGroup.FormOfEducation;
 import domain.studyGroup.Semester;
 import domain.studyGroup.StudyGroup;
 import domain.studyGroup.dao.ServerStudyGroupDAO;
 import domain.studyGroup.person.Country;
+import domain.studyGroup.person.Person;
 import domain.studyGroupRepository.ProductCollectionUpdater;
 import domain.studyGroupRepository.StudyGroupRepositorySubscriber;
 import domain.user.ServerUserDAO;
@@ -21,12 +23,15 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.FloatStringConverter;
 import javafx.util.converter.IntegerStringConverter;
 import javafx.util.converter.LongStringConverter;
 import view.fxController.FXController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainController extends FXController implements StudyGroupRepositorySubscriber {
@@ -157,21 +162,19 @@ public class MainController extends FXController implements StudyGroupRepository
         bindCellsToTextEditors();
     }
 
-    private void bindCellsToTextEditors() {
+    /*private void bindCellsToTextEditors() {
         nameCol.setCellFactory(TextFieldTableCell.forTableColumn());
-        nameCol.setOnEditStart((TableColumn.CellEditEvent<StudyGroup, String> event) ->
-                event.getTablePosition().getTableView().setTooltip(new Tooltip(Localizer.getStringFromBundle("noteName", "TableScreen"))));
         nameCol.setOnEditCommit((TableColumn.CellEditEvent<StudyGroup, String> event) -> {
-            if (getProduct(event).getUserId() != user.getId()) {
+            if (getStudyGroup(event).getUserId() != user.getId()) {
                 showWarningAlert(Localizer.getStringFromBundle("notYoursDelete", "TableScreen"));
                 return;
             }
 
             try {
-                getProduct(event).setProductName(event.getNewValue());
-            } catch (ValidationException e) {
-                productTable.refresh();
-                showErrorAlert(Localizer.getStringFromBundle("noteProduct", "TableScreen"));
+                getStudyGroup(event).setName(event.getNewValue());
+            } catch (VerifyException e) {
+                table.refresh();
+                showErrorAlert(Localizer.getStringFromBundle("noteStudyGroup", "TableScreen"));
             }
 
             viewportController.change(products);
@@ -542,6 +545,69 @@ public class MainController extends FXController implements StudyGroupRepository
                 serverProductDAO.updateLocation(product.getId(), product.getManufacturer().getOfficialAddress().getTown());
             } catch (ServerAdapterException e) {
                 handleServerAdapterException(e);
+            }
+        });
+    }*/
+
+    private void initContextMenu() {
+        ContextMenu contextMenu = new ContextMenu();
+
+        MenuItem deleteStudyGroup = new MenuItem("delete");
+        deleteStudyGroup.setOnAction(event -> {
+            StudyGroup selectedItem = table.getSelectionModel().getSelectedItem();
+            List<StudyGroup> localList = new ArrayList<>(products);
+
+            if (selectedItem == null) {
+                showErrorAlert(Localizer.getStringFromBundle("noteDelete", "TableScreen"));
+                return;
+            }
+
+            if (selectedItem.getUserId() != user.getId()) {
+                showWarningAlert(Localizer.getStringFromBundle("notYoursDelete", "TableScreen"));
+                return;
+            }
+
+            localList.remove(selectedItem);
+
+            products = FXCollections.observableArrayList(localList);
+            table.setItems(products);
+
+            try {
+                serverStudyGroupDAO.delete(selectedItem.getId());
+            } catch (ServerAdapterException e) {
+                handleServerAdapterException(e);
+            }
+
+            refreshFilterText();
+        });
+
+        MenuItem addGroup = new MenuItem("add");
+        addGroup.setOnAction(event -> {
+            Person person = new Person();
+            StudyGroup studyGroup = new StudyGroup();
+            studyGroup.setGroupAdmin(person);
+
+            List<StudyGroup> localList = new ArrayList<>(products);
+
+            localList.add(studyGroup);
+
+            products = FXCollections.observableArrayList(localList);
+            table.setItems(products);
+
+            try {
+                serverStudyGroupDAO.create(studyGroup);
+            } catch (ServerAdapterException e) {
+                handleServerAdapterException(e);
+            }
+
+            refreshFilterText();
+        });
+
+        contextMenu.getItems().add(deleteStudyGroup);
+
+        table.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
+            if (event.getButton() == MouseButton.SECONDARY) {
+                contextMenu.show(table, event.getScreenX(), event.getScreenY());
             }
         });
     }
