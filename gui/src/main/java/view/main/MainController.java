@@ -331,6 +331,7 @@ public class MainController extends FXController implements StudyGroupRepository
             } catch (VerifyException e) {
                 table.refresh();
                 showErrorAlert(Localizer.getStringFromBundle("noteStudyGroup", "MainScreen"));
+                return;
             }
 
             change(studyGroups);
@@ -353,6 +354,7 @@ public class MainController extends FXController implements StudyGroupRepository
                 getStudyGroup(event).getCoordinates().setX(event.getNewValue());
             } catch (VerifyException e) {
                 showWarningAlert(Localizer.getStringFromBundle("tooHighX", "MainScreen"));
+                table.refresh();
                 return;
             }
 
@@ -390,7 +392,13 @@ public class MainController extends FXController implements StudyGroupRepository
                 return;
             }
 
-            getStudyGroup(event).setStudentsCount(event.getNewValue());
+            try {
+                getStudyGroup(event).setStudentsCount(event.getNewValue());
+            } catch (VerifyException e) {
+                showWarningAlert("Поле не может быть меньше нуля!");
+                table.refresh();
+                return;
+            }
 
             change(studyGroups);
 
@@ -408,7 +416,13 @@ public class MainController extends FXController implements StudyGroupRepository
                 return;
             }
 
-            getStudyGroup(event).setShouldBeExpelled(event.getNewValue());
+            try {
+                getStudyGroup(event).setShouldBeExpelled(event.getNewValue());
+            } catch (VerifyException e) {
+                showWarningAlert("Поле не может быть меньше нуля или пустым!");
+                table.refresh();
+                return;
+            }
 
             change(studyGroups);
 
@@ -463,7 +477,14 @@ public class MainController extends FXController implements StudyGroupRepository
                 return;
             }
 
-            getStudyGroup(event).getGroupAdmin().setName(event.getNewValue());
+            try {
+                getStudyGroup(event).getGroupAdmin().setName(event.getNewValue());
+            } catch (VerifyException e) {
+                showWarningAlert("Поле не может быть пустым!");
+                table.refresh();
+
+                return;
+            }
 
             change(studyGroups);
 
@@ -481,7 +502,13 @@ public class MainController extends FXController implements StudyGroupRepository
                 return;
             }
 
-            getStudyGroup(event).getGroupAdmin().setHeight(event.getNewValue());
+            try {
+                getStudyGroup(event).getGroupAdmin().setHeight(event.getNewValue());
+            } catch (VerifyException e) {
+                showWarningAlert("Неверный формат! Введите число");
+                table.refresh();
+                return;
+            }
 
             change(studyGroups);
 
@@ -499,7 +526,13 @@ public class MainController extends FXController implements StudyGroupRepository
                 return;
             }
 
-            getStudyGroup(event).getGroupAdmin().setPassportID(event.getNewValue());
+            try {
+                getStudyGroup(event).getGroupAdmin().setPassportID(event.getNewValue());
+            } catch (VerifyException e) {
+                showWarningAlert("Поле не может быть пустым!");
+                table.refresh();
+                return;
+            }
 
             change(studyGroups);
 

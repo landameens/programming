@@ -179,7 +179,8 @@ public class StudyGroup implements Cloneable{
         return studentsCount;
     }
 
-    public void setStudentsCount(int studentsCount) {
+    public void setStudentsCount(int studentsCount) throws VerifyException {
+        checkStudentsCount(studentsCount);
         this.studentsCount = studentsCount;
     }
 
@@ -187,7 +188,8 @@ public class StudyGroup implements Cloneable{
         return shouldBeExpelled;
     }
 
-    public void setShouldBeExpelled(Long shouldBeExpelled) {
+    public void setShouldBeExpelled(Long shouldBeExpelled) throws VerifyException {
+        checkShouldBeExpelled(shouldBeExpelled);
         this.shouldBeExpelled = shouldBeExpelled;
     }
 
