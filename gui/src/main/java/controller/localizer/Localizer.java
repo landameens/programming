@@ -15,16 +15,16 @@ import java.util.*;
 public class Localizer {
     private static final ObjectProperty<Locale> locale;
 
-    private static final Locale NEW_ZELAND_ENGLISH = Locale.ENGLISH;
-    private static final Locale SWEDISH = new Locale("sv", "SE");
-    private static final Locale ICELANDIC = new Locale("is", "IS");
+    private static final Locale ROMANIAN = new Locale("ro", "RO");
+    private static final Locale GREEK = new Locale("el", "GR");
+    private static final Locale SPANISH = new Locale("es", "NL");
     private static final Locale RUSSIAN = new Locale("ru", "RU");
 
     private final static Map<String, Locale> LOCALE_MAP = new HashMap<String, Locale>() {
         {
-            put("en", NEW_ZELAND_ENGLISH);
-            put("sv", SWEDISH);
-            put("is", ICELANDIC);
+            put("en", ROMANIAN);
+            put("sv", GREEK);
+            put("is", SPANISH);
             put("ru", RUSSIAN);
         }
     };
@@ -35,15 +35,15 @@ public class Localizer {
     }
 
     public static List<Locale> getSupportedLocales() {
-        return new ArrayList<>(Arrays.asList(NEW_ZELAND_ENGLISH,
-                SWEDISH,
-                ICELANDIC,
+        return new ArrayList<>(Arrays.asList(ROMANIAN,
+                GREEK,
+                SPANISH,
                 RUSSIAN));
     }
 
     public static Locale getDefaultLocale() {
         Locale sysDefault = Locale.getDefault();
-        return getSupportedLocales().contains(sysDefault) ? sysDefault : NEW_ZELAND_ENGLISH;
+        return getSupportedLocales().contains(sysDefault) ? sysDefault : ROMANIAN;
     }
 
     public static Locale getLocale() {

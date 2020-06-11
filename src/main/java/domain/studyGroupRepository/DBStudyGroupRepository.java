@@ -104,4 +104,13 @@ public final class DBStudyGroupRepository implements IStudyGroupRepository {
     public synchronized void save() throws storage.exception.DAOException {
         LOG_MANAGER.warn("Not acceptable");
     }
+
+    @Override
+    public List<StudyGroup> getAll() throws StudyGroupRepositoryException {
+        try {
+            return studyGroupDAO.getAll();
+        } catch (DAOException e) {
+            throw new StudyGroupRepositoryException(e);
+        }
+    }
 }
