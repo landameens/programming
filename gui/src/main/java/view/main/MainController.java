@@ -905,7 +905,58 @@ public class MainController extends FXController implements StudyGroupRepository
 
     @Override
     public void change(List<StudyGroup> products) {
+        ObservableList<StudyGroup> rawProducts = FXCollections.observableArrayList(products);
+        FilteredList<StudyGroup> filteredList = new FilteredList<>(rawProducts, product -> true);
 
+        filter.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredList.setPredicate(studyGroup -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return false;
+                }
+
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                String filterProperty = choice.getValue();
+
+                if (ID.equals(filterProperty)) {
+                    return Long.toString(studyGroup.getId()).toLowerCase().contains(lowerCaseFilter);
+                } else if (USER_ID.equals(filterProperty)) {
+                    return Integer.toString(studyGroup.getUserId()).contains(lowerCaseFilter);
+                } else if (STUDY_GROUP_NAME.equals(filterProperty)) {
+                    return studyGroup.getName().toLowerCase().contains(lowerCaseFilter);
+                } else if (CREATION_DATE.equals(filterProperty)) {
+                    return studyGroup.getCreationDate().toLowerCase().contains(lowerCaseFilter);
+                } else if (X_COORDINATES.equals(filterProperty)) {
+                    return Integer.toString(studyGroup.getCoordinatesX()).toLowerCase().contains(lowerCaseFilter);
+                } else if (Y_COORDINATES.equals(filterProperty)) {
+                    return Double.toString(studyGroup.getCoordinatesY()).toLowerCase().contains(lowerCaseFilter);
+                } else if (STUD_COUNT.equals(filterProperty)) {
+                    return Integer.toString(studyGroup.getStudentsCount()).toLowerCase().contains(lowerCaseFilter);
+                } else if (SHOULD_BE_EXPELLED.equals(filterProperty)) {
+                    return Long.toString(studyGroup.getShouldBeExpelled()).toLowerCase().contains(lowerCaseFilter);
+                } else if (FORM_OF_EDUCATION.equals(filterProperty)) {
+                    return studyGroup.getFormOfEducation().getName().toLowerCase().contains(lowerCaseFilter);
+                } else if (SEMESTER.equals(filterProperty)) {
+                    return studyGroup.getSemesterEnum().getName().toLowerCase().contains(lowerCaseFilter);
+                } else if (PERSON_NAME.equals(filterProperty)) {
+                    return studyGroup.getPersonName().toLowerCase().contains(lowerCaseFilter);
+                } else if (HEIGHT.equals(filterProperty)) {
+                    return Integer.toString(studyGroup.getPersonHeight()).toLowerCase().contains(lowerCaseFilter);
+                } else if (PASSPORT_ID.equals(filterProperty)) {
+                    return studyGroup.getPersonPassportID().toLowerCase().contains(lowerCaseFilter);
+                } else if (NATIONALITY.equals(filterProperty)) {
+                    return studyGroup.getPersonNationality().getName().toLowerCase().contains(lowerCaseFilter);
+                }
+                return false;
+            });
+        });
+
+        SortedList<StudyGroup> sortedList = new SortedList<>(filteredList);
+        sortedList.comparatorProperty().bind(table.comparatorProperty());
+        this.studyGroups = sortedList;
+
+        table.setItems(sortedList);
+        Platform.runLater(this::refreshFilterText);
     }
 
     @Override
