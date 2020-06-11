@@ -43,7 +43,7 @@ public class Localizer {
 
     public static Locale getDefaultLocale() {
         Locale sysDefault = Locale.getDefault();
-        return getSupportedLocales().contains(sysDefault) ? sysDefault : ROMANIAN;
+        return getSupportedLocales().contains(sysDefault) ? sysDefault : RUSSIAN;
     }
 
     public static Locale getLocale() {
