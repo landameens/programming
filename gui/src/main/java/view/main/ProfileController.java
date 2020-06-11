@@ -27,8 +27,8 @@ public class ProfileController {
 
     @FXML
     private void initialize() {
-        /*Localizer.bindComponentToLocale(profileLabel, "ProfileScreen", "profile");
-        Localizer.bindComponentToLocale(loginLabel, "ProfileScreen", "login");*/
+        Localizer.bindComponentToLocale(profileLabel, "MenuScreen", "profile");
+        Localizer.bindComponentToLocale(loginLabel, "MenuScreen", "login");
 
         loginField.setText(user.getLogin());
     }

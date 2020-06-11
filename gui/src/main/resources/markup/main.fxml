@@ -5,7 +5,6 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -30,14 +29,10 @@
          <children>
             <MenuBar fx:id="menuBar" prefHeight="25.0" prefWidth="247.0">
               <menus>
-                <Menu mnemonicParsing="false" text="Menu">
-                  <items>
-                    <MenuItem mnemonicParsing="false" text="Close" />
-                  </items>
-                </Menu>
+                <Menu mnemonicParsing="false" text="Menu" />
               </menus>
                <GridPane.margin>
-                  <Insets right="650.0" />
+                  <Insets right="635.0" />
                </GridPane.margin>
             </MenuBar>
             <TextField fx:id="filter" prefHeight="25.0" prefWidth="364.0" promptText="Enter value to filter" GridPane.columnIndex="1">
@@ -58,7 +53,7 @@
                <children>
                   <ScrollPane layoutX="80.0" layoutY="135.0" pannable="true" prefHeight="1049.0" prefWidth="641.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <content>
-                        <Canvas height="1186.0" width="1918.0" fx:id="canvasField"/>
+                        <Canvas fx:id="canvasField" height="5000.0" width="5000.0" />
                      </content>
                   </ScrollPane>
                </children>
