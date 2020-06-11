@@ -93,7 +93,7 @@ public class MainController extends FXController implements StudyGroupRepository
     @FXML
     public Canvas canvasField;
 
-    private ObservableList<StudyGroup> products;
+    private ObservableList<StudyGroup> studyGroups;
     private ServerUserDAO serverUserDAO;
     private ServerStudyGroupDAO serverStudyGroupDAO;
     private StudyGroupCollectionUpdater studyGroupCollectionUpdater;
@@ -116,6 +116,7 @@ public class MainController extends FXController implements StudyGroupRepository
      */
     @FXML
     private void initialize() {
+        studyGroups = FXCollections.observableArrayList();
         initTableProperties();
         //bindColumnsToProductFields();
 
@@ -146,7 +147,7 @@ public class MainController extends FXController implements StudyGroupRepository
     @Override
     public void onStart() {
         sceneAdapter.getStage().setFullScreen(true);
-        // productCollectionUpdater.start();
+         studyGroupCollectionUpdater.start();
 
         // initProductCollection();
 
@@ -200,7 +201,7 @@ public class MainController extends FXController implements StudyGroupRepository
         double maxAlpha = 1.0;
 
         List<Point> points = new ArrayList<>();
-        products.forEach(product -> points.add(new Point(product.getUserId(), product.getCoordinates().getX(), product.getCoordinates().getY())));
+        studyGroups.forEach(studyGroup -> points.add(new Point(studyGroup.getUserId(), studyGroup.getCoordinates().getX(), studyGroup.getCoordinates().getY())));
 
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.seconds(0),

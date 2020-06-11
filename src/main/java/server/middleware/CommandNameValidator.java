@@ -46,10 +46,10 @@ public final class CommandNameValidator extends Middleware {
 
         if (query.getCommandName().equals("getAllUsers") || query.getCommandName().equals("getAllStudyGroups")) {
             LOG_MANAGER.info("Redirect on get");
-            return callLeave(query, "get");
+            return callLeave(query, "get", "get");
         }
 
         LOG_MANAGER.info("Redirect on old");
-        return callLeave(query, "old");
+        return callLeave(query, "old", "old");
     }
 }

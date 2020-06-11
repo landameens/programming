@@ -191,9 +191,8 @@ public class StudyGroup implements Cloneable{
         this.coordinates = coordinates;
     }
 
-    //todo тут ес чо поломается вдруг
     public String getCreationDate() {
-        return creationDate.toLocalDate().format(DateTimeFormatter.ofPattern("yyyy.MM.dd 'at' HH:mm:ss"));
+        return creationDate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd 'at' HH:mm:ss"));
     }
 
     public void setCreationDate(LocalDateTime creationDate) {
