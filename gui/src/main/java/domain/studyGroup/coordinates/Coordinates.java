@@ -34,7 +34,8 @@ public class Coordinates implements Cloneable{
         return x;
     }
 
-    public void setX(Integer x) {
+    public void setX(Integer x) throws VerifyException {
+        checkX(x);
         this.x = x;
     }
 
