@@ -252,7 +252,7 @@ public class StudyGroup implements Cloneable{
     }
 
     public String getCreationDate() {
-        return creationDate.toLocalDate().format(DateTimeFormatter.ofPattern("yyyy.MM.dd 'at' HH:mm:ss"));
+        return creationDate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd 'at' HH:mm:ss"));
     }
 
     @Override

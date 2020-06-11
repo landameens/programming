@@ -7,6 +7,7 @@ import domain.studyGroup.StudyGroupDTO;
 import domain.studyGroupRepository.concreteSet.ConcreteSet;
 import storage.studyGroupDAO.Saveable;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -25,5 +26,7 @@ public interface IStudyGroupRepository extends Saveable, Service {
     CollectionInfo getInfo();
 
     Set<StudyGroup> getStudyGroup(long id) throws StudyGroupRepositoryException;
+
+    List<StudyGroup> getAll() throws StudyGroupRepositoryException;
 
 }

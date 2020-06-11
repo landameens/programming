@@ -3,17 +3,14 @@ package view.main;
 import controller.AbstractController;
 import controller.localizer.Localizer;
 import controller.serverAdapter.exception.*;
-import controller.localizer.Localizer;
-import controller.serverAdapter.exception.ServerAdapterException;
 import domain.exception.VerifyException;
 import domain.studyGroup.FormOfEducation;
 import domain.studyGroup.Semester;
 import domain.studyGroup.StudyGroup;
 import domain.studyGroup.dao.ServerStudyGroupDAO;
 import domain.studyGroup.person.Country;
-import domain.studyGroupRepository.StudyGroupCollectionUpdater;
 import domain.studyGroup.person.Person;
-import domain.studyGroupRepository.ProductCollectionUpdater;
+import domain.studyGroupRepository.StudyGroupCollectionUpdater;
 import domain.studyGroupRepository.StudyGroupRepositorySubscriber;
 import domain.user.ServerUserDAO;
 import domain.user.User;
@@ -24,7 +21,6 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import domain.user.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -32,28 +28,18 @@ import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.util.Duration;
-import manager.LogManager;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
-import javafx.util.converter.DoubleStringConverter;
-import javafx.util.converter.FloatStringConverter;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.util.Duration;
 import javafx.util.converter.IntegerStringConverter;
 import javafx.util.converter.LongStringConverter;
+import manager.LogManager;
 import view.fxController.FXController;
 
 import java.util.*;
@@ -192,6 +178,15 @@ public class MainController extends FXController implements StudyGroupRepository
         initStudyGroupCollection();
 
         bindCellsToTextEditors();
+
+        initUserColors();
+        canvasTimer = new Timer();
+        canvasTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                updateCanvas();
+            }
+        }, 100, 1000);
     }
 
     /*private void initMenuBar() {
@@ -307,7 +302,7 @@ public class MainController extends FXController implements StudyGroupRepository
                 showErrorAlert(Localizer.getStringFromBundle("noteStudyGroup", "MainScreen"));
             }
 
-            change(products);
+            change(studyGroups);
 
             try {
                 serverStudyGroupDAO.update(getStudyGroup(event));
@@ -325,7 +320,7 @@ public class MainController extends FXController implements StudyGroupRepository
 
             getStudyGroup(event).getCoordinates().setX(event.getNewValue());
 
-            change(products);
+            change(studyGroups);
 
             try {
                 serverStudyGroupDAO.update(getStudyGroup(event));
@@ -343,7 +338,7 @@ public class MainController extends FXController implements StudyGroupRepository
 
             getStudyGroup(event).getCoordinates().setY(event.getNewValue());
 
-            change(products);
+            change(studyGroups);
 
             try {
                 serverStudyGroupDAO.update(getStudyGroup(event));
@@ -361,7 +356,7 @@ public class MainController extends FXController implements StudyGroupRepository
 
             getStudyGroup(event).setStudentsCount(event.getNewValue());
 
-            change(products);
+            change(studyGroups);
 
             try {
                 serverStudyGroupDAO.update(getStudyGroup(event));
@@ -379,7 +374,7 @@ public class MainController extends FXController implements StudyGroupRepository
 
             getStudyGroup(event).setShouldBeExpelled(event.getNewValue());
 
-            change(products);
+            change(studyGroups);
 
             try {
                 serverStudyGroupDAO.update(getStudyGroup(event));
@@ -397,7 +392,7 @@ public class MainController extends FXController implements StudyGroupRepository
 
             getStudyGroup(event).setFormOfEducation(event.getNewValue());
 
-            change(products);
+            change(studyGroups);
 
             try {
                 serverStudyGroupDAO.update(getStudyGroup(event));
@@ -416,7 +411,7 @@ public class MainController extends FXController implements StudyGroupRepository
 
             getStudyGroup(event).setSemesterEnum(event.getNewValue());
 
-            change(products);
+            change(studyGroups);
 
             try {
                 serverStudyGroupDAO.update(getStudyGroup(event));
@@ -434,7 +429,7 @@ public class MainController extends FXController implements StudyGroupRepository
 
             getStudyGroup(event).getGroupAdmin().setName(event.getNewValue());
 
-            change(products);
+            change(studyGroups);
 
             try {
                 serverStudyGroupDAO.update(getStudyGroup(event));
@@ -452,7 +447,7 @@ public class MainController extends FXController implements StudyGroupRepository
 
             getStudyGroup(event).getGroupAdmin().setHeight(event.getNewValue());
 
-            change(products);
+            change(studyGroups);
 
             try {
                 serverStudyGroupDAO.update(getStudyGroup(event));
@@ -470,7 +465,7 @@ public class MainController extends FXController implements StudyGroupRepository
 
             getStudyGroup(event).getGroupAdmin().setPassportID(event.getNewValue());
 
-            change(products);
+            change(studyGroups);
 
             try {
                 serverStudyGroupDAO.update(getStudyGroup(event));
@@ -489,7 +484,7 @@ public class MainController extends FXController implements StudyGroupRepository
 
             getStudyGroup(event).getGroupAdmin().setNationality(event.getNewValue());
 
-            change(products);
+            change(studyGroups);
 
             try {
                 serverStudyGroupDAO.update(getStudyGroup(event));
@@ -505,7 +500,7 @@ public class MainController extends FXController implements StudyGroupRepository
         MenuItem deleteStudyGroup = new MenuItem("delete");
         deleteStudyGroup.setOnAction(event -> {
             StudyGroup selectedItem = table.getSelectionModel().getSelectedItem();
-            List<StudyGroup> localList = new ArrayList<>(products);
+            List<StudyGroup> localList = new ArrayList<>(studyGroups);
 
             if (selectedItem == null) {
                 showErrorAlert(Localizer.getStringFromBundle("noteDelete", "MainScreen"));
@@ -519,8 +514,8 @@ public class MainController extends FXController implements StudyGroupRepository
 
             localList.remove(selectedItem);
 
-            products = FXCollections.observableArrayList(localList);
-            table.setItems(products);
+            studyGroups = FXCollections.observableArrayList(localList);
+            table.setItems(studyGroups);
 
             try {
                 serverStudyGroupDAO.delete(selectedItem.getId());
@@ -537,12 +532,12 @@ public class MainController extends FXController implements StudyGroupRepository
             StudyGroup studyGroup = new StudyGroup();
             studyGroup.setGroupAdmin(person);
 
-            List<StudyGroup> localList = new ArrayList<>(products);
+            List<StudyGroup> localList = new ArrayList<>(studyGroups);
 
             localList.add(studyGroup);
 
-            products = FXCollections.observableArrayList(localList);
-            table.setItems(products);
+            studyGroups = FXCollections.observableArrayList(localList);
+            table.setItems(studyGroups);
 
             try {
                 serverStudyGroupDAO.create(studyGroup);
@@ -612,8 +607,7 @@ public class MainController extends FXController implements StudyGroupRepository
         try {
             rawProducts = FXCollections.observableArrayList(serverStudyGroupDAO.get());
         } catch (ServerAdapterException e) {
-            // todo Check
-            //handleServerAdapterException(e);
+            handleServerAdapterException(e);
         }
 
         FilteredList<StudyGroup> filteredList = new FilteredList<>(rawProducts, product -> true);
@@ -621,17 +615,9 @@ public class MainController extends FXController implements StudyGroupRepository
 
         SortedList<StudyGroup> sortedList = new SortedList<>(filteredList);
         sortedList.comparatorProperty().bind(table.comparatorProperty());
-        products = sortedList;
+        studyGroups = sortedList;
 
-        table.setItems(products);
-        initUserColors();
-        canvasTimer = new Timer();
-        canvasTimer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                updateCanvas();
-            }
-        }, 100, 1000);
+        table.setItems(studyGroups);
     }
 
     private static final int MAGIC_CRUTCH_NUMBER = 500;
@@ -650,6 +636,15 @@ public class MainController extends FXController implements StudyGroupRepository
             this.x = x;
             this.y = y;
         }
+
+        @Override
+        public String toString() {
+            return "Point{" +
+                    "userId=" + userId +
+                    ", x=" + x +
+                    ", y=" + y +
+                    '}';
+        }
     }
 
     private void updateCanvas() {
@@ -662,6 +657,7 @@ public class MainController extends FXController implements StudyGroupRepository
 
         List<Point> points = new ArrayList<>();
         studyGroups.forEach(studyGroup -> points.add(new Point(studyGroup.getUserId(), studyGroup.getCoordinates().getX(), studyGroup.getCoordinates().getY())));
+        LOG_MANAGER.debug("Points: " + points.toString());
 
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.seconds(0),
@@ -714,6 +710,8 @@ public class MainController extends FXController implements StudyGroupRepository
         if (!users.isEmpty()) {
             users.forEach(concreteUser -> userColors.put(concreteUser.getId(), generateRandomColor()));
         }
+
+        LOG_MANAGER.debug("Colors: " + userColors.toString());
     }
 
     private Color generateRandomColor() {

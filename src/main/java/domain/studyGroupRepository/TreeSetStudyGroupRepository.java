@@ -16,10 +16,7 @@ import storage.studyGroupDAO.StudyGroupDAO;
 import javax.xml.bind.JAXBException;
 import java.io.File;
 import java.net.URL;
-import java.util.Comparator;
-import java.util.LinkedHashSet;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * These class are realize IStudyGroupRepository interface for working with Tree set.
@@ -216,5 +213,11 @@ public class TreeSetStudyGroupRepository implements IStudyGroupRepository, Savea
 
     public String getDirectoryForAppFiles() {
         return directoryForAppFiles;
+    }
+
+    @Override
+    public List<StudyGroup> getAll() throws StudyGroupRepositoryException {
+        LOG_MANAGER.warn("Not supported");
+        return new ArrayList<>();
     }
 }

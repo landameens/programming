@@ -45,9 +45,7 @@ public final class ServerStudyGroupDAO {
         map.put("formOfEducation", studyGroup.getFormOfEducation().getName());
         map.put("semesterEnum", studyGroup.getSemesterEnum().getName());
 
-        Query query = new Query("add", map);
-
-        Response response = serverAdapter.send(query);
+        Response response = serverAdapter.send("add", map);
 
         if (response.getStatus().equals(Status.SUCCESSFULLY)) {
             return gson.fromJson(response.getAnswer(), StudyGroup.class);
@@ -57,9 +55,7 @@ public final class ServerStudyGroupDAO {
     }
 
     public List<StudyGroup> get() throws ServerAdapterException {
-        Query query = new Query("getAllStudyGroups", new HashMap<>());
-
-        Response response = serverAdapter.send(query);
+        Response response = serverAdapter.send("getAllStudyGroups", new HashMap<>());
 
         if (response.getStatus().equals(Status.SUCCESSFULLY)) {
             return gson.fromJson(response.getAnswer(), new TypeToken<List<StudyGroup>>() {}.getType());
@@ -83,9 +79,7 @@ public final class ServerStudyGroupDAO {
         map.put("formOfEducation", studyGroup.getFormOfEducation().getName());
         map.put("semesterEnum", studyGroup.getSemesterEnum().getName());
 
-        Query query = new Query("update", map);
-
-        Response response = serverAdapter.send(query);
+        Response response = serverAdapter.send("update", map);
 
         if (response.getStatus().equals(Status.SUCCESSFULLY)) {
             return gson.fromJson(response.getAnswer(), StudyGroup.class);
@@ -107,9 +101,7 @@ public final class ServerStudyGroupDAO {
         Map<String, String> map = new HashMap<>();
         map.put("id", String.valueOf(studyGroupId));
 
-        Query query = new Query("remove_by_id", map);
-
-        serverAdapter.send(query);
+        serverAdapter.send("remove_by_id", map);
     }
     public boolean checkConnection() throws ServerAdapterException {
         get();
