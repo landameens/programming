@@ -312,6 +312,7 @@ public class MainController extends FXController implements StudyGroupRepository
         nameCol.setOnEditCommit((TableColumn.CellEditEvent<StudyGroup, String> event) -> {
             if (getStudyGroup(event).getUserId() != user.getId()) {
                 showWarningAlert(Localizer.getStringFromBundle("notYoursDelete", "MainScreen"));
+                table.refresh();
                 return;
             }
 
@@ -335,6 +336,7 @@ public class MainController extends FXController implements StudyGroupRepository
         xCoorCol.setOnEditCommit((TableColumn.CellEditEvent<StudyGroup, Integer> event) -> {
             if (getStudyGroup(event).getUserId() != user.getId()) {
                 showWarningAlert(Localizer.getStringFromBundle("notYoursDelete", "MainScreen"));
+                table.refresh();
                 return;
             }
 
@@ -342,6 +344,7 @@ public class MainController extends FXController implements StudyGroupRepository
                 getStudyGroup(event).getCoordinates().setX(event.getNewValue());
             } catch (VerifyException e) {
                 showWarningAlert(Localizer.getStringFromBundle("tooHighX", "MainScreen"));
+                table.refresh();
                 return;
             }
 
@@ -358,6 +361,7 @@ public class MainController extends FXController implements StudyGroupRepository
         yCoorCol.setOnEditCommit((TableColumn.CellEditEvent<StudyGroup, Integer> event) -> {
             if (getStudyGroup(event).getUserId() != user.getId()) {
                 showWarningAlert(Localizer.getStringFromBundle("notYoursDelete", "MainScreen"));
+                table.refresh();
                 return;
             }
 
@@ -376,6 +380,7 @@ public class MainController extends FXController implements StudyGroupRepository
         studCountCol.setOnEditCommit((TableColumn.CellEditEvent<StudyGroup, Integer> event) -> {
             if (getStudyGroup(event).getUserId() != user.getId()) {
                 showWarningAlert(Localizer.getStringFromBundle("notYoursDelete", "MainScreen"));
+                table.refresh();
                 return;
             }
 
@@ -394,6 +399,7 @@ public class MainController extends FXController implements StudyGroupRepository
         shouldBeExpCol.setOnEditCommit((TableColumn.CellEditEvent<StudyGroup, Long> event) -> {
             if (getStudyGroup(event).getUserId() != user.getId()) {
                 showWarningAlert(Localizer.getStringFromBundle("notYoursDelete", "MainScreen"));
+                table.refresh();
                 return;
             }
 
@@ -412,6 +418,7 @@ public class MainController extends FXController implements StudyGroupRepository
         formOfEducCol.setOnEditCommit((TableColumn.CellEditEvent<StudyGroup, FormOfEducation> event) -> {
             if (getStudyGroup(event).getUserId() != user.getId()) {
                 showWarningAlert(Localizer.getStringFromBundle("notYoursDelete", "MainScreen"));
+                table.refresh();
                 return;
             }
 
@@ -431,6 +438,7 @@ public class MainController extends FXController implements StudyGroupRepository
         semesterCol.setOnEditCommit((TableColumn.CellEditEvent<StudyGroup, Semester> event) -> {
             if (getStudyGroup(event).getUserId() != user.getId()) {
                 showWarningAlert(Localizer.getStringFromBundle("notYoursDelete", "MainScreen"));
+                table.refresh();
                 return;
             }
 
@@ -449,6 +457,7 @@ public class MainController extends FXController implements StudyGroupRepository
         personNameCol.setOnEditCommit((TableColumn.CellEditEvent<StudyGroup, String> event) -> {
             if (getStudyGroup(event).getUserId() != user.getId()) {
                 showWarningAlert(Localizer.getStringFromBundle("notYoursDelete", "MainScreen"));
+                table.refresh();
                 return;
             }
 
@@ -467,6 +476,7 @@ public class MainController extends FXController implements StudyGroupRepository
         heightCol.setOnEditCommit((TableColumn.CellEditEvent<StudyGroup, Integer> event) -> {
             if (getStudyGroup(event).getUserId() != user.getId()) {
                 showWarningAlert(Localizer.getStringFromBundle("notYoursDelete", "MainScreen"));
+                table.refresh();
                 return;
             }
 
@@ -485,6 +495,7 @@ public class MainController extends FXController implements StudyGroupRepository
         passportIdCol.setOnEditCommit((TableColumn.CellEditEvent<StudyGroup, String> event) -> {
             if (getStudyGroup(event).getUserId() != user.getId()) {
                 showWarningAlert(Localizer.getStringFromBundle("notYoursDelete", "MainScreen"));
+                table.refresh();
                 return;
             }
 
@@ -504,6 +515,7 @@ public class MainController extends FXController implements StudyGroupRepository
         natCol.setOnEditCommit((TableColumn.CellEditEvent<StudyGroup, Country> event) -> {
             if (getStudyGroup(event).getUserId() != user.getId()) {
                 showWarningAlert(Localizer.getStringFromBundle("notYoursDelete", "MainScreen"));
+                table.refresh();
                 return;
             }
 
@@ -529,11 +541,13 @@ public class MainController extends FXController implements StudyGroupRepository
 
             if (selectedItem == null) {
                 showErrorAlert(Localizer.getStringFromBundle("noteDelete", "MainScreen"));
+                table.refresh();
                 return;
             }
 
             if (selectedItem.getUserId() != user.getId()) {
                 showWarningAlert(Localizer.getStringFromBundle("notYoursDelete", "MainScreen"));
+                table.refresh();
                 return;
             }
 
