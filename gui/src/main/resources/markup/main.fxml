@@ -16,7 +16,6 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-
 <AnchorPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <GridPane prefHeight="30.0" prefWidth="1920.0">
@@ -41,23 +40,23 @@
                   <Insets right="650.0" />
                </GridPane.margin>
             </MenuBar>
-            <TextField prefHeight="25.0" prefWidth="364.0" fx:id="filter" promptText="Enter value to filter" GridPane.columnIndex="1">
+            <TextField fx:id="filter" prefHeight="25.0" prefWidth="364.0" promptText="Enter value to filter" GridPane.columnIndex="1">
                <GridPane.margin>
                   <Insets left="220.0" right="20.0" />
                </GridPane.margin>
             </TextField>
-            <ChoiceBox prefHeight="25.0" fx:id="choice" prefWidth="403.0" GridPane.columnIndex="2">
+            <ChoiceBox fx:id="choice" prefHeight="25.0" prefWidth="403.0" GridPane.columnIndex="2">
                <GridPane.margin>
                   <Insets left="20.0" right="50.0" />
                </GridPane.margin>
             </ChoiceBox>
          </children>
       </GridPane>
-      <SplitPane dividerPositions="0.37799791449426484" layoutY="29.0" prefHeight="1051.0" prefWidth="1920.0">
+      <SplitPane dividerPositions="0.31438998957247133" layoutY="29.0" prefHeight="1051.0" prefWidth="1920.0">
         <items>
-          <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1051.0" prefWidth="730.0">
+          <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1051.0" prefWidth="650.0">
                <children>
-                  <ScrollPane layoutX="80.0" layoutY="135.0" pannable="true" prefHeight="1049.0" prefWidth="535.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <ScrollPane layoutX="80.0" layoutY="135.0" pannable="true" prefHeight="1049.0" prefWidth="641.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <content>
                         <Canvas height="1186.0" width="1918.0" />
                      </content>
@@ -68,27 +67,28 @@
                <children>
                   <TableView fx:id="table" layoutX="458.0" layoutY="275.0" prefHeight="1049.0" prefWidth="1377.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
-                      <TableColumn prefWidth="1300.0" resizable="false" fx:id="studyGroup" text="Study Group">
+                      <TableColumn fx:id="studyGroup" prefWidth="1300.0" resizable="false" text="Study Group">
                            <columns>
                             <TableColumn fx:id="idCol" minWidth="-Infinity" prefWidth="75.0" text="ID" />
                               <TableColumn fx:id="userIdCol" minWidth="-Infinity" prefWidth="75.0" text="User ID" />
                               <TableColumn fx:id="nameCol" minWidth="-Infinity" prefWidth="75.0" text="Name" />
                               <TableColumn fx:id="coordinatesCol" prefWidth="75.0" text="Coordinates">
                                  <columns>
-                                    <TableColumn fx:id="xCoorCol" minWidth="-Infinity" prefWidth="75.0" text="X" />
+                                    <TableColumn minWidth="-Infinity" prefWidth="75.0" text="X" fx:id="xCoorCol" />
                                     <TableColumn fx:id="yCoorCol" minWidth="-Infinity" prefWidth="75.0" text="Y" />
                                  </columns>
                               </TableColumn>
-                              <TableColumn minWidth="-Infinity" fx:id="creatDateCol" prefWidth="100.0" text="Creation date" />
-                              <TableColumn minWidth="-Infinity" fx:id="studCountCol" prefWidth="100.0" text="Students count" />
-                              <TableColumn minWidth="-Infinity" prefWidth="120.0" fx:id="shouldBeExpCol" text="Should be expelled" />
-                              <TableColumn minWidth="-Infinity" prefWidth="120.0" fx:id="formOfEducCol" text="Form of education" />
-                              <TableColumn minWidth="-Infinity" prefWidth="75.0" fx:id="semesterCol" text="Semester" />
+                              <TableColumn fx:id="creatDateCol" minWidth="-Infinity" prefWidth="100.0" text="Creation date" />
+                              <TableColumn fx:id="studCountCol" minWidth="-Infinity" prefWidth="100.0" text="Students count" />
+                              <TableColumn fx:id="shouldBeExpCol" minWidth="-Infinity" prefWidth="120.0" text="Should be expelled" />
+                              <TableColumn fx:id="formOfEducCol" minWidth="-Infinity" prefWidth="120.0" text="Form of education" />
+                              <TableColumn fx:id="semesterCol" minWidth="-Infinity" prefWidth="75.0" text="Semester" />
                               <TableColumn prefWidth="75.0" text="Person">
                                  <columns>
-                                    <TableColumn minWidth="-Infinity" prefWidth="100.0" fx:id="heightCol" text="Height" />
-                                    <TableColumn minWidth="-Infinity" prefWidth="100.0" fx:id="passportIdCol" text="Passport ID" />
-                                    <TableColumn minWidth="-Infinity" prefWidth="100.0" fx:id="natCol" text="Nationality" />
+                                    <TableColumn fx:id="personNameCol" prefWidth="75.0" text="Name" />
+                                    <TableColumn fx:id="heightCol" minWidth="-Infinity" prefWidth="100.0" text="Height" />
+                                    <TableColumn fx:id="passportIdCol" minWidth="-Infinity" prefWidth="100.0" text="Passport ID" />
+                                    <TableColumn fx:id="natCol" minWidth="-Infinity" prefWidth="100.0" text="Nationality" />
                                  </columns>
                               </TableColumn>
                            </columns>
