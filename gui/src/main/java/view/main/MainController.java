@@ -62,27 +62,21 @@ import static java.lang.Math.sqrt;
 public class MainController extends FXController implements StudyGroupRepositorySubscriber {
     private static final LogManager LOG_MANAGER = LogManager.createDefault(MainController.class);
 
-    private static final String ENTER_VALUE_TO_FILTER = "Enter value to filter";
-    private static final String MENU = "Menu";
-    private static final String STUDY_GROUP = "Study group";
-    private static final String USER_ID = "User ID";
-    private static final String ID = "ID";
-    private static final String COORDINATES = "Coordinates";
-    private static final String NAME = "Name";
-    private static final String CREATION_DATE = "Creation date";
-    private static final String STUD_COUNT = "Students count";
-    private static final String SHOULD_BE_EXPELLED = "Should be expelled";
-    private static final String FORM_OF_EDUCATION = "Form of education";
-    private static final String SEMESTER = "Semester";
-    private static final String PERSON = "Person";
-    private static final String HEIGHT = "Height";
-    private static final String PASSPORT_ID = "Passport ID";
-    private static final String NATIONALITY = "Nationality";
+    private String USER_ID = "User ID";
+    private String ID = "ID";
+    private String CREATION_DATE = "Creation date";
+    private String STUD_COUNT = "Students count";
+    private String SHOULD_BE_EXPELLED = "Should be expelled";
+    private String FORM_OF_EDUCATION = "Form of education";
+    private String SEMESTER = "Semester";
+    private String HEIGHT = "Height";
+    private String PASSPORT_ID = "Passport ID";
+    private String NATIONALITY = "Nationality";
 
-    private static final String X_COORDINATES = "Coordinates X";
-    private static final String Y_COORDINATES = "Coordinates Y";
-    private static final String STUDY_GROUP_NAME = "Study group name";
-    private static final String PERSON_NAME = "Person name";
+    private String X_COORDINATES = "Coordinates X";
+    private String Y_COORDINATES = "Coordinates Y";
+    private String STUDY_GROUP_NAME = "Study group name";
+    private String PERSON_NAME = "Person name";
     @FXML
     public MenuBar menuBar;
     @FXML
@@ -174,27 +168,19 @@ public class MainController extends FXController implements StudyGroupRepository
             }
         });
 
-        /*Localizer.bindComponentToLocale(hasLocationButton, "MainScreen", "availabilityLocation");
-        Localizer.bindComponentToLocale(hasOrganizationButton, "MainScreen", "availabilityOrganization");
-        Localizer.bindComponentToLocale(filter, "MainScreen", "filter");
-        Localizer.bindComponentToLocale(productProps, "MainScreen", "prodProps");
+        Localizer.bindTextFieldToLocale(filter, "MainScreen", "filter");
 
-        Localizer.bindComponentToLocale(userIdColumn, "MainScreen", "userId");
-        Localizer.bindComponentToLocale(productNameColumn, "MainScreen", "name");
-        Localizer.bindComponentToLocale(priceColumn, "MainScreen", "price");
-        Localizer.bindComponentToLocale(partNumberColumn, "MainScreen", "partNumber");
-        Localizer.bindComponentToLocale(unitOfMeasureColumn, "MainScreen", "unitOfMeasure");
-        Localizer.bindComponentToLocale(creationDateColumn, "MainScreen", "creationDate");
-        Localizer.bindComponentToLocale(manufactureCostColumn, "MainScreen", "manufactureCost");
-        Localizer.bindComponentToLocale(organizationColumn, "MainScreen", "organization");
-        Localizer.bindComponentToLocale(productColumn, "MainScreen", "product");
-        Localizer.bindComponentToLocale(addressColumn, "MainScreen", "address");
-        Localizer.bindComponentToLocale(locationColumn, "MainScreen", "location");
-        Localizer.bindComponentToLocale(orgNameColumn, "MainScreen", "name");
-        Localizer.bindComponentToLocale(orgAnnualTurnoverColumn, "MainScreen", "anTur");
-        Localizer.bindComponentToLocale(orgTypeColumn, "MainScreen", "type");
-        Localizer.bindComponentToLocale(zipCodeColumn, "MainScreen", "zipCode");
-        Localizer.bindComponentToLocale(coordinatesColumn, "MainScreen", "coordinates");*/
+        Localizer.bindComponentToLocale(nameCol, "MainScreen", "name");
+        Localizer.bindComponentToLocale(creatDateCol, "MainScreen", "creationDate");
+        Localizer.bindComponentToLocale(coordinatesCol, "MainScreen", "coordinates");
+        Localizer.bindComponentToLocale(studCountCol, "MainScreen", "studCount");
+        Localizer.bindComponentToLocale(personNameCol, "MainScreen", "name");
+        Localizer.bindComponentToLocale(shouldBeExpCol, "MainScreen", "shouldBeExpelled");
+        Localizer.bindComponentToLocale(formOfEducCol, "MainScreen", "formOfEduc");
+        Localizer.bindComponentToLocale(semesterCol, "MainScreen", "semester");
+        Localizer.bindComponentToLocale(heightCol, "MainScreen", "height");
+        Localizer.bindComponentToLocale(passportIdCol, "MainScreen", "passportId");
+        Localizer.bindComponentToLocale(natCol, "MainScreen", "nationality");
     }
 
     private <T> StudyGroup getStudyGroup(TableColumn.CellEditEvent<StudyGroup, T> event) {
@@ -883,6 +869,16 @@ public class MainController extends FXController implements StudyGroupRepository
     }
 
     private void initChoiceBox() {
+        STUDY_GROUP_NAME = Localizer.getStringFromBundle("studyGroupName", "MainScreen");
+        CREATION_DATE = Localizer.getStringFromBundle("creationDate", "MainScreen");
+        STUD_COUNT = Localizer.getStringFromBundle("studCount", "MainScreen");
+        SHOULD_BE_EXPELLED = Localizer.getStringFromBundle("shouldBeExpelled", "MainScreen");
+        FORM_OF_EDUCATION = Localizer.getStringFromBundle("formOfEduc", "MainScreen");
+        SEMESTER = Localizer.getStringFromBundle("semester", "MainScreen");
+        PERSON_NAME = Localizer.getStringFromBundle("personName", "MainScreen");
+        HEIGHT = Localizer.getStringFromBundle("height", "MainScreen");
+        PASSPORT_ID = Localizer.getStringFromBundle("passportId", "MainScreen");
+        NATIONALITY = Localizer.getStringFromBundle("nationality", "MainScreen");
         ObservableList<String> choices = FXCollections.observableArrayList(
                 ID,
                 USER_ID,
