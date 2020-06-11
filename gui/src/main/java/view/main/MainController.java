@@ -168,7 +168,7 @@ public class MainController extends FXController implements StudyGroupRepository
             }
         });
 
-        Localizer.bindTextFieldToLocale(filter, "MainScreen", "filter");
+        Localizer.bindTextFieldToLocale(filter, "MainScreen", "enterValue");
 
         Localizer.bindComponentToLocale(nameCol, "MainScreen", "name");
         Localizer.bindComponentToLocale(creatDateCol, "MainScreen", "creationDate");
@@ -237,7 +237,6 @@ public class MainController extends FXController implements StudyGroupRepository
             }
 
             newWindow.setScene(new Scene(parent));
-            newWindow.setTitle("Profile");
             newWindow.show();
         });
 
