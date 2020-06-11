@@ -265,7 +265,7 @@ public class MainController extends FXController implements StudyGroupRepository
             URL url = getClass().getClassLoader().getResource("markup/settings.fxml");
             loader.setLocation(url);
 
-            SettingsController settingsController = new SettingsController();
+            SettingsController settingsController = new SettingsController(this);
             loader.setController(settingsController);
 
             Parent parent = null;
