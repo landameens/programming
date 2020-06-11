@@ -30,22 +30,30 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.util.converter.IntegerStringConverter;
 import javafx.util.converter.LongStringConverter;
 import manager.LogManager;
 import view.fxController.FXController;
 
+import java.io.IOException;
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -218,13 +226,7 @@ public class MainController extends FXController implements StudyGroupRepository
         }, 100, 1000);
     }
 
-    /*private void initMenuBar() {
-        ImageView imageView = new ImageView(new Image(ViewportController.class.getResourceAsStream("/pictures/settings.jpg")));
-        imageView.setFitHeight(17);
-        imageView.setFitWidth(17);
-
-        menu.setGraphic(imageView);
-
+    private void initMenuBar() {
         MenuItem profile = new MenuItem(Localizer.getStringFromBundle("profile", "ViewportScreen"));
         Localizer.bindComponentToLocale(profile, "ViewportScreen", "profile");
         profile.setAccelerator(new KeyCodeCombination(KeyCode.P, KeyCodeCombination.CONTROL_DOWN));
@@ -260,15 +262,14 @@ public class MainController extends FXController implements StudyGroupRepository
             URL url = getClass().getClassLoader().getResource("markup/settings.fxml");
             loader.setLocation(url);
 
-            //SettingsController settingsController = new SettingsController(tableController);
-            //loader.setController(settingsController);
+            SettingsController settingsController = new SettingsController();
+            loader.setController(settingsController);
 
             Parent parent = null;
             try {
                 parent = loader.load();
             } catch (IOException e) {
-                //todo todo
-                //showInternalErrorAlert(Localizer.getStringFromBundle("errorDuling", "ViewportScreen"));
+                showInternalErrorAlert(Localizer.getStringFromBundle("errorDuling", "ViewportScreen"));
             }
 
             newWindow.setScene(new Scene(parent));
@@ -280,9 +281,9 @@ public class MainController extends FXController implements StudyGroupRepository
         Localizer.bindComponentToLocale(logout, "ViewportScreen", "logOut");
         logout.setAccelerator(new KeyCodeCombination(KeyCode.L, KeyCodeCombination.CONTROL_DOWN));
         logout.setOnAction(event -> {
-            screenContext.remove("accessToken");
+            screenContext.remove("login");
+            screenContext.remove("password");
             onStop();
-            LOGGER_ADAPTER.info("All support threads has been stop");
             screenContext.getRouter().go("signIn");
         });
 
@@ -291,7 +292,7 @@ public class MainController extends FXController implements StudyGroupRepository
         refreshCollection.setAccelerator(new KeyCodeCombination(KeyCode.R, KeyCodeCombination.CONTROL_DOWN));
         refreshCollection.setOnAction(event -> {
             try {
-                tableController.change(serverProductDAO.get(new GetAllProductSortedById()));
+                change(serverStudyGroupDAO.get());
             } catch (ServerAdapterException e) {
                 handleServerAdapterException(e);
             }
@@ -307,14 +308,14 @@ public class MainController extends FXController implements StudyGroupRepository
             try {
                 screenContext.save();
             } catch (IOException e) {
-                LOGGER_ADAPTER.errorThrowable(e);
+                //logger
             }
 
             System.exit(0);
         });
 
-        menu.getItems().addAll(profile, settings, separatorMenuItem, refreshCollection, separatorMenuItem1, logout, exit);
-    }*/
+        menuBar.getMenus().forEach(menu -> menu.getItems().addAll(profile, settings, separatorMenuItem, refreshCollection, separatorMenuItem1, logout, exit));
+    }
 
     private void bindCellsToTextEditors() {
         nameCol.setCellFactory(TextFieldTableCell.forTableColumn());
