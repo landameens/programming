@@ -9,12 +9,24 @@ import domain.studyGroup.person.Country;
 import domain.studyGroupRepository.ProductCollectionUpdater;
 import domain.studyGroupRepository.StudyGroupRepositorySubscriber;
 import domain.user.ServerUserDAO;
+import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.util.Duration;
 import view.fxController.FXController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainController extends FXController implements StudyGroupRepositorySubscriber {
@@ -72,6 +84,8 @@ public class MainController extends FXController implements StudyGroupRepository
     public TableColumn<StudyGroup, Country> natCol;
     @FXML
     public TableView<StudyGroup> table;
+    @FXML
+    public Canvas canvasField;
 
     private ObservableList<StudyGroup> products;
     private ServerUserDAO serverUserDAO;
@@ -140,6 +154,60 @@ public class MainController extends FXController implements StudyGroupRepository
         }
 
         bindCellsToTextEditors();*/
+    }
+
+    private void updateCanvas() {
+        GraphicsContext graphicsContext = canvasField.getGraphicsContext2D();
+        graphicsContext.clearRect(0, 0, canvasField.getWidth(), canvasField.getHeight());
+
+        DoubleProperty radius  = new SimpleDoubleProperty(5.0);
+
+        double maxRadius = 20;
+
+        List<Point> points = new ArrayList<>();
+        tableController.getProducts().forEach(product -> points.add(new Point(product.getUserId(), product.getCoordinates().getX(), product.getCoordinates().getY())));
+
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.seconds(0),
+                        new KeyValue(radius, 0)
+                ),
+                new KeyFrame(Duration.seconds(0.5),
+                        new KeyValue(radius, maxRadius)
+                )
+        );
+        timeline.setAutoReverse(true);
+        timeline.setCycleCount(1);
+
+        AnimationTimer timer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                points.forEach(point -> {
+                    GraphicsContext graphicsContext = canvasField.getGraphicsContext2D();
+
+                    Color color = userColors.get(point.userId);
+                    Circle circle = new Circle(point.x + MAGIC_CRUTCH_NUMBER,
+                            point.y + MAGIC_CRUTCH_NUMBER,
+                            20.0);
+
+                    //tooltips.put(color, circle);
+
+                    graphicsContext.setFill(color);
+                    graphicsContext.fillOval(circle.getCenterX() - radius.doubleValue(),
+                            circle.getCenterY() - radius.doubleValue(),
+                            radius.doubleValue() * 2,
+                            radius.doubleValue() * 2);
+
+                    if (radius.doubleValue() == maxRadius) {
+                        stop();
+                    }
+                });
+            }
+        };
+
+        timer.start();
+        timeline.play();
+
+//        tableController.getProducts().forEach(drawProductInCanvas);
     }
 
     private void initTableProperties() {
