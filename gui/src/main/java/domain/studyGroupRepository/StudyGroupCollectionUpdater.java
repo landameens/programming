@@ -26,8 +26,8 @@ public class StudyGroupCollectionUpdater {
         this.serverStudyGroupDAO = serverStudyGroupDAO;
     }
 
-    void update(List<StudyGroup> products)  {
-        List<StudyGroup> list = Collections.unmodifiableList(products);
+    void update(List<StudyGroup> studyGroups)  {
+        List<StudyGroup> list = Collections.unmodifiableList(studyGroups);
         subscribers.forEach(studyGroupRepositorySubscriber -> studyGroupRepositorySubscriber.change(list));
     }
 
