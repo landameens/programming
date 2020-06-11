@@ -1,13 +1,12 @@
 package controller.validators;
 
-import adapter.LoggerAdapter;
 import org.apache.commons.configuration2.Configuration;
 
 public final class PasswordValidator extends Validator {
     private final int minLength;
     private final int maxLength;
 
-    private final LoggerAdapter loggerAdapter = LoggerAdapter.createDefault(PasswordValidator.class.getSimpleName());
+    //private final LoggerAdapter loggerAdapter = LoggerAdapter.createDefault(PasswordValidator.class.getSimpleName());
 
     private static final String MIN_LENGTH = "user.password.minLength";
     private static final String MAX_LENGTH = "user.password.maxLength";
@@ -21,11 +20,11 @@ public final class PasswordValidator extends Validator {
     @Override
     public String validateFields(String login, String password, String repeatedPassword) {
         if (password.length() >= minLength && password.length() <= maxLength) {
-            loggerAdapter.info("PasswordValidator validates password SUCCESSFULLY.");
+         //   loggerAdapter.info("PasswordValidator validates password SUCCESSFULLY.");
             return validateNext(login, password, repeatedPassword);
         }
 
-        loggerAdapter.info("PasswordValidator can't validate password:" + password);
+      //  loggerAdapter.info("PasswordValidator can't validate password:" + password);
         return INCORRECT_PASSWORD;
     }
 }

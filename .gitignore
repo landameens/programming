@@ -12,3 +12,5 @@ sonarlint/
 communication_module/build/
 
 client/build/
+
+gui/build/

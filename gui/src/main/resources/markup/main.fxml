@@ -29,7 +29,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <MenuBar prefHeight="25.0" prefWidth="247.0">
+            <MenuBar fx:id="menuBar" prefHeight="25.0" prefWidth="247.0">
               <menus>
                 <Menu mnemonicParsing="false" text="Menu">
                   <items>
@@ -41,12 +41,12 @@
                   <Insets right="650.0" />
                </GridPane.margin>
             </MenuBar>
-            <TextField prefHeight="25.0" prefWidth="364.0" promptText="Enter value to filter" GridPane.columnIndex="1">
+            <TextField prefHeight="25.0" prefWidth="364.0" fx:id="filter" promptText="Enter value to filter" GridPane.columnIndex="1">
                <GridPane.margin>
                   <Insets left="220.0" right="20.0" />
                </GridPane.margin>
             </TextField>
-            <ChoiceBox prefHeight="25.0" prefWidth="403.0" GridPane.columnIndex="2">
+            <ChoiceBox prefHeight="25.0" fx:id="choice" prefWidth="403.0" GridPane.columnIndex="2">
                <GridPane.margin>
                   <Insets left="20.0" right="50.0" />
                </GridPane.margin>
@@ -55,7 +55,7 @@
       </GridPane>
       <SplitPane dividerPositions="0.37799791449426484" layoutY="29.0" prefHeight="1051.0" prefWidth="1920.0">
         <items>
-          <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="1051.0" prefWidth="730.0">
+          <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1051.0" prefWidth="730.0">
                <children>
                   <ScrollPane layoutX="80.0" layoutY="135.0" pannable="true" prefHeight="1049.0" prefWidth="535.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <content>
@@ -66,29 +66,29 @@
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <TableView layoutX="458.0" layoutY="275.0" prefHeight="1049.0" prefWidth="1377.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TableView fx:id="table" layoutX="458.0" layoutY="275.0" prefHeight="1049.0" prefWidth="1377.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
-                      <TableColumn prefWidth="1300.0" resizable="false" text="Study Group">
+                      <TableColumn prefWidth="1300.0" resizable="false" fx:id="studyGroup" text="Study Group">
                            <columns>
-                            <TableColumn prefWidth="75.0" text="ID" />
-                              <TableColumn prefWidth="75.0" text="User ID" />
-                              <TableColumn prefWidth="75.0" text="Name" />
-                              <TableColumn prefWidth="75.0" text="Coordinates">
+                            <TableColumn fx:id="idCol" minWidth="-Infinity" prefWidth="75.0" text="ID" />
+                              <TableColumn fx:id="userIdCol" minWidth="-Infinity" prefWidth="75.0" text="User ID" />
+                              <TableColumn fx:id="nameCol" minWidth="-Infinity" prefWidth="75.0" text="Name" />
+                              <TableColumn fx:id="coordinatesCol" prefWidth="75.0" text="Coordinates">
                                  <columns>
-                                    <TableColumn prefWidth="75.0" text="X" />
-                                    <TableColumn prefWidth="75.0" text="Y" />
+                                    <TableColumn fx:id="xCoorCol" minWidth="-Infinity" prefWidth="75.0" text="X" />
+                                    <TableColumn fx:id="yCoorCol" minWidth="-Infinity" prefWidth="75.0" text="Y" />
                                  </columns>
                               </TableColumn>
-                              <TableColumn minWidth="100.0" prefWidth="100.0" text="Creation date" />
-                              <TableColumn minWidth="100.0" prefWidth="85.0" text="Students count" />
-                              <TableColumn minWidth="120.0" prefWidth="75.0" text="Should be expelled" />
-                              <TableColumn minWidth="120.0" prefWidth="75.0" text="Form of education" />
-                              <TableColumn prefWidth="75.0" text="Semester" />
+                              <TableColumn minWidth="-Infinity" fx:id="creatDateCol" prefWidth="100.0" text="Creation date" />
+                              <TableColumn minWidth="-Infinity" fx:id="studCountCol" prefWidth="100.0" text="Students count" />
+                              <TableColumn minWidth="-Infinity" prefWidth="120.0" fx:id="shouldBeExpCol" text="Should be expelled" />
+                              <TableColumn minWidth="-Infinity" prefWidth="120.0" fx:id="formOfEducCol" text="Form of education" />
+                              <TableColumn minWidth="-Infinity" prefWidth="75.0" fx:id="semesterCol" text="Semester" />
                               <TableColumn prefWidth="75.0" text="Person">
                                  <columns>
-                                    <TableColumn minWidth="50.0" prefWidth="100.0" text="Height" />
-                                    <TableColumn prefWidth="100.0" text="Passport ID" />
-                                    <TableColumn minWidth="100.0" prefWidth="75.0" text="Nationality" />
+                                    <TableColumn minWidth="-Infinity" prefWidth="100.0" fx:id="heightCol" text="Height" />
+                                    <TableColumn minWidth="-Infinity" prefWidth="100.0" fx:id="passportIdCol" text="Passport ID" />
+                                    <TableColumn minWidth="-Infinity" prefWidth="100.0" fx:id="natCol" text="Nationality" />
                                  </columns>
                               </TableColumn>
                            </columns>

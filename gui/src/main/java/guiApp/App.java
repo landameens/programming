@@ -116,7 +116,7 @@ public class App extends Application {
 
         loader.setController(mainController);
 
-        URL url = getClass().getClassLoader().getResource("markup/viewPort.fxml");
+        URL url = getClass().getClassLoader().getResource("markup/main.fxml");
         loader.setLocation(url);
 
         AnchorPane parent = loader.load();
