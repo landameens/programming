@@ -39,8 +39,6 @@ public class SettingsController {
         localeComboBox.setOnAction(event -> {
             String newValue = localeComboBox.getSelectionModel().getSelectedItem();
 
-            System.err.println(Localizer.getLocale().getLanguage());
-
             if (ROMANIAN.equals(newValue)) {
                 Localizer.switchLanguage("ro");
             } else if (RUSSIAN.equals(newValue)) {
@@ -51,7 +49,6 @@ public class SettingsController {
                 Localizer.switchLanguage("el");
             }
 
-            System.err.println(Localizer.getLocale().getLanguage());
             initStr();
             mainController.restoreChoiceBox();
         });

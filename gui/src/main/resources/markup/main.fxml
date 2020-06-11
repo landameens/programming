@@ -78,7 +78,7 @@
                               <TableColumn fx:id="shouldBeExpCol" minWidth="-Infinity" prefWidth="120.0" text="Should be expelled" />
                               <TableColumn fx:id="formOfEducCol" minWidth="-Infinity" prefWidth="120.0" text="Form of education" />
                               <TableColumn fx:id="semesterCol" minWidth="-Infinity" prefWidth="75.0" text="Semester" />
-                              <TableColumn prefWidth="75.0" text="Person">
+                              <TableColumn fx:id="personCol" prefWidth="75.0" text="Person">
                                  <columns>
                                     <TableColumn fx:id="personNameCol" prefWidth="75.0" text="Name" />
                                     <TableColumn fx:id="heightCol" minWidth="-Infinity" prefWidth="100.0" text="Height" />

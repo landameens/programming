@@ -22,9 +22,9 @@ public class Localizer {
 
     private final static Map<String, Locale> LOCALE_MAP = new HashMap<String, Locale>() {
         {
-            put("en", ROMANIAN);
-            put("sv", GREEK);
-            put("is", SPANISH);
+            put("ro", ROMANIAN);
+            put("el", GREEK);
+            put("es", SPANISH);
             put("ru", RUSSIAN);
         }
     };

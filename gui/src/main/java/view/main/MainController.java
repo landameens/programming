@@ -114,6 +114,8 @@ public class MainController extends FXController implements StudyGroupRepository
     @FXML
     public TableColumn<StudyGroup, String> passportIdCol;
     @FXML
+    public TableColumn<StudyGroup, String> personCol;
+    @FXML
     public TableColumn<StudyGroup, Country> natCol;
     @FXML
     public TableView<StudyGroup> table;
@@ -170,6 +172,8 @@ public class MainController extends FXController implements StudyGroupRepository
 
         Localizer.bindTextFieldToLocale(filter, "MainScreen", "enterValue");
 
+        Localizer.bindComponentToLocale(personCol, "MainScreen", "person");
+        Localizer.bindComponentToLocale(studyGroup, "MainScreen", "studyGroup");
         Localizer.bindComponentToLocale(nameCol, "MainScreen", "name");
         Localizer.bindComponentToLocale(creatDateCol, "MainScreen", "creationDate");
         Localizer.bindComponentToLocale(coordinatesCol, "MainScreen", "coordinates");
@@ -882,6 +886,8 @@ public class MainController extends FXController implements StudyGroupRepository
         HEIGHT = Localizer.getStringFromBundle("height", "MainScreen");
         PASSPORT_ID = Localizer.getStringFromBundle("passportId", "MainScreen");
         NATIONALITY = Localizer.getStringFromBundle("nationality", "MainScreen");
+        X_COORDINATES = Localizer.getStringFromBundle("xCoordinates", "MainScreen");
+        Y_COORDINATES = Localizer.getStringFromBundle("yCoordinates", "MainScreen");
         ObservableList<String> choices = FXCollections.observableArrayList(
                 ID,
                 USER_ID,
