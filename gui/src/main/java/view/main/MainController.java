@@ -77,7 +77,7 @@ public class MainController extends FXController implements StudyGroupRepository
     @FXML
     public TableColumn<StudyGroup, Integer> xCoorCol;
     @FXML
-    public TableColumn<StudyGroup, Double> yCoorCol;
+    public TableColumn<StudyGroup, Integer> yCoorCol;
     @FXML
     public TableColumn<StudyGroup, String> creatDateCol;
     @FXML
@@ -123,6 +123,7 @@ public class MainController extends FXController implements StudyGroupRepository
     private void initialize() {
         initTableProperties();
         bindColumnsToProductFields();
+        initContextMenu();
 
         /*Localizer.bindComponentToLocale(hasLocationButton, "TableScreen", "availabilityLocation");
         Localizer.bindComponentToLocale(hasOrganizationButton, "TableScreen", "availabilityOrganization");
@@ -162,7 +163,7 @@ public class MainController extends FXController implements StudyGroupRepository
         bindCellsToTextEditors();
     }
 
-    /*private void bindCellsToTextEditors() {
+    private void bindCellsToTextEditors() {
         nameCol.setCellFactory(TextFieldTableCell.forTableColumn());
         nameCol.setOnEditCommit((TableColumn.CellEditEvent<StudyGroup, String> event) -> {
             if (getStudyGroup(event).getUserId() != user.getId()) {
@@ -177,377 +178,197 @@ public class MainController extends FXController implements StudyGroupRepository
                 showErrorAlert(Localizer.getStringFromBundle("noteStudyGroup", "TableScreen"));
             }
 
-            viewportController.change(products);
+            change(products);
 
             try {
-                serverProductDAO.update(getProduct(event));
+                serverStudyGroupDAO.update(getStudyGroup(event));
             } catch (ServerAdapterException e) {
                 handleServerAdapterException(e);
             }
         });
 
-        xCoordinatesColumn.setCellFactory(TextFieldTableCell.forTableColumn(new FloatStringConverter()));
-        xCoordinatesColumn.setOnEditStart((TableColumn.CellEditEvent<Product, Float> event) ->
-                event.getTablePosition().getTableView().setTooltip(new Tooltip(Localizer.getStringFromBundle("noteXCoordinate", "TableScreen"))));
-        xCoordinatesColumn.setOnEditCommit((TableColumn.CellEditEvent<Product, Float> event) -> {
-            if (getProduct(event).getUserId() != user.getId()) {
+        xCoorCol.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+        xCoorCol.setOnEditCommit((TableColumn.CellEditEvent<StudyGroup, Integer> event) -> {
+            if (getStudyGroup(event).getUserId() != user.getId()) {
                 showWarningAlert(Localizer.getStringFromBundle("notYoursDelete", "TableScreen"));
                 return;
             }
 
-            try {
-                getProduct(event).getCoordinates().setX(event.getNewValue());
-            } catch (ValidationException e) {
-                productTable.refresh();
-                showErrorAlert(Localizer.getStringFromBundle("xTooltip", "TableScreen"));
-            }
+            getStudyGroup(event).getCoordinates().setX(event.getNewValue());
 
-            viewportController.change(products);
+            change(products);
 
             try {
-                serverProductDAO.update(getProduct(event));
+                serverStudyGroupDAO.update(getStudyGroup(event));
             } catch (ServerAdapterException e) {
                 handleServerAdapterException(e);
             }
         });
 
-        yCoordinatesColumn.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
-        yCoordinatesColumn.setOnEditStart((TableColumn.CellEditEvent<Product, Double> event) ->
-                event.getTablePosition().getTableView().setTooltip(new Tooltip(Localizer.getStringFromBundle("noteYCoordinate", "TableScreen"))));
-        yCoordinatesColumn.setOnEditCommit((TableColumn.CellEditEvent<Product, Double> event) -> {
-            if (getProduct(event).getUserId() != user.getId()) {
+        yCoorCol.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+        yCoorCol.setOnEditCommit((TableColumn.CellEditEvent<StudyGroup, Integer> event) -> {
+            if (getStudyGroup(event).getUserId() != user.getId()) {
                 showWarningAlert(Localizer.getStringFromBundle("notYoursDelete", "TableScreen"));
                 return;
             }
 
-            try {
-                getProduct(event).getCoordinates().setY(event.getNewValue());
-            } catch (ValidationException e) {
-                productTable.refresh();
-                showErrorAlert(Localizer.getStringFromBundle("yTooltip", "TableScreen"));
-            }
+            getStudyGroup(event).getCoordinates().setY(event.getNewValue());
 
-            viewportController.change(products);
+            change(products);
 
             try {
-                serverProductDAO.update(getProduct(event));
+                serverStudyGroupDAO.update(getStudyGroup(event));
             } catch (ServerAdapterException e) {
                 handleServerAdapterException(e);
             }
         });
 
-        priceColumn.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-        priceColumn.setOnEditStart((TableColumn.CellEditEvent<Product, Integer> event) ->
-                event.getTablePosition().getTableView().setTooltip(new Tooltip(Localizer.getStringFromBundle("notePrice", "TableScreen"))));
-        priceColumn.setOnEditCommit((TableColumn.CellEditEvent<Product, Integer> event) -> {
-            if (getProduct(event).getUserId() != user.getId()) {
+        studCountCol.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+        studCountCol.setOnEditCommit((TableColumn.CellEditEvent<StudyGroup, Integer> event) -> {
+            if (getStudyGroup(event).getUserId() != user.getId()) {
                 showWarningAlert(Localizer.getStringFromBundle("notYoursDelete", "TableScreen"));
                 return;
             }
 
-            try {
-                getProduct(event).setPrice(event.getNewValue());
-            } catch (ValidationException e) {
-                productTable.refresh();
-                showErrorAlert(Localizer.getStringFromBundle("priceTooltip", "TableScreen"));
-            }
+            getStudyGroup(event).setStudentsCount(event.getNewValue());
 
-            viewportController.change(products);
+            change(products);
 
             try {
-                serverProductDAO.update(getProduct(event));
+                serverStudyGroupDAO.update(getStudyGroup(event));
             } catch (ServerAdapterException e) {
                 handleServerAdapterException(e);
             }
         });
 
-        partNumberColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-        partNumberColumn.setOnEditStart((TableColumn.CellEditEvent<Product, String> event) ->
-                event.getTablePosition().getTableView().setTooltip(new Tooltip(Localizer.getStringFromBundle("notePartNumber", "TableScreen"))));
-        partNumberColumn.setOnEditCommit((TableColumn.CellEditEvent<Product, String> event) -> {
-            if (getProduct(event).getUserId() != user.getId()) {
+        shouldBeExpCol.setCellFactory(TextFieldTableCell.forTableColumn(new LongStringConverter()));
+        shouldBeExpCol.setOnEditCommit((TableColumn.CellEditEvent<StudyGroup, Long> event) -> {
+            if (getStudyGroup(event).getUserId() != user.getId()) {
                 showWarningAlert(Localizer.getStringFromBundle("notYoursDelete", "TableScreen"));
                 return;
             }
 
-            try {
-                getProduct(event).setPartNumber(event.getNewValue());
-            } catch (ValidationException e) {
-                productTable.refresh();
-                showErrorAlert(Localizer.getStringFromBundle("partNumberTooltip", "TableScreen"));
-            }
+            getStudyGroup(event).setShouldBeExpelled(event.getNewValue());
 
-            viewportController.change(products);
+            change(products);
 
             try {
-                serverProductDAO.update(getProduct(event));
+                serverStudyGroupDAO.update(getStudyGroup(event));
             } catch (ServerAdapterException e) {
                 handleServerAdapterException(e);
             }
         });
 
-        manufactureCostColumn.setCellFactory(TextFieldTableCell.forTableColumn(new LongStringConverter()));
-        manufactureCostColumn.setOnEditStart((TableColumn.CellEditEvent<Product, Long> event) ->
-                event.getTablePosition().getTableView().setTooltip(new Tooltip(Localizer.getStringFromBundle("noteManufactureCost", "TableScreen"))));
-        manufactureCostColumn.setOnEditCommit((TableColumn.CellEditEvent<Product, Long> event) -> {
-            if (getProduct(event).getUserId() != user.getId()) {
+        formOfEducCol.setCellFactory(ComboBoxTableCell.forTableColumn(FXCollections.observableArrayList(FormOfEducation.values())));
+        formOfEducCol.setOnEditCommit((TableColumn.CellEditEvent<StudyGroup, FormOfEducation> event) -> {
+            if (getStudyGroup(event).getUserId() != user.getId()) {
                 showWarningAlert(Localizer.getStringFromBundle("notYoursDelete", "TableScreen"));
                 return;
             }
 
-            try {
-                getProduct(event).setManufactureCost(event.getNewValue());
-            } catch (ValidationException e) {
-                productTable.refresh();
-                showErrorAlert(Localizer.getStringFromBundle("manufactureCostTooltip", "TableScreen"));
-            }
+            getStudyGroup(event).setFormOfEducation(event.getNewValue());
 
-            viewportController.change(products);
+            change(products);
 
             try {
-                serverProductDAO.update(getProduct(event));
+                serverStudyGroupDAO.update(getStudyGroup(event));
             } catch (ServerAdapterException e) {
                 handleServerAdapterException(e);
             }
         });
 
-        unitOfMeasureColumn
-                .setCellFactory(ComboBoxTableCell.forTableColumn(FXCollections.observableArrayList(UnitOfMeasure.values())));
-        unitOfMeasureColumn.setOnEditCommit((TableColumn.CellEditEvent<Product, UnitOfMeasure> event) -> {
-            if (getProduct(event).getUserId() != user.getId()) {
+        semesterCol
+                .setCellFactory(ComboBoxTableCell.forTableColumn(FXCollections.observableArrayList(Semester.values())));
+        semesterCol.setOnEditCommit((TableColumn.CellEditEvent<StudyGroup, Semester> event) -> {
+            if (getStudyGroup(event).getUserId() != user.getId()) {
                 showWarningAlert(Localizer.getStringFromBundle("notYoursDelete", "TableScreen"));
                 return;
             }
 
-            getProduct(event).setUnitOfMeasure(event.getNewValue());
+            getStudyGroup(event).setSemesterEnum(event.getNewValue());
 
-            viewportController.change(products);
+            change(products);
 
             try {
-                serverProductDAO.update(getProduct(event));
+                serverStudyGroupDAO.update(getStudyGroup(event));
             } catch (ServerAdapterException e) {
                 handleServerAdapterException(e);
             }
         });
 
-        orgNameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-        orgNameColumn.setOnEditStart((TableColumn.CellEditEvent<Product, String> event) ->
-                event.getTablePosition().getTableView().setTooltip(new Tooltip(Localizer.getStringFromBundle("emptyOrganization", "TableScreen"))));
-        orgNameColumn.setOnEditCommit((TableColumn.CellEditEvent<Product, String> event) -> {
-            Product product = getProduct(event);
-
-            if (product.getManufacturer() == null) {
-                productTable.refresh();
-                showErrorAlert(Localizer.getStringFromBundle("notExistOrganization", "TableScreen"));
-                return;
-            }
-
-            if (getProduct(event).getUserId() != user.getId()) {
+        personNameCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        personNameCol.setOnEditCommit((TableColumn.CellEditEvent<StudyGroup, String> event) -> {
+            if (getStudyGroup(event).getUserId() != user.getId()) {
                 showWarningAlert(Localizer.getStringFromBundle("notYoursDelete", "TableScreen"));
                 return;
             }
 
-            try {
-                product.getManufacturer().setOrganizationName(event.getNewValue());
-            } catch (ValidationException e) {
-                productTable.refresh();
-                showErrorAlert(Localizer.getStringFromBundle("emptyOrganization", "TableScreen"));
-            }
+            getStudyGroup(event).getGroupAdmin().setName(event.getNewValue());
 
-            viewportController.change(products);
+            change(products);
 
             try {
-                serverProductDAO.updateOrganization(product.getId(), product.getManufacturer());
+                serverStudyGroupDAO.update(getStudyGroup(event));
             } catch (ServerAdapterException e) {
                 handleServerAdapterException(e);
             }
         });
 
-        orgAnnualTurnoverColumn.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-        orgAnnualTurnoverColumn.setOnEditStart((TableColumn.CellEditEvent<Product, Integer> event) ->
-                event.getTablePosition().getTableView().setTooltip(new Tooltip(Localizer.getStringFromBundle("noteAnnualTurnover", "TableScreen"))));
-        orgAnnualTurnoverColumn.setOnEditCommit((TableColumn.CellEditEvent<Product, Integer> event) -> {
-            Product product = getProduct(event);
-
-            if (product.getManufacturer() == null) {
-                productTable.refresh();
-                showErrorAlert(Localizer.getStringFromBundle("notExistOrganization", "TableScreen"));
-                return;
-            }
-
-            if (getProduct(event).getUserId() != user.getId()) {
+        heightCol.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+        heightCol.setOnEditCommit((TableColumn.CellEditEvent<StudyGroup, Integer> event) -> {
+            if (getStudyGroup(event).getUserId() != user.getId()) {
                 showWarningAlert(Localizer.getStringFromBundle("notYoursDelete", "TableScreen"));
                 return;
             }
 
-            try {
-                product.getManufacturer().setAnnualTurnover(event.getNewValue());
-            } catch (ValidationException e) {
-                productTable.refresh();
-                showErrorAlert(Localizer.getStringFromBundle("annualTurnoverTooltip", "TableScreen"));
-            }
+            getStudyGroup(event).getGroupAdmin().setHeight(event.getNewValue());
 
-            viewportController.change(products);
+            change(products);
 
             try {
-                serverProductDAO.updateOrganization(product.getId(), product.getManufacturer());
+                serverStudyGroupDAO.update(getStudyGroup(event));
             } catch (ServerAdapterException e) {
                 handleServerAdapterException(e);
             }
         });
 
-        orgTypeColumn
-                .setCellFactory(ComboBoxTableCell.forTableColumn(FXCollections.observableArrayList(OrganizationType.GOVERNMENT,
-                        OrganizationType.OPEN_JOINT_STOCK_COMPANY,
-                        OrganizationType.PUBLIC,
-                        OrganizationType.TRUST)));
-        orgTypeColumn.setOnEditCommit((TableColumn.CellEditEvent<Product, OrganizationType> event) -> {
-            Product product = getProduct(event);
-
-            if (product.getManufacturer() == null) {
-                productTable.refresh();
-                showErrorAlert(Localizer.getStringFromBundle("notExistOrganization", "TableScreen"));
-                return;
-            }
-
-            if (getProduct(event).getUserId() != user.getId()) {
+        passportIdCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        passportIdCol.setOnEditCommit((TableColumn.CellEditEvent<StudyGroup, String> event) -> {
+            if (getStudyGroup(event).getUserId() != user.getId()) {
                 showWarningAlert(Localizer.getStringFromBundle("notYoursDelete", "TableScreen"));
                 return;
             }
 
-            product.getManufacturer().setType(event.getNewValue());
+            getStudyGroup(event).getGroupAdmin().setPassportID(event.getNewValue());
 
-            viewportController.change(products);
+            change(products);
 
             try {
-                serverProductDAO.updateOrganization(product.getId(), product.getManufacturer());
+                serverStudyGroupDAO.update(getStudyGroup(event));
             } catch (ServerAdapterException e) {
                 handleServerAdapterException(e);
             }
         });
 
-        zipCodeColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-        zipCodeColumn.setOnEditStart((TableColumn.CellEditEvent<Product, String> event) ->
-                event.getTablePosition().getTableView().setTooltip(new Tooltip(Localizer.getStringFromBundle("noteZipCode", "TableScreen"))));
-        zipCodeColumn.setOnEditCommit((TableColumn.CellEditEvent<Product, String> event) -> {
-            Product product = getProduct(event);
-
-            if (product.getManufacturer() == null) {
-                productTable.refresh();
-                showErrorAlert(Localizer.getStringFromBundle("notExistOrganization", "TableScreen"));
-                return;
-            }
-
-            if (getProduct(event).getUserId() != user.getId()) {
+        natCol
+                .setCellFactory(ComboBoxTableCell.forTableColumn(FXCollections.observableArrayList(Country.values())));
+        natCol.setOnEditCommit((TableColumn.CellEditEvent<StudyGroup, Country> event) -> {
+            if (getStudyGroup(event).getUserId() != user.getId()) {
                 showWarningAlert(Localizer.getStringFromBundle("notYoursDelete", "TableScreen"));
                 return;
             }
 
-            try {
-                product.getManufacturer().setOrganizationName(event.getNewValue());
-            } catch (ValidationException e) {
-                productTable.refresh();
-                showErrorAlert(Localizer.getStringFromBundle("zipCodeTooptip", "TableScreen"));
-            }
+            getStudyGroup(event).getGroupAdmin().setNationality(event.getNewValue());
 
-            viewportController.change(products);
+            change(products);
 
             try {
-                serverProductDAO.updateOrganization(product.getId(), product.getManufacturer());
+                serverStudyGroupDAO.update(getStudyGroup(event));
             } catch (ServerAdapterException e) {
                 handleServerAdapterException(e);
             }
         });
-
-        xLocationColumn.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
-        xLocationColumn.setOnEditStart((TableColumn.CellEditEvent<Product, Double> event) ->
-                event.getTablePosition().getTableView().setTooltip(new Tooltip(Localizer.getStringFromBundle("noteXLocation", "TableScreen"))));
-        xLocationColumn.setOnEditCommit((TableColumn.CellEditEvent<Product, Double> event) -> {
-            Product product = getProduct(event);
-
-            if (product.getManufacturer() == null) {
-                productTable.refresh();
-                showErrorAlert(Localizer.getStringFromBundle("notExistOrganization", "TableScreen"));
-                return;
-            }
-
-            if (getProduct(event).getUserId() != user.getId()) {
-                showWarningAlert(Localizer.getStringFromBundle("notYoursDelete", "TableScreen"));
-                return;
-            }
-
-            product.getManufacturer().getOfficialAddress().getTown().setX(event.getNewValue());
-
-            viewportController.change(products);
-
-            try {
-                serverProductDAO.updateLocation(product.getId(), product.getManufacturer().getOfficialAddress().getTown());
-            } catch (ServerAdapterException e) {
-                handleServerAdapterException(e);
-            }
-        });
-
-        yLocationColumn.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
-        yLocationColumn.setOnEditStart((TableColumn.CellEditEvent<Product, Double> event) ->
-                event.getTablePosition().getTableView().setTooltip(new Tooltip(Localizer.getStringFromBundle("noteYLocation", "TableScreen"))));
-        yLocationColumn.setOnEditCommit((TableColumn.CellEditEvent<Product, Double> event) -> {
-            Product product = getProduct(event);
-
-            if (product.getManufacturer() == null) {
-                productTable.refresh();
-                showErrorAlert(Localizer.getStringFromBundle("notExistOrganization", "TableScreen"));
-                return;
-            }
-
-            if (getProduct(event).getUserId() != user.getId()) {
-                showWarningAlert(Localizer.getStringFromBundle("notYoursDelete", "TableScreen"));
-                return;
-            }
-
-            product.getManufacturer().getOfficialAddress().getTown().setY(event.getNewValue());
-
-            viewportController.change(products);
-
-            try {
-                serverProductDAO.updateLocation(product.getId(), product.getManufacturer().getOfficialAddress().getTown());
-            } catch (ServerAdapterException e) {
-                handleServerAdapterException(e);
-            }
-        });
-
-        zLocationColumn.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
-        zLocationColumn.setOnEditStart((TableColumn.CellEditEvent<Product, Double> event) ->
-                event.getTablePosition().getTableView().setTooltip(new Tooltip(Localizer.getStringFromBundle("noteZLocation", "TableScreen"))));
-        zLocationColumn.setOnEditCommit((TableColumn.CellEditEvent<Product, Double> event) -> {
-            Product product = getProduct(event);
-
-            if (product.getManufacturer() == null) {
-                productTable.refresh();
-                showErrorAlert(Localizer.getStringFromBundle("notExistOrganization", "TableScreen"));
-                return;
-            }
-
-            if (getProduct(event).getUserId() != user.getId()) {
-                showWarningAlert(Localizer.getStringFromBundle("notYoursDelete", "TableScreen"));
-                return;
-            }
-
-            try {
-                product.getManufacturer().getOfficialAddress().getTown().setZ(event.getNewValue());
-            } catch (ValidationException e) {
-                productTable.refresh();
-                showErrorAlert(Localizer.getStringFromBundle("zLocationTooltip", "TableScreen"));
-            }
-
-            viewportController.change(products);
-
-            try {
-                serverProductDAO.updateLocation(product.getId(), product.getManufacturer().getOfficialAddress().getTown());
-            } catch (ServerAdapterException e) {
-                handleServerAdapterException(e);
-            }
-        });
-    }*/
+    }
 
     private void initContextMenu() {
         ContextMenu contextMenu = new ContextMenu();
