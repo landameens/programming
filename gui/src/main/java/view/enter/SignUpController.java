@@ -77,16 +77,12 @@ public class SignUpController extends FXController {
 
     @FXML
     public void initialize() {
-        /*Localizer.bindComponentToLocale(welcomeLabel, "SignUpScreen", "welcome");
         Localizer.bindComponentToLocale(createAcc, "SignUpScreen", "createYourAccount");
         Localizer.bindComponentToLocale(usernameLabel, "SignUpScreen", "username");
         Localizer.bindComponentToLocale(repeatPassword, "SignUpScreen", "repeatPassword");
         Localizer.bindComponentToLocale(goBackButton, "SignUpScreen", "goBack");
         Localizer.bindComponentToLocale(signUpButton, "SignUpScreen", "singUp");
         Localizer.bindComponentToLocale(passwordLabel, "SignUpScreen", "password");
-        Localizer.bindTextFieldToLocale(username, "SignUpScreen", "enterUsername");
-        Localizer.bindTextFieldToLocale(password, "SignUpScreen", "enterPassword");
-        Localizer.bindTextFieldToLocale(repeatedPassword, "SignUpScreen", "enterPassword");*/
     }
 
 
