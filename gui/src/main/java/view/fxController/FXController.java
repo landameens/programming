@@ -74,7 +74,7 @@ public abstract class FXController {
 
     protected void showErrorAlert(String errorText) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Storage");
+        alert.setTitle("NadyaLab");
         alert.setContentText(errorText);
         alert.show();
     }
